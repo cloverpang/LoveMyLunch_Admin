@@ -28,12 +28,12 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/hedgefund_api': {
-        target: 'http://localhost:8080/hedgefund_api',
-        //target: 'http://localhost:8080',
+      '/lovermylunch_api': {
+        //target: 'http://localhost:8080/lovermylunch_api',
+        target: 'http://localhost:8080',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/lovermylunch_api': ''
         }
       }
     },

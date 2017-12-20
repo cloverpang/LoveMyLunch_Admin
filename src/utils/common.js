@@ -71,8 +71,8 @@ export function showTip(tipTitle,tipMessage){
 	}
 	
 	if(tipMessage == null || tipMessage == ""){
-		tipMessage = "TipMessage";
-	}
+		bootbox.alert(tipTitle);   
+	}else{
 	                bootbox.dialog({
                     message: tipMessage,
                     title: tipTitle,
@@ -86,4 +86,34 @@ export function showTip(tipTitle,tipMessage){
                       }
                     }
                 }); 
+	}
+}
+
+export function showNotice(type,title,message){
+                toastr.options = {
+                  "closeButton": false,
+                  "debug": false,
+                  "positionClass": "toast-center-center",
+                  "onclick": null,
+                  "showDuration": "1000",
+                  "hideDuration": "1000",
+                  "timeOut": "2000",
+                  "extendedTimeOut": "1000",
+                  "showEasing": "swing",
+                  "hideEasing": "linear",
+                  "showMethod": "fadeIn",
+                  "hideMethod": "fadeOut"
+                };
+
+				if(type == "success"){
+					toastr.success(message, title);
+				}else if(type == "info"){
+					toastr.info(message, title);
+				}else if(type == "warning"){
+					toastr.warning(message, title);
+				}else if(type == "error"){
+					toastr.error(message, title);
+				}else{
+					toastr.info(message, title);
+				}
 }

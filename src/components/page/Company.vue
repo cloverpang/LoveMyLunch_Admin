@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>私募基金公司
+                            <h1>客户公司
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>私募基金公司</span>
+                                <span>客户公司</span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -49,17 +49,13 @@
                                                             <div class="form-body">
                                                                 <div class="row">
                                                                 <div class="form-group">
-                                                                    <label class="col-md-1 control-label">关键字</label>
+                                                                    <label class="col-md-1 control-label">公司名</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="keyword" name="keyword" type="text" class="form-control input-circle" placeholder="支持 公司名，简称，法人"  v-model="keyword">
+                                                                        <input id="companyName" name="companyName" type="text" class="form-control input-circle" placeholder="公司名"  v-model="companyName">
                                                                     </div>
-                                                                    <label class="col-md-2 control-label">是否有报告</label>
+                                                                    <label class="col-md-2 control-label">公司代码</label>
                                                                     <div class="col-md-3">
-																	           <select id="hasReport" class="form-control input-circle" name="select">
-                                                                                  <option value=""></option>
-                                                                                  <option value="Y">有报告</option>
-                                                                                  <option value="N">无报告</option>
-                                                                               </select>
+                                                                        <input id="companyCode" name="companyCode" type="text" class="form-control input-circle" placeholder="公司代码"  v-model="companyCode">
                                                                     </div>
                                                                 </div>
                                                                 </div>
@@ -111,41 +107,43 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:30%;"> 公司简称 
+                                                            <th style="width:30%;"> 公司名称 
 														<div style="display:inline;position:relative;top:-5px;">
-                                                           <a href="javascript:void(0);" @click="handleSort('company_short_name','desc')">
+                                                           <a href="javascript:void(0);" @click="handleSort('companyName','desc')">
 														   <i class="fa fa-angle-up"></i>
 														   </a>
-														    <a href="javascript:void(0);" @click="handleSort('company_short_name','asc')">
+														    <a href="javascript:void(0);" @click="handleSort('companyName','asc')">
 														   <i class="fa fa-angle-down" style="position:absolute;z-index:999;margin-top:12px;margin-left:-9px;"></i>
 														   </a>
 														</div>
-                                                            <th style="width:10%;"> 法人 
+                                                            <th style="width:20%;"> 公司代码
 														<div style="display:inline;position:relative;top:-5px;">
-                                                           <a href="javascript:void(0);" @click="handleSort('company_legal_person','desc')">
+                                                           <a href="javascript:void(0);" @click="handleSort('companyCode','desc')">
 														   <i class="fa fa-angle-up"></i>
 														   </a>
-														    <a href="javascript:void(0);" @click="handleSort('company_legal_person','asc')">
+														    <a href="javascript:void(0);" @click="handleSort('companyCode','asc')">
 														   <i class="fa fa-angle-down" style="position:absolute;z-index:999;margin-top:12px;margin-left:-9px;"></i>
 														   </a>
 														</div>
 															</th>
-                                                            <th style="width:10%;"> 成立时间 </th>
-                                                            <th style="width:10%;"> 城市 </th>
-                                                            <th style="width:10%;"> 报告 </th>
-                                                            <th style="width:25%;"> 查看其他 </th>
+                                                            <th style="width:10%;"> 开始时间 </th>
+                                                            <th style="width:7%;"> 状态 </th>
+                                                            <th style="width:8%;"> 服务人数 </th>
+                                                            <th style="width:10%;"> 操作 </th>
+															<th style="width:10%;">  </th>
                                                         </tr>
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" class="odd gradeX" id="span-item.company_id">
+             <tr v-for="(item,index) in items" class="odd gradeX" id="span-item.companyId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:30%;"> <a href="javascript:void();" @click="dialogNewbox(item.company_id)"> {{item.company_short_name}} </a></td>
-                <td style="width:10%;"> <a data-toggle="modal" href="#large" @click="dialogLargeModel(item.company_id)"> {{item.company_legal_person}}  </a> </td>
-                <td style="width:10%;"> <a data-toggle="modal" href="#full" @click="dialogFullModel(item)"> {{item.company_establish_date}}  </a> </td>
-                <td style="width:10%;"> {{item.company_city}} </td>
-                <td style="width:10%;">  </td>
-                <td style="width:25%;">  </td>
+                <td style="width:30%;"> <a data-toggle="modal" href="#large" @click="showEditModel(item)">{{item.companyName}}</a> </td>
+                <td style="width:20%;">{{item.companyCode}} </td>
+                <td style="width:10%;"> {{item.joinTime}}  </td>
+                <td style="width:7%;"> {{item.status}} </td>
+                <td style="width:8%;">  </td>
+                <td style="width:10%;">  <a data-toggle="modal" href="#large" @click="showEditModel(item)"> edit </a> </td>
+				<td style="width:10%;">  <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)"> delete </a> </td>
              </tr>
 
 													</tbody>
@@ -167,34 +165,11 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                            <h4 class="modal-title">{{ model.company_short_name }}</h4>
+                                                            <h4 class="modal-title">xxxx</h4>
                                                         </div>
                                                         <div class="modal-body"> 
-														<p>1.{{ model.company_name }}</p>
-														<p>2.{{ model.company_legal_person }}</p>
-														</div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn green">Save changes</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.modal-content -->
-                                                </div>
-                                                <!-- /.modal-dialog -->
-                                            </div>
-											
-                                            <!-- /.modal -->
-                                            <div class="modal fade" id="full" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog modal-full">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                            <h4 class="modal-title">{{ model.company_short_name }}</h4>
-                                                        </div>
-                                                        <div class="modal-body"> 
-														<p>1.{{ model.company_name }}</p>
-														<p>2.{{ model.company_registration_address }}</p>
-
+														<p>1.yyy</p>
+														<p>2.zzzz</p>
 														</div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
@@ -205,7 +180,9 @@
                                                 </div>
                                                 <!-- /.modal-dialog -->
                                             </div>
-		
+											
+											<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
+
 											 </div>
 
                                         </div>
@@ -226,19 +203,21 @@
 </template>
 
 <script>
-    import companyOperationInfo from '../models/companyOperationInfo';
+    import company from '../models/company';
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
-	import {formatUnixDate,formatDate,showTip} from '../../utils/common.js';
+	import vConfirmModal from './../Common/confirmModal';
+	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging
+		    vMoPaging,vConfirmModal
         },
         data () {
             return {
 			    progressBar: true, //显示加载条
 				loadingDetail: false, //显示详细页加载
-			    keyword: '',
+			    companyName: '',
+				companyCode: '',
 				sortColumn: '',
 				sortType: '',
 				selected: '30',
@@ -252,16 +231,16 @@
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
-				model:companyOperationInfo
+				model:company
             }
         },
         methods:{
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/CompanyOperationInfo/search',{
+				this.$http.get('/companies',{
                 params: {
-                    keyword: this.keyword,
+                    conditionsStr: 'companyName::like::' + this.companyName + '$companyCode::like::' + this.companyCode,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -287,102 +266,64 @@
                 this.getList();
             },
 			handleReload(){
-			    this.keyword = '';
+			    this.companyName = ''; 
+				this.companyCode = '';
                 this.currentPage = 1;
 				this.sortColumn = '';
 				this.sortType = '';
                 this.getList();
             },
 			handleCancelSearch(){
-			    this.keyword = '';
+			    this.companyName = '';
+				this.companyCode = '';
                 this.currentPage = 1;
                 this.getList();
             },
+			//处理页面显示数量选择
 			handleChange(){
                 this.pageSize = this.selected;
                 this.getList();
             },
+			//处理排序
 			handleSort(sortColumn,sortType){
 			    this.sortColumn = sortColumn;
 				this.sortType = sortType;
                 this.pageSize = this.selected;
                 this.getList();
             },
+			//处理修改
 			handleUpdate(model){
-			    model.company_name = "xxxxxx";
-				this.model.company_name = "yyyyyy";
-				this.model = model;   
-                			
-				this.$http.get('/CompanyOperationInfo/' + this.model.company_id,{
-                })
-                .then( (res) => {
-                    //子组件监听到数据返回变化会自动更新DOM
-					if(res.status == 200){
-					    //此处使用jquery的方式关闭modal
-					    $('#full').modal('hide');
-					    showTip("Success","修改成功");	
-                    }
-                }, (response) => {
-                     showTip("异步获取数据错误","远程获取数据错误！");
-                     //error callback
-                });
+
             },
             //从page组件传递过来的当前page
             pageChange (page) {
                 this.currentPage = page
                 this.getList()
             },
-			dialogLargeModel(id){
-			    //使用ajax方式获取数据
-			    this.model = companyOperationInfo; // 首先初始化为空
-			    this.loadingDetail = true; //显示加载条
-				this.$http.get('/CompanyOperationInfo/' + id,{
-                })
-                .then( (res) => {
-                    //子组件监听到数据返回变化会自动更新DOM
-					this.loadingDetail = false;
-					if(res.status == 200){
-						this.model = res.data.content;
-                    }
-                }, (response) => {
-                     showTip("异步获取数据错误","远程获取数据错误！");
-                     this.loadingDetail = false;
-                     //error callback
-                });
+			//处理删除
+			handleDelete(id){
+			         $('#deleteConfirmModel').modal('hide');
+					 this.$http.delete('/company/' + id,{
+                     })
+					 .then( (res) => {
+                       //子组件监听到数据返回变化会自动更新DOM
+					   if(res.status == 200){
+					    //showTip("Success","删除成功");
+                        showNotice('success','Success!','删除成功!');					
+						this.getList();
+                       }
+                     }, (response) => {
+                        showTip("异步操作错误","");
+                     });  
 			},
-			dialogFullModel(item){
+			//处理删除
+			deleteCompany(item){
+			   this.model = item;
+			},
+			showEditModel(item){
 		       //this.showUpdateDialog = true;
 			   //直接取行数据等于当前model,无需ajax调取，适合简单的数据
 			   this.model = item;
-			},
-			dialogNewbox(value){
-                bootbox.dialog({
-                    message: "I am a custom dialog",
-                    title: value,
-                    buttons: {
-                      success: {
-                        label: "Success!",
-                        className: "green",
-                        callback: function() {
-                          alert("great success");
-                        }
-                      },
-                      danger: {
-                        label: "Danger!",
-                        className: "red",
-                        callback: function() {
-                          alert("uh oh, look out!");
-                        }
-                      },
-                      main: {
-                        label: "Click ME!",
-                        className: "blue",
-                        callback: function() {
-                          alert("Primary button");
-                        }
-                      }
-                    }
-                }); 
 			}
         },
         beforeMount(){
