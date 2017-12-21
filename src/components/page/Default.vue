@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        <span data-counter="counterup" data-value="12,349">0</span>
+                                        <span >12,349</span>
                                     </div>
                                     <div class="desc"> 私募公司 </div>
                                 </div>
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        <span data-counter="counterup" data-value="133,423">0</span> </div>
+                                        <span >133,423</span> </div>
                                     <div class="desc"> 私募基金 </div>
                                 </div>
                             </a>
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number">
-                                        <span data-counter="counterup" data-value="549">0</span>
+                                        <span >549</span>
                                     </div>
                                     <div class="desc"> 研究报告 </div>
                                 </div>
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="details">
                                     <div class="number"> 
-                                        <span data-counter="counterup" data-value="340"></span> </div>
+                                        <span ></span> 349</div>
                                     <div class="desc"> 重点私募公司定性分析 </div>
                                 </div>
                             </a>

@@ -63,8 +63,10 @@
                                                             <div class="form-actions right">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
-                                                                        <button id="search" type="button" class="btn btn-circle red" @click="handleSearch"> 查 询 </button>
-                                                                        <button id="cancelSearch" type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
+                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch"> 
+																		查 询 <span id="searchCompanyAction" v-show="loadingDot">.</span>
+																		</button>
+                                                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -143,7 +145,7 @@
                 <td style="width:10%;"> {{item.status}} </td>
                 <td style="width:10%;">  </td>
                 <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item)" class="btn btn-sm grey-cascade"><i class="fa fa-edit"></i> Edit </a>
+				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:8%;">  
 			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
@@ -158,36 +160,15 @@
                                             </div>
 											
 
-                                             <div id="page" class="pagination">
+                                            
         <template v-if="count">
 		   <vMoPaging :page-index="currentPage" :total="count" :page-size="pageSize" @change="pageChange"></vMoPaging>
         </template>
 		
-                                            <!-- /.modal -->
-                                            <div class="modal fade bs-modal-lg" id="editCompanyModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                            <h4 class="modal-title">{{model.companyName}}</h4>
-                                                        </div>
-                                                        <div class="modal-body"> 
-														<p>1.{{model.companyName}}</p>
-														<p>2.{{model.companyCode}}</p>
-														</div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn green" @click="handleUpdate(model)">Save changes</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.modal-content -->
-                                                </div>
-                                                <!-- /.modal-dialog -->
-                                            </div>
+        <vCompanyEdit :model=model :form=form @handleSave="handleSaveCompany"></vCompanyEdit>
 											
-											<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
-
-											 </div>
+		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
+	
 
                                         </div>
                                     </div>
@@ -211,15 +192,17 @@
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
 	import vConfirmModal from './../Common/confirmModal';
-	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
+	
+	import vCompanyEdit from './companyEdit';
+	import {formatUnixDate,formatDate,showTip,showNotice,actionLoading} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vConfirmModal
+		    vMoPaging,vConfirmModal,vCompanyEdit
         },
         data () {
             return {
 			    progressBar: true, //显示加载条
-				loadingDetail: false, //显示详细页加载
+				loadingDot: false, //显示详细页加载
 			    companyName: '',
 				companyCode: '',
 				sortColumn: '',
@@ -235,7 +218,8 @@
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
-				model:company
+				model:company,
+				form:company
             }
         },
         methods:{
@@ -252,6 +236,7 @@
                  }
                 })
                 .then( (res) => {
+				    this.loadingDot = false;
 				    this.progressBar = false;
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
@@ -262,13 +247,16 @@
                 }, (response) => {
                      //showTip("Error","远程获取数据错误！");
 					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
+					 this.loadingDot = false;
                      this.progressBar = false;
                      //error callback
                 });
             },
 			handleSearch(){
+			    actionLoading('searchCompanyAction');
                 this.currentPage = 1;
                 this.getList();
+				this.loadingDot = true;
             },
 			handleReload(){
 			    this.companyName = ''; 
@@ -297,9 +285,10 @@
                 this.getList();
             },
 			//处理修改
-			handleUpdate(model){
-			     this.model.companyName = model.companyName + 'xxxx';
-				 this.model.companyCode = 'yyyy';
+			handleSaveCompany(model){
+			     //this.model.companyName = model.companyName + 'xxxx';
+				 //this.model.companyCode = 'yyyy';
+				 //$('#editCompanyModal').modal('hide');
             },
             //从page组件传递过来的当前page
             pageChange (page) {
@@ -328,10 +317,20 @@
 			},
 			showEditModel(item){
 		       //this.showUpdateDialog = true;
+			   this.loadingDot = false;
 			   //直接取行数据等于当前model,无需ajax调取，适合简单的数据
 			   this.model = item;
-			}
+			   this.setForm();
+			},
+			setForm(){
+		      //this.form = this.model;
+		      this.form.companyName = this.model.companyName;
+			  this.form.companyCode = this.model.companyCode;
+		    }
         },
+		beforeCreate(){
+
+		},
         beforeMount(){
             this.getList();
         },

@@ -1,6 +1,4 @@
-/**
- * Created by yaojunjun on 12/04/2017.
- */
+
 import axios from 'axios'
 import store from '../vuex/store'
 import * as types from '../vuex/types'

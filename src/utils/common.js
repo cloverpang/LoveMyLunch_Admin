@@ -117,3 +117,19 @@ export function showNotice(type,title,message){
 					toastr.info(message, title);
 				}
 }
+
+export function actionLoading(selector) {
+    // Animate button after .5 seconds (considered long time enough to get a response)
+    setTimeout(function () {
+            var dots = 0;
+            var timer = setInterval(function () {
+                    if (dots < 6) {
+                        $('#' + selector).append('.');
+                        dots++;
+                    } else {
+                        $('#' + selector).html("");
+                        dots = 0;
+                    }
+            }, 600);
+    }, 500);
+}
