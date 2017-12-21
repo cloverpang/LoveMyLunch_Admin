@@ -103,7 +103,7 @@
                                                      <img src="../../../static/img/loading.gif"> 数据加载中... </div>
 												</div>
 											
-                                                <table class="table" v-if="count">
+                                                <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 序号 </th>
@@ -127,23 +127,27 @@
 														</div>
 															</th>
                                                             <th style="width:10%;"> 开始时间 </th>
-                                                            <th style="width:7%;"> 状态 </th>
-                                                            <th style="width:8%;"> 服务人数 </th>
-                                                            <th style="width:10%;"> 操作 </th>
-															<th style="width:10%;">  </th>
+                                                            <th style="width:10%;"> 状态 </th>
+                                                            <th style="width:10%;"> 服务人数 </th>
+                                                            <th style="width:7%;"> 操作 </th>
+															<th style="width:8%;">  </th>
                                                         </tr>
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" class="odd gradeX" id="span-item.companyId">
+             <tr v-for="(item,index) in items" id="span-item.companyId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:30%;"> <a data-toggle="modal" href="#large" @click="showEditModel(item)">{{item.companyName}}</a> </td>
+                <td style="width:30%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item)">{{item.companyName}}</a> </td>
                 <td style="width:20%;">{{item.companyCode}} </td>
                 <td style="width:10%;"> {{item.joinTime}}  </td>
-                <td style="width:7%;"> {{item.status}} </td>
-                <td style="width:8%;">  </td>
-                <td style="width:10%;">  <a data-toggle="modal" href="#large" @click="showEditModel(item)"> edit </a> </td>
-				<td style="width:10%;">  <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)"> delete </a> </td>
+                <td style="width:10%;"> {{item.status}} </td>
+                <td style="width:10%;">  </td>
+                <td style="width:7%;"> 
+				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item)" class="btn btn-sm grey-cascade"><i class="fa fa-edit"></i> Edit </a>
+				</td>
+				<td style="width:8%;">  
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
+				</td>
              </tr>
 
 													</tbody>
@@ -160,16 +164,16 @@
         </template>
 		
                                             <!-- /.modal -->
-                                            <div class="modal fade bs-modal-lg" id="large" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal fade bs-modal-lg" id="editCompanyModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                            <h4 class="modal-title">xxxx</h4>
+                                                            <h4 class="modal-title">{{model.companyName}}</h4>
                                                         </div>
                                                         <div class="modal-body"> 
-														<p>1.yyy</p>
-														<p>2.zzzz</p>
+														<p>1.{{model.companyName}}</p>
+														<p>2.{{model.companyCode}}</p>
 														</div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
@@ -256,7 +260,8 @@
                         this.items = res.data.content.item;
                     }
                 }, (response) => {
-                     showTip("异步获取数据错误","远程获取数据错误！");
+                     //showTip("Error","远程获取数据错误！");
+					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
                      this.progressBar = false;
                      //error callback
                 });
@@ -293,7 +298,8 @@
             },
 			//处理修改
 			handleUpdate(model){
-
+			     this.model.companyName = model.companyName + 'xxxx';
+				 this.model.companyCode = 'yyyy';
             },
             //从page组件传递过来的当前page
             pageChange (page) {
@@ -313,7 +319,7 @@
 						this.getList();
                        }
                      }, (response) => {
-                        showTip("异步操作错误","");
+                        showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                      });  
 			},
 			//处理删除
