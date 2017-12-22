@@ -63,7 +63,7 @@
                                                         <div class="modal-footer">
 														    <button type="button" class="btn blue" v-show="viewType" @click="changeViewType"><i class="fa fa-pencil"></i> 修改 </button>
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" @click="handleClose"> 关闭 </button>
-                                                            <button type="button" class="btn green" v-show="!viewType" @click="handleSave">
+                                                            <button type="button" class="btn green" v-show="!viewType" @click="handleSave" :disabled="actionProgress">
 															 保存 <span id="saveCompanyAction" v-show="actionProgress">......</span>
 															</button>
                                                         </div>

@@ -63,7 +63,7 @@
                                                             <div class="form-actions right">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
-                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch"> 
+                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress"> 
 																		查 询 <span id="searchCompanyAction" v-show="actionProgress">......</span>
 																		</button>
                                                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
@@ -103,7 +103,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="btn-group">
-                                                            <a data-toggle="modal" href="#editCompanyModal" class="btn btn-outline dark" @click="showAddModel()"> Add New
+                                                            <a data-toggle="modal" href="#editCompanyModal" class="btn btn-outline dark" @click="showAddModel()"> 添加新公司
                                                                 <i class="fa fa-plus"></i>
                                                             </a>
                                                         </div>

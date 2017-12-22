@@ -18,7 +18,7 @@ let router = new Router({
         {
             path: '/default',
             meta: {
-                requireAuth: true,
+                requireAuth: false,//
             },
             //component: resolve => require(['../components/common/Home.vue'], resolve),
             component: Home,
@@ -26,7 +26,7 @@ let router = new Router({
                 {
                     path: '/',
                     meta: {
-                        requireAuth: true,
+                        requireAuth: true, //先改一个为false
                     },
                     component: Default
                 },
