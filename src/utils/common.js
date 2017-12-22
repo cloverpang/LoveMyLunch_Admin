@@ -118,18 +118,32 @@ export function showNotice(type,title,message){
 				}
 }
 
-export function actionLoading(selector) {
-    // Animate button after .5 seconds (considered long time enough to get a response)
+export function actionLoading(selector, text) {
+	text = (typeof text !== 'undefined') ? text : "保存中..."; // Default ajax text
+	
     setTimeout(function () {
+        // If the ajax request still hasn't finished then bind animation
+        if (!$("#" + selector).hasClass("finished")) {
+            $("#" + selector).html(text);
+            // Animate
             var dots = 0;
             var timer = setInterval(function () {
-                    if (dots < 6) {
-                        $('#' + selector).append('.');
+                if ($("#" + selector).hasClass("finished")) {
+                    clearInterval(timer);
+                } else {
+                    var dotsSelector = selector;
+                    if (dots < 3) {
+                        $("#" + selector).append('.');
+						//alert(dots);
                         dots++;
                     } else {
-                        $('#' + selector).html("");
+                        $("#" + selector).html("");
                         dots = 0;
                     }
+                }
             }, 600);
+        }else{
+			//alert('has finished');
+		}
     }, 500);
 }

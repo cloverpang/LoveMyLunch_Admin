@@ -64,7 +64,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
                                                                         <button type="button" class="btn btn-circle red" @click="handleSearch"> 
-																		查 询 <span id="searchCompanyAction" v-show="loadingDot">.</span>
+																		查 询 <span id="searchCompanyAction" v-show="actionProgress">......</span>
 																		</button>
                                                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
                                                                     </div>
@@ -99,6 +99,39 @@
                                             </div>
                                         </div>
                                         <div class="portlet-body">
+                                            <div class="table-toolbar">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="btn-group">
+                                                            <a data-toggle="modal" href="#editCompanyModal" class="btn btn-outline dark" @click="showAddModel()"> Add New
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="btn-group pull-right">
+                                                            <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
+                                                                <i class="fa fa-angle-down"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu pull-right">
+                                                                <li>
+                                                                    <a href="javascript:;">
+                                                                        <i class="fa fa-print"></i> Print </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:;">
+                                                                        <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:;">
+                                                                        <i class="fa fa-file-excel-o"></i> Export to Excel </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+										
                                             <div class="table-responsive">
 												<div class="col-md-3" v-show="progressBar">
 												     <div class="alert alert-info">
@@ -128,8 +161,8 @@
 														   </a>
 														</div>
 															</th>
-                                                            <th style="width:10%;"> 开始时间 </th>
-                                                            <th style="width:10%;"> 状态 </th>
+                                                            <th style="width:12%;"> 开始时间 </th>
+                                                            <th style="width:8%;"> 状态 </th>
                                                             <th style="width:10%;"> 服务人数 </th>
                                                             <th style="width:7%;"> 操作 </th>
 															<th style="width:8%;">  </th>
@@ -139,13 +172,13 @@
 
              <tr v-for="(item,index) in items" id="span-item.companyId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:30%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item)">{{item.companyName}}</a> </td>
+                <td style="width:30%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,false)">{{item.companyName}}</a> </td>
                 <td style="width:20%;">{{item.companyCode}} </td>
-                <td style="width:10%;"> {{item.joinTime}}  </td>
-                <td style="width:10%;"> {{item.status}} </td>
+                <td style="width:12%;"> {{formatterDate(item.joinTime)}}  </td>
+                <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
                 <td style="width:10%;">  </td>
                 <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:8%;">  
 			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
@@ -165,7 +198,7 @@
 		   <vMoPaging :page-index="currentPage" :total="count" :page-size="pageSize" @change="pageChange"></vMoPaging>
         </template>
 		
-        <vCompanyEdit :model=model :form=form @handleSave="handleSaveCompany"></vCompanyEdit>
+        <vCompanyEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCompanyEdit>
 											
 		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
 	
@@ -194,7 +227,7 @@
 	import vConfirmModal from './../Common/confirmModal';
 	
 	import vCompanyEdit from './companyEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice,actionLoading} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
     export default {
         components: {
 		    vMoPaging,vConfirmModal,vCompanyEdit
@@ -202,24 +235,36 @@
         data () {
             return {
 			    progressBar: true, //显示加载条
-				loadingDot: false, //显示详细页加载
+				actionProgress: false, //
 			    companyName: '',
 				companyCode: '',
 				sortColumn: '',
 				sortType: '',
-				selected: '30',
+				selected: '15',
 				options: [
+				   { text: ' 15 ', value: '15' },
                    { text: ' 30 ', value: '30' },
-                   { text: ' 10 ', value: '10' },
 				   { text: ' 50 ', value: '50' }
                 ],
-                pageSize : 30 , //每页显示30条数据
+                pageSize : 15 , //每页显示30条数据
                 currentPage : 1, //当前页码
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
 				model:company,
-				form:company
+				form:company,
+				form: {
+                    companyId: '',
+                    companyName: '',
+                    companyCode: '',
+                    companyAddress: '',
+                    companyLogoPath:'',
+					operationCenterCode: '',
+                    status: 0,
+                    joinTime: ''
+                },
+				viewType:false,
+				addType:false
             }
         },
         methods:{
@@ -236,7 +281,7 @@
                  }
                 })
                 .then( (res) => {
-				    this.loadingDot = false;
+				    this.actionProgress = false;
 				    this.progressBar = false;
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
@@ -247,16 +292,19 @@
                 }, (response) => {
                      //showTip("Error","远程获取数据错误！");
 					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
-					 this.loadingDot = false;
+					 this.actionProgress = false;
                      this.progressBar = false;
                      //error callback
                 });
             },
 			handleSearch(){
-			    actionLoading('searchCompanyAction');
+				this.actionProgress = true;
                 this.currentPage = 1;
                 this.getList();
-				this.loadingDot = true;
+            },
+			refresh(){
+                this.currentPage = 1;
+                this.getList();
             },
 			handleReload(){
 			    this.companyName = ''; 
@@ -315,18 +363,42 @@
 			deleteCompany(item){
 			   this.model = item;
 			},
-			showEditModel(item){
-		       //this.showUpdateDialog = true;
-			   this.loadingDot = false;
+			showEditModel(item,isEdit){
 			   //直接取行数据等于当前model,无需ajax调取，适合简单的数据
+			   if(isEdit){
+			     this.viewType = false;
+			   }else{
+			     this.viewType = true;
+			   }
+			   this.addType = false;
 			   this.model = item;
 			   this.setForm();
+			},
+			showAddModel(){
+			    this.addType = true;
+				this.viewType = false;
+				//this.model = form();
+				//this.form = form();
 			},
 			setForm(){
 		      //this.form = this.model;
 		      this.form.companyName = this.model.companyName;
 			  this.form.companyCode = this.model.companyCode;
-		    }
+			  this.form.companyAddress = this.model.companyAddress;
+			  this.form.status = this.model.status;
+		    },
+		    formatterDate(cellValue){
+                return formatDate(cellValue);
+            },
+			changeStatus(cellValue){
+			    var stauts = cellValue;
+			    if(cellValue == '0'){
+				    stauts = '<span class="label label-sm label-info"> 正常 </span>';
+				}else if(cellValue == '1'){
+				    stauts = '<span class="label label-sm label-danger"> 注销 </span>';
+				}
+                return stauts;
+            }
         },
 		beforeCreate(){
 

@@ -3,9 +3,10 @@ let model = () =>{
         companyId: "",
 		companyName: "",
         companyCode: "",
+		companyAddress: "",
         operationCenterCode: "",
         companyLogoPath: "",
-        status: "",
+        status: 0,
         joinTime: ""
     }
 };
