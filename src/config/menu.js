@@ -26,7 +26,7 @@ export default [
   },
   {
     name: '私募基金',
-	path: '/fund',
+	path: '/customer',
 	icon: 'icon-diamond',
 	active: false,
     items: [

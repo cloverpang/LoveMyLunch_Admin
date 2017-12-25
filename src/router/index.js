@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from '../components/common/Home.vue'
 import Default from '../components/page/Default.vue'
 import Company from '../components/page/Company.vue'
+import Customer from '../components/page/Customer.vue'
 import Login from '../components/page/Login.vue'
 import store from '../vuex/store'
 import * as types from '../vuex/types'
@@ -36,6 +37,13 @@ let router = new Router({
                         requireAuth: true,
                     },
                     component: Company
+                },
+                {
+                    path: '/customer',
+                    meta: {
+                        requireAuth: true,
+                    },
+                    component: Customer
                 }
             ]
         },
