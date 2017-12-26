@@ -1,37 +1,62 @@
 <template>
     <div class="pagination">
         <!-- first -->
+        <template v-if="index != 1">
         <a
-        :class="['paging-item', 'paging-item--first', {'paging-item--disabled' : index === 1}]"
+        :class="[{'prev' : index != 1},{'paging-item--disabled' : index == 1}]" :disabled="index == 1"
         @click="first">第一页</a>
+        </template>
+        <template v-if="index == 1">
+        <span>第一页</span>
+        </template>
 	
         <!-- prev -->
+        <template v-if="index != 1">
         <a
-        :class="['paging-item', 'current.prev', {'paging-item--disabled' : index === 1}]"
+        :class="[{'prev' : index != 1},{'paging-item--disabled' : index == 1}]" :disabled="index == 1"
         @click="prev">前一页</a>
-        
+        </template>
+        <template v-if="index == 1">
+        <span>前一页</span>
+        </template>
+
         <a
-        :class="['paging-item', 'paging-item--more']"
+        :class="['prev']"
         v-if="showPrevMore">...</a>
 
         <a
-        :class="['paging-item', {'current' : index === pager}]"
+        :class="[{'prev' : index != pager},{'current' : index == pager}]"
         v-for="pager in pagers"
         @click="go(pager)">{{ pager }}</a>
 
         <a
-        :class="['paging-item', 'paging-item--more']"
+        :class="['next']"
         v-if="showNextMore">...</a>
 
         <!-- next -->
+        <template v-if="index != pages">
         <a
-        :class="['paging-item', 'current.next', {'paging-item--disabled' : index === pages}]"
+        :class="[{'next' : index != pages},{'paging-item--disabled' : index == pages}]" :disabled="index == pages"
         @click="next">下一页</a>
+        </template>
+        <template v-if="index == pages">
+        <span>下一页</span>
+        </template>
 		
         <!-- last -->
+        <template v-if="index != pages">
         <a
-        :class="['paging-item', 'paging-item--last', {'paging-item--disabled' : index === pages}]"
+        :class="[{'next' : index != pages},{'paging-item--disabled' : index == pages}]" :disabled="index == pages"
         @click="last">末页</a>
+        </template>
+        <template v-if="index == pages">
+        <span>末页</span>
+        </template>
+
+                                                       
+        <input type="text" style="width:80px;height:32px;" v-model="goPage"></input>
+        <button class="btn green" type="button" style="width:50px;height:32px;margin-bottom:4px;margin-left:-5px;" @click="goingToPage">Go</button>
+                                                        
     </div>
 </template>
 
@@ -89,9 +114,15 @@ export default {
                 this.go(this.pages)
             }
         },
+        goingToPage(){
+           if (this.index != this.goPage){
+               this.go(this.goPage);
+           }
+        },
         go (page) {
             if (this.index !== page) {
-                this.index = page
+                this.index = page;
+                this.goPage = page;
                 //父组件通过change方法来接受当前的页码
                 this.$emit('change', this.index)
             }
@@ -112,10 +143,9 @@ export default {
             let current = this.index
             const _offset = (perPages - 1) / 2
 
-            
             const offset = {
-                start : current - _offset,
-                end   : current + _offset
+                start : parseInt(current) - parseInt(_offset),
+                end   : parseInt(current) + parseInt(_offset)
             }
 
             //-1, 3
@@ -127,6 +157,7 @@ export default {
                 offset.start = offset.start - (offset.end - pageCount)
                 offset.end = pageCount
             }
+
             if (offset.start < 1) offset.start = 1
 
             this.showPrevMore = (offset.start > 1)
@@ -145,7 +176,8 @@ export default {
             limit : this.pageSize, //每页显示条数
             size : this.total || 1, //总记录数
             showPrevMore : false,
-            showNextMore : false
+            showNextMore : false,
+            goPage : this.pageIndex //显示在Go Input中的当前页码
         }
     },
     watch : {
@@ -171,10 +203,9 @@ export default {
 .pagination a {
     text-decoration: none;
 	border: #fff;
-	color: #E7505A;
 }
 
-.pagination a, .pagination span {
+.pagination span {
     display: block;
     float: left;
     padding: 0.6em 0.8em;
@@ -183,17 +214,43 @@ export default {
 	min-width:1em;
 	text-align:center;
     border:1px solid #999999;
+    color: #999999;
 }
 
 .pagination .current {
+    display: block;
+    float: left;
+    padding: 0.6em 0.8em;
+    margin-right: 5px;
+	margin-bottom: 5px;
+	min-width:1em;
+	text-align:center;
+    border:1px solid #E7505A;
     background: #E7505A;
     color: #fff;
-	border: #fff;
 }
 
-.pagination .current.prev, .pagination .current.next{
-	color:#999;
-	border-color:#999;
-	background:#fff;
+.pagination .prev, .pagination .next{
+    display: block;
+    float: left;
+    padding: 0.6em 0.8em;
+    margin-right: 5px;
+	margin-bottom: 5px;
+	min-width:1em;
+	text-align:center;
+    border:1px solid #E7505A;
+    color: #E7505A;
+}
+
+.paging-item--disabled{
+    display: block;
+    float: left;
+    color: #333333;
+    padding: 0.6em 0.8em;
+    margin-right: 5px;
+	margin-bottom: 5px;
+	min-width:1em;
+	text-align:center;
+    border:1px solid #ffffff;
 }
 </style>

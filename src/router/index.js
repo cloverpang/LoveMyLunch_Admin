@@ -40,6 +40,8 @@ let router = new Router({
                 },
                 {
                     path: '/customer',
+                    //path: '/customer/:id',
+                    name: 'customer',
                     meta: {
                         requireAuth: true,
                     },

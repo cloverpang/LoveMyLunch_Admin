@@ -86,12 +86,14 @@
                                                  共 {{totalPages}} 页
 												</span>
 												<span style="font-size:12px;">每页显示 : 
-																			  <select v-model="selected" style="color:#000000;" @change="handleChange">
+																			  <select v-model="selected" style="color:#000000;display:inline;" @change="handleChange">
                                                                                        <option v-for="option in options" v-model="option.value">
                                                                                        {{ option.text }}
                                                                                        </option>
                                                                                </select> 条
 												</span>
+
+                                                        
 											</div>
                                             <div class="tools">
                                                 <a href="javascript:;" class="collapse"></a>
@@ -176,7 +178,10 @@
                 <td style="width:20%;">{{item.companyCode}} </td>
                 <td style="width:12%;"> {{formatterDate(item.joinTime)}}  </td>
                 <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
-                <td style="width:10%;">  </td>
+                <td style="width:10%;"> 
+                    <router-link :to="{path:'customer',query: {id:item.companyId,name:item.companyName}}" target="_blank"> {{item.companyCustomerQuantity}} </router-link>
+                    <!-- <router-link :to="{name:'customer',params: { id:item.companyId }}" target="_blank"> 公司人员 </router-link>-->
+               </td>
                 <td style="width:7%;"> 
 				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
@@ -271,7 +276,7 @@
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/companies',{
+				this.$http.get('/companyExtends',{
                 params: {
                     conditionsStr: 'companyName::like::' + this.companyName + '$companyCode::like::' + this.companyCode,
                     pageSize: this.pageSize,
@@ -405,6 +410,8 @@
 		},
         beforeMount(){
             this.getList();
+        },
+        computed: {
         },
         watch: {
             model: {

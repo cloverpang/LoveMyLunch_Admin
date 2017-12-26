@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>客户
+                            <h1>{{companyName}} 客户 
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>客户</span>
+                                <span>{{companyName}} 客户</span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -238,16 +238,22 @@
                    createTime: ''
                 },
 				viewType:false,
-				addType:false
+				addType:false,
+                companyId:this.$route.query.id,
+                companyName:this.$route.query.name
             }
         },
         methods:{
             //获取数据
             getList () {
+                if(this.companyId == 'undefined' || this.companyId == undefined){
+                     this.companyId = '';
+                }
+
 			    this.progressBar = true; //显示加载条
 				this.$http.get('/customers',{
                 params: {
-                    conditionsStr: 'customerName::like::' + this.customerName + '$customerLogin::like::' + this.customerLogin,
+                    conditionsStr: 'companyId::=::' + this.companyId + '$customerName::like::' + this.customerName + '$customerLogin::like::' + this.customerLogin,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,

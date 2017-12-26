@@ -11,19 +11,19 @@
                                                         <div class="modal-body"> 
                                                     <div class="portlet-body form">
                                                         <!-- BEGIN FORM-->
-                                                        <form class="form-horizontal">
+                                                        <form id="companyEditForm" class="form-horizontal">
                                                             <div class="form-body">
                                                                 <div class="form-group">
                                                                     <label class="col-md-3 control-label">公司名称</label>
                                                                     <div class="col-md-6">
-                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司名称" v-model="form.companyName">
+                                                                        <input id="companyName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司名称" v-model="form.companyName">
                                                                     </div>
                                                                 </div>
 																
                                                                 <div class="form-group">
                                                                     <label class="col-md-3 control-label">公司代码</label>
                                                                     <div class="col-md-6">
-                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode"> 
+                                                                        <input id="companyCode" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode"> 
                                                                     </div>
                                                                 </div>
 																
@@ -162,6 +162,7 @@ export default {
 		}
     },
     computed : {
+        
     },
     data () {
         return {
