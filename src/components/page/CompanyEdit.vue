@@ -1,4 +1,6 @@
 <template>
+                                   <!-- BEGIN FORM-->
+                                   <form id="companyEditForm" class="form-horizontal" @submit.prevent="validateBeforeSubmit">
                                             <!-- /.modal -->
                                             <div class="modal fade bs-modal-lg" id="editCompanyModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
@@ -10,20 +12,24 @@
                                                         </div>
                                                         <div class="modal-body"> 
                                                     <div class="portlet-body form">
-                                                        <!-- BEGIN FORM-->
-                                                        <form id="companyEditForm" class="form-horizontal">
                                                             <div class="form-body">
-                                                                <div class="form-group">
+                                                                <div class="form-group" :class="{'has-error': errors.has('companyName')}">
                                                                     <label class="col-md-3 control-label">公司名称</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="companyName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司名称" v-model="form.companyName">
+                                                                          <div class="input-icon right">
+                                                                        <i class="fa fa-warning tooltips" data-original-title="请输入公司名!" v-show="errors.has('companyName')"></i>
+                                                                        <input v-validate="'required'" name="companyName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司名称" v-model="form.companyName">
+                                                                          </div>
                                                                     </div>
                                                                 </div>
 																
-                                                                <div class="form-group">
+                                                                <div class="form-group" :class="{'has-error': errors.has('companyCode')}">
                                                                     <label class="col-md-3 control-label">公司代码</label>
                                                                     <div class="col-md-6">
-                                                                        <input id="companyCode" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode"> 
+                                                                       <div class="input-icon right">
+                                                                        <i class="fa fa-warning tooltips" data-original-title="请输入公司代码且必须是英文字母!" v-show="errors.has('companyCode')"></i>
+                                                                        <input v-validate="'required|alpha'" name="companyCode" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode"> 
+                                                                       </div>
                                                                     </div>
                                                                 </div>
 																
@@ -37,11 +43,12 @@
 																<div class="form-group">
                                                                     <label class="col-md-3 control-label">状态 </label>
                                                                     <div class="col-md-6">
-																			 <select class="form-control input-circle" :class="{'emptyInput':viewType}" :disabled="viewType" v-model="form.status" @change="handleStatusChange">
+																			 <select name="status" v-validate="'required'" class="form-control input-circle" :class="{'emptyInput':viewType}" :disabled="viewType" v-model="form.status" @change="handleStatusChange">
                                                                                        <option v-for="option in options" v-model="option.value" v-bind:value="option.value">
                                                                                        {{ option.text }}
                                                                                        </option>
                                                                              </select> 
+                                                                             <span class="red" style="color:red;" v-show="errors.has('status')"  >状态必须选择!</span>
                                                                     </div>
                                                                 </div>
 
@@ -56,14 +63,13 @@
 																
                                                             </div>
 
-                                                        </form>
                                                         <!-- END FORM-->
                                                     </div>
 														</div>
                                                         <div class="modal-footer">
 														    <button type="button" class="btn blue" v-show="viewType" @click="changeViewType"><i class="fa fa-pencil"></i> 修改 </button>
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" @click="handleClose"> 关闭 </button>
-                                                            <button type="button" class="btn green" v-show="!viewType" @click="handleSave" :disabled="actionProgress">
+                                                            <button type="submit" class="btn green" v-show="!viewType" :disabled="actionProgress">
 															 保存 <span id="saveCompanyAction" v-show="actionProgress">......</span>
 															</button>
                                                         </div>
@@ -72,6 +78,7 @@
                                                 </div>
                                                 <!-- /.modal-dialog -->
                                             </div>
+                           </form>
 </template>
 
 <script>
@@ -95,6 +102,15 @@ export default {
         }
     },
     methods : {
+        validateBeforeSubmit(){
+        this.$validator.validateAll().then((result) => {
+           if (result) {
+             this.handleSave();
+             return;
+           }
+           //alert('Correct them errors!');
+          });
+        },
         handleSave () {
 		    if(this.addType){
 			   this.handleAdd();
@@ -198,5 +214,9 @@ export default {
 .emptyInput {
   border-style:none;
   background-color:#fff;
+}
+
+.is-danger {
+    border:1px solid #E7505A;
 }
 </style>
