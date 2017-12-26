@@ -1,4 +1,6 @@
 <template>
+                          <!-- BEGIN FORM-->
+                           <form class="form-horizontal" @submit.prevent="validateBeforeSubmit">
                                             <!-- /.modal -->
                                             <div class="modal fade bs-modal-lg" id="editCustomerModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
@@ -10,13 +12,14 @@
                                                         </div>
                                                         <div class="modal-body"> 
                                                     <div class="portlet-body form">
-                                                        <!-- BEGIN FORM-->
-                                                        <form class="form-horizontal">
                                                             <div class="form-body">
-                                                                <div class="form-group">
+                                                                <div class="form-group" :class="{'has-error': errors.has('customerName')}">
                                                                     <label class="col-md-3 control-label">客户姓名</label>
                                                                     <div class="col-md-6">
-                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="客户姓名" v-model="form.customerName">
+                                                                          <div class="input-icon right">
+                                                                        <i class="fa fa-warning tooltips" data-original-title="请输入客户姓名!" v-show="errors.has('customerName')"></i>
+                                                                        <input v-validate="'required'" name="customerName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="客户姓名" v-model="form.customerName">
+                                                                          </div>
                                                                     </div>
                                                                 </div>
 																
@@ -67,14 +70,14 @@
 																
                                                             </div>
 
-                                                        </form>
-                                                        <!-- END FORM-->
+               
+                                                       
                                                     </div>
 														</div>
                                                         <div class="modal-footer">
 														    <button type="button" class="btn blue" v-show="viewType" @click="changeViewType"><i class="fa fa-pencil"></i> 修改 </button>
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" @click="handleClose"> 关闭 </button>
-                                                            <button type="button" class="btn green" v-show="!viewType" @click="handleSave" :disabled="actionProgress">
+                                                            <button type="submit" class="btn green" v-show="!viewType" :disabled="actionProgress">
 															 保存 <span id="saveCustomerAction" v-show="actionProgress">......</span>
 															</button>
                                                         </div>
@@ -83,6 +86,8 @@
                                                 </div>
                                                 <!-- /.modal-dialog -->
                                             </div>
+                           <!-- END FORM-->
+                          </form>
 </template>
 
 <script>
@@ -106,6 +111,15 @@ export default {
         }
     },
     methods : {
+        validateBeforeSubmit(){
+        this.$validator.validateAll().then((result) => {
+           if (result) {
+             this.handleSave();
+             return;
+           }
+           //alert('Correct them errors!');
+          });
+        },
         handleSave () {
 		    if(this.addType){
 			   this.handleAdd();
@@ -216,5 +230,9 @@ export default {
 .emptyInput {
   border-style:none;
   background-color:#fff;
+}
+
+.is-danger {
+    border:1px solid #E7505A;
 }
 </style>
