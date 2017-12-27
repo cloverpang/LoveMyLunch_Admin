@@ -90,33 +90,17 @@
                                         <div class="portlet-body">
 										
                                             <div class="table-responsive">
-												<div class="col-md-3" v-show="progressBar">
-												     <div class="alert alert-info">
-                                                     <img src="../../../static/img/loading.gif"> 数据加载中... </div>
-												</div>
+                                                <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
 											
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 序号 </th>
                                                             <th style="width:20%;"> 客户名 
-														<div style="display:inline;position:relative;top:-5px;">
-                                                           <a href="javascript:void(0);" @click="handleSort('customerName','desc')">
-														   <i class="fa fa-angle-up"></i>
-														   </a>
-														    <a href="javascript:void(0);" @click="handleSort('customerName','asc')">
-														   <i class="fa fa-angle-down" style="position:absolute;z-index:999;margin-top:12px;margin-left:-9px;"></i>
-														   </a>
-														</div>
+                                                            <vPageSort :sortColumn="'customerName'" @handleSort="handleSort"></vPageSort>
+                                                            </th>
                                                             <th style="width:20%;"> 登陆账号
-														<div style="display:inline;position:relative;top:-5px;">
-                                                           <a href="javascript:void(0);" @click="handleSort('customerLogin','desc')">
-														   <i class="fa fa-angle-up"></i>
-														   </a>
-														    <a href="javascript:void(0);" @click="handleSort('customerLogin','asc')">
-														   <i class="fa fa-angle-down" style="position:absolute;z-index:999;margin-top:12px;margin-left:-9px;"></i>
-														   </a>
-														</div>
+                                                            <vPageSort :sortColumn="'customerLogin'" @handleSort="handleSort"></vPageSort>
 															</th>
                                                             <th style="width:12%;"> 注册时间 </th>
                                                             <th style="width:10%;"> 类型 </th>
@@ -184,13 +168,15 @@
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
+    import vPageSort from './../Common/PageSort';
 	import vConfirmModal from './../Common/confirmModal';
+    import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vCustomerEdit from './customerEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vConfirmModal,vCustomerEdit
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCustomerEdit,tableDataLoadingProgress
         },
         data () {
             return {
