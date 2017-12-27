@@ -22,7 +22,7 @@
                         <!-- BEGIN PAGE BREADCRUMBS -->
                         <ul class="page-breadcrumb breadcrumb">
                             <li>
-                                <a href="index.html">首页</a>
+                                <router-link :to="{path:'default'}" > 首页 </router-link>
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
@@ -78,21 +78,10 @@
 									<!-- BEGIN SAMPLE TABLE PORTLET-->
                                     <div class="portlet box red">
                                         <div class="portlet-title">
-                                            <div class="caption">
-                                                <i class="fa fa-cogs"></i> 数据列表 
-												<span style="font-size:12px;">
-												 共 {{count}} 条 
-                                                 第 {{currentPage}} 页
-                                                 共 {{totalPages}} 页
-												</span>
-												<span style="font-size:12px;">每页显示 : 
-																			  <select v-model="selected" style="color:#000000;" @change="handleChange">
-                                                                                       <option v-for="option in options" v-model="option.value">
-                                                                                       {{ option.text }}
-                                                                                       </option>
-                                                                               </select> 条
-												</span>
-											</div>
+                                           <template v-if="count">
+                                            <vPageInfo :currentPage="currentPage" :totalPages="totalPages" :count="count" :selected="selected" :options="options"  @handleChange="handleChange"></vPageInfo>
+                                           </template>
+
                                             <div class="tools">
                                                 <a href="javascript:;" class="collapse"></a>
 												<a href="javascript:;" class="reload" @click="handleReload"> </a>
@@ -194,13 +183,14 @@
     import customer from '../models/customer';
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
+    import vPageInfo from './../Common/PageInfo';
 	import vConfirmModal from './../Common/confirmModal';
 	
 	import vCustomerEdit from './customerEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vConfirmModal,vCustomerEdit
+		    vMoPaging,vPageInfo,vConfirmModal,vCustomerEdit
         },
         data () {
             return {
@@ -301,8 +291,9 @@
                 this.getList();
             },
 			//处理页面显示数量选择
-			handleChange(){
-                this.pageSize = this.selected;
+			handleChange(selected){
+                this.pageSize = selected;
+                this.selected = selected;
                 this.getList();
             },
 			//处理排序

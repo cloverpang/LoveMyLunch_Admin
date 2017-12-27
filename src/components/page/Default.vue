@@ -10,7 +10,6 @@
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
                             <h1>系统首页
-                                <small>综合统计</small>
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -23,11 +22,11 @@
                         <!-- BEGIN PAGE BREADCRUMBS -->
                         <ul class="page-breadcrumb breadcrumb">
                             <li>
-                                <a href="index.html">首页</a>
+                                <router-link :to="{path:'default'}" > 首页 </router-link>
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>综合统计</span>
+
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->

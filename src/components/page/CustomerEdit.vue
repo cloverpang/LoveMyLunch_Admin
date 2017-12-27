@@ -17,8 +17,9 @@
                                                                     <label class="col-md-3 control-label">客户姓名</label>
                                                                     <div class="col-md-6">
                                                                           <div class="input-icon right">
-                                                                        <i class="fa fa-warning tooltips" data-original-title="请输入客户姓名!" v-show="errors.has('customerName')"></i>
-                                                                        <input v-validate="'required'" name="customerName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="客户姓名" v-model="form.customerName">
+                                                                            <i class="fa fa-warning tooltips" data-original-title="请输入客户姓名!" v-show="errors.has('customerName')"></i>
+                                                                            <input v-validate="'required'" name="customerName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="客户姓名" v-model="form.customerName">
+                                                                            <span style="color:red;" v-show="errors.has('companyCode')"  >请输入客户姓名!</span>  
                                                                           </div>
                                                                     </div>
                                                                 </div>
@@ -230,9 +231,5 @@ export default {
 .emptyInput {
   border-style:none;
   background-color:#fff;
-}
-
-.is-danger {
-    border:1px solid #E7505A;
 }
 </style>

@@ -19,7 +19,7 @@
                                                                           <div class="input-icon right">
                                                                           <i class="fa fa-warning tooltips" data-original-title="请输入公司名!" v-show="errors.has('companyName')"></i>
                                                                           <input v-validate="'required'" name="companyName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司名称" v-model="form.companyName">
-                                                                          <span class="red" style="color:red;" v-show="errors.has('companyName')"  >请输入公司名!</span>
+                                                                          <span style="color:red;" v-show="errors.has('companyName')"  >请输入公司名!</span>
                                                                           </div>
                                                                     </div>
                                                                 </div>
@@ -29,8 +29,8 @@
                                                                     <div class="col-md-6">
                                                                        <div class="input-icon right">
                                                                         <i class="fa fa-warning tooltips" data-original-title="请输入公司代码且必须是英文字母!" v-show="errors.has('companyCode')"></i>
-                                                                        <input v-validate="'required|alpha'" name="companyCode" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode"> 
-                                                                         <span class="red" style="color:red;" v-show="errors.has('companyCode')"  >请输入公司代码!</span>
+                                                                        <input v-validate="'required|alpha_dash'" name="companyCode" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode"> 
+                                                                         <span style="color:red;" v-show="errors.has('companyCode')"  >请输入公司代码!</span>
                                                                        </div>
                                                                     </div>
                                                                 </div>
@@ -50,7 +50,7 @@
                                                                                        {{ option.text }}
                                                                                        </option>
                                                                              </select> 
-                                                                             <span class="red" style="color:red;" v-show="errors.has('status')"  >状态必须选择!</span>
+                                                                             <span style="color:red;" v-show="errors.has('status')"  >状态必须选择!</span>
                                                                     </div>
                                                                 </div>
 
@@ -216,9 +216,5 @@ export default {
 .emptyInput {
   border-style:none;
   background-color:#fff;
-}
-
-.is-danger {
-    border:1px solid #E7505A;
 }
 </style>
