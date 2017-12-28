@@ -96,6 +96,11 @@
                                                                 <i class="fa fa-plus"></i>
                                                             </a>
                                                         </div>
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-outline dark" @click="batchDelete()"> 批量删除
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="btn-group pull-right">
@@ -127,11 +132,17 @@
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
+                                                            <th style="width:5%;"> 
+                                                            <label class="mt-checkbox"> 
+                                                                <input type="checkbox" v-model='checkAll' v-on:click='checkedAll'/>
+                                                                <span></span>
+                                                            </label>
+                                                            </th>
                                                             <th style="width:5%;"> 序号 </th>
                                                             <th style="width:30%;"> 公司名称 
                                                             <vPageSort :sortColumn="'companyName'" @handleSort="handleSort"></vPageSort>
                                                             </th>
-                                                            <th style="width:20%;"> 公司代码
+                                                            <th style="width:15%;"> 公司代码
                                                             <vPageSort :sortColumn="'companyCode'" @handleSort="handleSort"></vPageSort>
 															</th>
                                                             <th style="width:12%;"> 开始时间 </th>
@@ -144,9 +155,15 @@
 													<tbody>
 
              <tr v-for="(item,index) in items" id="span-item.companyId">
+                <td style="width:5%;"> 
+                                                            <label class="mt-checkbox"> 
+                                                                <input type="checkbox" :value='item.companyId' v-model='checkboxModel'/>
+                                                                <span></span>
+                                                            </label>
+                </td>
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
                 <td style="width:30%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,false)">{{item.companyName}}</a> </td>
-                <td style="width:20%;">{{item.companyCode}} </td>
+                <td style="width:15%;">{{item.companyCode}} </td>
                 <td style="width:12%;"> {{formatterDate(item.joinTime)}}  </td>
                 <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
                 <td style="width:10%;"> 
@@ -243,7 +260,9 @@
                     joinTime: ''
                 },
 				viewType:false,
-				addType:false
+				addType:false,
+                checkboxModel:[],
+                checkAll:false
             }
         },
         methods:{
@@ -378,6 +397,45 @@
 				    stauts = '<span class="label label-sm label-danger"> 注销 </span>';
 				}
                 return stauts;
+            },
+            //选中所有
+            checkedAll(){
+                   var _this = this;
+                   if (!this.checkAll) {
+                    this.checkboxModel = [];
+                   }else{
+                    _this.checkboxModel = [];
+                    _this.items.forEach(function(item) {
+                    _this.checkboxModel.push(item.companyId);
+                    });
+                  }
+            },
+            //批量删除
+            batchDelete(){
+                if(this.checkboxModel.length == 0){
+                    showNotice('warning','警告!','您没有选中任何数据!');
+                    return;
+                }
+                //alert(this.checkboxModel.length);
+                var _this = this; 
+                var ids = "";
+                 _this.checkboxModel.forEach(function(item) {
+                    ids = ids + "," + item;
+                });
+
+				this.$http.delete('/companies/' + ids,{
+                })
+				.then( (res) => {
+                //子组件监听到数据返回变化会自动更新DOM
+			    if(res.status == 200){
+                   showNotice('success','Success!','批量删除成功!');
+                   this.checkAll = false;
+                   this.checkboxModel = [];					
+				   this.getList();
+                 }
+                }, (response) => {
+                   showNotice('warning','Error!','远程数据操作失败,请检查网络!');
+                });  
             }
         },
 		beforeCreate(){
