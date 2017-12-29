@@ -4,6 +4,7 @@ import Home from '../components/common/Home.vue'
 import Default from '../components/page/Default.vue'
 import Company from '../components/page/Company.vue'
 import Customer from '../components/page/Customer.vue'
+import Product from '../components/page/Product.vue'
 import Login from '../components/page/Login.vue'
 import store from '../vuex/store'
 import * as types from '../vuex/types'
@@ -20,6 +21,7 @@ let router = new Router({
             path: '/default',
             meta: {
                 requireAuth: false,//
+                linkActiveClass: 'active'
             },
             //component: resolve => require(['../components/common/Home.vue'], resolve),
             component: Home,
@@ -33,6 +35,8 @@ let router = new Router({
                 },
                 {
                     path: '/company',
+                    name: 'company',
+                    linkActiveClass: 'active',
                     meta: {
                         requireAuth: true,
                     },
@@ -42,10 +46,22 @@ let router = new Router({
                     path: '/customer',
                     //path: '/customer/:id',
                     name: 'customer',
+                    linkActiveClass: 'active',
                     meta: {
                         requireAuth: true,
                     },
                     component: Customer
+                },
+                {
+                    //path: '/product',
+                    path: '/product/:type',
+                    name: 'product',
+                    linkActiveClass: 'active',
+                    history: false,
+                    meta: {
+                        requireAuth: true,
+                    },
+                    component: Product
                 }
             ]
         },

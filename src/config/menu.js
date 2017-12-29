@@ -25,19 +25,19 @@ export default [
     items: [
       {
         name: '菜品',
-        path: '/dish',
+        path: '/product/dish',
 		icon: 'icon-heart',
 		active: false
       },
       {
         name: '汤品',
-        path: '/soup',
+        path: '/product/soup',
 		icon: 'icon-heart',
 		active: false
       },
       {
         name: '主食',
-        path: '/staplefood',
+        path: '/product/staplefood',
 		icon: 'icon-heart',
 		active: false
       }
