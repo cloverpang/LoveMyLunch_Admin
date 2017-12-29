@@ -53,8 +53,8 @@ export default {
     data () {
         return {
 		    modalId : this.modalId,//当前div id
-            itemName : this.itemName, //当前页码
-            itemId : this.itemId, //每页显示条数
+            itemName : this.itemName, //当前item name
+            itemId : this.itemId, // 参数
 			confirmMessage : this.confirmMessage //显示的确认信息
         }
     },

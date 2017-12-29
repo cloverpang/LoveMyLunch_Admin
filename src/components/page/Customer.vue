@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>{{companyName}} 客户 
+                            <h1>{{companyName}} 用户 
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>{{companyName}} 客户</span>
+                                <span>{{companyName}} 用户</span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -49,9 +49,9 @@
                                                             <div class="form-body">
                                                                 <div class="row">
                                                                  <div class="form-group">
-                                                                    <label class="col-md-1 control-label">客户姓名</label>
+                                                                    <label class="col-md-1 control-label">用户姓名</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="customerName" name="customerName" type="text" class="form-control input-circle" placeholder="客户姓名"  v-model="customerName">
+                                                                        <input id="customerName" name="customerName" type="text" class="form-control input-circle" placeholder="用户姓名"  v-model="customerName">
                                                                     </div>
                                                                     <label class="col-md-2 control-label">登陆账号</label>
                                                                     <div class="col-md-3">
@@ -96,7 +96,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:20%;"> 客户名 
+                                                            <th style="width:20%;"> 用户名 
                                                             <vPageSort :sortColumn="'customerName'" @handleSort="handleSort"></vPageSort>
                                                             </th>
                                                             <th style="width:20%;"> 登陆账号

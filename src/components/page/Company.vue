@@ -100,6 +100,7 @@
                                                             <a class="btn btn-outline dark" @click="batchDelete()"> 批量删除
                                                                 <i class="fa fa-times"></i>
                                                             </a>
+
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -207,7 +208,8 @@
 
         <vCompanyEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCompanyEdit>
 											
-		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
+        <vConfirmModal :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -410,12 +412,22 @@
                     });
                   }
             },
-            //批量删除
             batchDelete(){
                 if(this.checkboxModel.length == 0){
                     showNotice('warning','警告!','您没有选中任何数据!');
                     return;
+                }else{
+                    $('#batchDeleteConfirmModel').modal('show');
                 }
+            },
+            //批量删除
+            handleBatchDelete(){
+                if(this.checkboxModel.length == 0){
+                    showNotice('warning','警告!','您没有选中任何数据!');
+                    return;
+                }
+
+                $('#batchDeleteConfirmModel').modal('hide');
                 //alert(this.checkboxModel.length);
                 var _this = this; 
                 var ids = "";
