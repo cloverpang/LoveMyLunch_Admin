@@ -42,7 +42,22 @@
       }
     },
     methods:{
-	  handleMenuChange(){
+      //according to current menu, to set the class
+      loadMenuActive (urlStr) {
+              //alert(urlStr);
+              var urlStrArr = urlStr.split('/');
+              var len = urlStrArr.length - (urlStrArr.length - 1);
+              //alert(urlStrArr[len]);
+              //this.handleMenuChange(urlStr);
+      },
+	  handleMenuChange(urlStr){
+			this.menus.forEach(function(item) {
+                if(urlStr == item.code){
+                  item.active = true;
+                }else{
+                  item.active = false;
+                }
+            });
 	  },
 	  selectStyle(menu, index) {
 			this.menus.forEach(function(item) {
@@ -56,7 +71,16 @@
             });
 			item.active = true;
 　　　}
-	}
+	},
+    created () {
+         //alert(this.$route.path);
+          this.handleMenuChange(this.$route.path);
+    },
+    watch: {
+            '$route' (to, from) {
+               this.loadMenuActive(this.$route.path);
+            }
+    }
   }
 </script>
 
