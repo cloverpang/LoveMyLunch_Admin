@@ -148,7 +148,8 @@
                                                             </div>
                                                             <div class="mt-card-content">
                                                                 <h3 class="mt-card-name"><a data-toggle="modal" href="#editDishModal" @click="showEditModel(item,false)">{{item.dishName}}</a> </h3>
-                                                                <p class="mt-card-desc font-grey-mint" v-html='changeStatus(item.status)'></p>
+                                                                <span class="mt-card-desc font-grey-mint" v-html='changeStatus(item.status)' style="padding-right:5px;"></span> 
+                                                                <span class="badge badge-info"> {{item.dishPrice}} 元 </span>
                                                                 <div class="mt-card-social">
                                                                     <ul>
                                                                         <li>
@@ -325,15 +326,18 @@
             },
 			handleReload(){
 			    this.dishName = ''; 
-				this.customerLogin = '';
-                this.currentPage = 1;
+				this.pepperSelected = '';
+                this.priceSelected = '';
+                this.statusSelected = '';
 				this.sortColumn = '';
 				this.sortType = '';
                 this.getList();
             },
 			handleCancelSearch(){
 			    this.dishName = '';
-				this.customerLogin = '';
+				this.pepperSelected = '';
+                this.priceSelected = '';
+                this.statusSelected = '';
                 this.currentPage = 1;
                 this.getList();
             },
@@ -415,9 +419,9 @@
 			changeStatus(cellValue){
 			    var stauts = cellValue;
 			    if(cellValue == '0'){
-				    stauts = '<span class="label label-sm label-info"> 开放中 </span>';
+				    stauts = '<span class="badge badge-info"> 开放中 </span>';
 				}else if(cellValue == '1'){
-				    stauts = '<span class="label label-sm label-danger"> 不开放 </span>';
+				    stauts = '<span class="badge badge-danger"> 不开放 </span>';
 				}
                 return stauts;
             },
