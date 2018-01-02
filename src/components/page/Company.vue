@@ -78,9 +78,8 @@
 									<!-- BEGIN SAMPLE TABLE PORTLET-->
                                     <div class="portlet box red">
                                         <div class="portlet-title">
-                                           <template v-if="count">
+
                                             <vPageInfo :currentPage="currentPage" :totalPages="totalPages" :count="count" :selected="selected" :options="options"  @handleChange="handleChange"></vPageInfo>
-                                           </template> 
 
                                             <div class="tools">
                                                 <a href="javascript:;" class="collapse"></a>
@@ -135,7 +134,7 @@
                                                         <tr>
                                                             <th style="width:5%;"> 
                                                             <label class="mt-checkbox"> 
-                                                                <input type="checkbox" v-model='checkAll' v-on:click='checkedAll'/>
+                                                                <input type="checkbox" class="icheck" data-checkbox="icheckbox_square-grey" v-model='checkAll' v-on:click='checkedAll'/>
                                                                 <span></span>
                                                             </label>
                                                             </th>
@@ -158,7 +157,7 @@
              <tr v-for="(item,index) in items" id="span-item.companyId">
                 <td style="width:5%;"> 
                                                             <label class="mt-checkbox"> 
-                                                                <input type="checkbox" :value='item.companyId' v-model='checkboxModel'/>
+                                                                <input type="checkbox" class="icheck" data-checkbox="icheckbox_square-grey" :value='item.companyId' v-model='checkboxModel'/>
                                                                 <span></span>
                                                             </label>
                 </td>

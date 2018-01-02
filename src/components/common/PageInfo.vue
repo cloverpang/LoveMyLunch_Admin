@@ -1,5 +1,5 @@
 <template>
-                                            <div class="caption">
+                                            <div class="caption" v-if="count">
                                                 <i class="fa fa-cogs"></i> 数据列表 
 												<span style="font-size:12px;">
 												 共 {{count}} 条 
@@ -16,6 +16,11 @@
                                                 条
 												</span>      
 											</div>
+
+                                            <div class="caption" v-else="count==0">
+                                                <i class="fa fa-cogs"></i> 没有数据    
+											</div>
+
 </template>
 
 

@@ -78,9 +78,7 @@
 									<!-- BEGIN SAMPLE TABLE PORTLET-->
                                     <div class="portlet box red">
                                         <div class="portlet-title">
-                                           <template v-if="count">
                                             <vPageInfo :currentPage="currentPage" :totalPages="totalPages" :count="count" :selected="selected" :options="options"  @handleChange="handleChange"></vPageInfo>
-                                           </template>
 
                                             <div class="tools">
                                                 <a href="javascript:;" class="collapse"></a>
