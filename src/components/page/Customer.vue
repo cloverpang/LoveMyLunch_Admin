@@ -53,7 +53,7 @@
                                                                     <div class="col-md-3">
                                                                         <input id="customerName" name="customerName" type="text" class="form-control input-circle" placeholder="用户姓名"  v-model="customerName">
                                                                     </div>
-                                                                    <label class="col-md-2 control-label">登陆账号</label>
+                                                                    <label class="col-md-1 control-label">登陆账号</label>
                                                                     <div class="col-md-3">
                                                                         <input id="customerLogin" name="customerLogin" type="text" class="form-control input-circle" placeholder="登陆账号"  v-model="customerLogin">
                                                                     </div>

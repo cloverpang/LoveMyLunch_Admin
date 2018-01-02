@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>客户公司
+                            <h1>订单 
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>客户公司</span>
+                                <span>订单</span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -48,23 +48,23 @@
                                                         <form id="form" class="form-horizontal">
                                                             <div class="form-body">
                                                                 <div class="row">
-                                                                <div class="form-group">
-                                                                    <label class="col-md-1 control-label">公司名</label>
+                                                                 <div class="form-group">
+                                                                    <label class="col-md-1 control-label">用户</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="companyName" name="companyName" type="text" class="form-control input-circle" placeholder="公司名"  v-model="companyName">
+                                                                        <input id="customerName" name="customerName" type="text" class="form-control input-circle" placeholder=""  v-model="customerName">
                                                                     </div>
-                                                                    <label class="col-md-1 control-label">公司代码</label>
+                                                                    <label class="col-md-1 control-label">公司</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="companyCode" name="companyCode" type="text" class="form-control input-circle" placeholder="公司代码"  v-model="companyCode">
+                                                                        <input id="customerLogin" name="customerLogin" type="text" class="form-control input-circle" placeholder=""  v-model="customerLogin">
                                                                     </div>
-                                                                </div>
+                                                                 </div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-actions right">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
                                                                         <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress"> 
-																		查 询 <span id="searchCompanyAction" v-show="actionProgress">......</span>
+																		查 询 <span id="searchAction" v-show="actionProgress">......</span>
 																		</button>
                                                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
                                                                     </div>
@@ -78,7 +78,6 @@
 									<!-- BEGIN SAMPLE TABLE PORTLET-->
                                     <div class="portlet box red">
                                         <div class="portlet-title">
-
                                             <vPageInfo :currentPage="currentPage" :totalPages="totalPages" :count="count" :selected="selected" :options="options"  @handleChange="handleChange"></vPageInfo>
 
                                             <div class="tools">
@@ -87,94 +86,43 @@
                                             </div>
                                         </div>
                                         <div class="portlet-body">
-                                            <div class="table-toolbar">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="btn-group">
-                                                            <a data-toggle="modal" href="#editCompanyModal" class="btn btn-outline dark" @click="showAddModel()"> 添加新公司
-                                                                <i class="fa fa-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-outline dark" @click="batchDelete()"> 批量删除
-                                                                <i class="fa fa-times"></i>
-                                                            </a>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="btn-group pull-right">
-                                                            <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
-                                                                <i class="fa fa-angle-down"></i>
-                                                            </button>
-                                                            <ul class="dropdown-menu pull-right">
-                                                                <li>
-                                                                    <a href="javascript:;">
-                                                                        <i class="fa fa-print"></i> Print </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;">
-                                                                        <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;">
-                                                                        <i class="fa fa-file-excel-o"></i> Export to Excel </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 										
                                             <div class="table-responsive">
-                                               <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
+                                                <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
 											
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width:5%;"> 
-                                                            <label class="mt-checkbox"> 
-                                                                <input type="checkbox" class="icheck" data-checkbox="icheckbox_square-grey" v-model='checkAll' v-on:click='checkedAll'/>
-                                                                <span></span>
-                                                            </label>
-                                                            </th>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:30%;"> 公司名称 
-                                                            <vPageSort :sortColumn="'companyName'" @handleSort="handleSort"></vPageSort>
+                                                            <th style="width:20%;"> 用户名 
+                                                            <vPageSort :sortColumn="'customerName'" @handleSort="handleSort"></vPageSort>
                                                             </th>
-                                                            <th style="width:15%;"> 公司代码
-                                                            <vPageSort :sortColumn="'companyCode'" @handleSort="handleSort"></vPageSort>
+                                                            <th style="width:20%;"> 登陆账号
+                                                            <vPageSort :sortColumn="'customerLogin'" @handleSort="handleSort"></vPageSort>
 															</th>
-                                                            <th style="width:12%;"> 开始时间 </th>
+                                                            <th style="width:12%;"> 注册时间 </th>
+                                                            <th style="width:10%;"> 类型 </th>
                                                             <th style="width:8%;"> 状态 </th>
-                                                            <th style="width:10%;"> 服务人数 </th>
+                                                            <th style="width:10%;"> 订单总数 </th>
                                                             <th style="width:7%;"> 操作 </th>
 															<th style="width:8%;">  </th>
                                                         </tr>
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" id="span-item.companyId">
-                <td style="width:5%;"> 
-                                                            <label class="mt-checkbox"> 
-                                                                <input type="checkbox" class="icheck" data-checkbox="icheckbox_square-grey" :value='item.companyId' v-model='checkboxModel'/>
-                                                                <span></span>
-                                                            </label>
-                </td>
+             <tr v-for="(item,index) in items" id="span-item.customerId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:30%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,false)">{{item.companyName}}</a> </td>
-                <td style="width:15%;">{{item.companyCode}} </td>
-                <td style="width:12%;"> {{formatterDate(item.joinTime)}}  </td>
+                <td style="width:20%;"> <a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,false)">{{item.customerName}}</a> </td>
+                <td style="width:20%;">{{item.customerLogin}} </td>
+                <td style="width:12%;"> {{formatterDate(item.createTime)}}  </td>
+                <td style="width:10%;" v-html='changeType(item.customerType)'> </td>
                 <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
-                <td style="width:10%;"> 
-                    <router-link :to="{path:'customer',query: {id:item.companyId,name:item.companyName}}" target="_blank"> {{item.companyCustomerQuantity}} </router-link>
-                    <!-- <router-link :to="{name:'customer',params: { id:item.companyId }}" target="_blank"> 公司人员 </router-link>-->
-               </td>
+                <td style="width:10%;">  </td>
                 <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCustomer(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -205,17 +153,16 @@
                 <!-- END CONTENT BODY -->
             </div>
 
-        <vCompanyEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCompanyEdit>
+        <vCustomerEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCustomerEdit>
 											
-		<vConfirmModal :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
-        <vConfirmModal :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
+		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.customerId" :itemName="model.customerName" @handleConfirm="handleDelete"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
 </template>
 
 <script>
-    import company from '../models/company';
+    import customer from '../models/customer';
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
@@ -223,18 +170,18 @@
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
-	import vCompanyEdit from './companyEdit';
+	import vCustomerEdit from './customerEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCompanyEdit,tableDataLoadingProgress
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCustomerEdit,tableDataLoadingProgress
         },
         data () {
             return {
 			    progressBar: true, //显示加载条
 				actionProgress: false, //
-			    companyName: '',
-				companyCode: '',
+			    customerName: '',
+				customerLogin: '',
 				sortColumn: '',
 				sortType: '',
 				selected: '15',
@@ -248,31 +195,39 @@
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
-				model:company,
-				form:company,
+				model:customer,
+				form:customer,
 				form: {
-                    companyId: '',
-                    companyName: '',
-                    companyCode: '',
-                    companyAddress: '',
-                    companyLogoPath:'',
-					operationCenterCode: '',
-                    status: 0,
-                    joinTime: ''
+                   customerId: '',
+                   customerLogin: '',
+                   customerPassword: '',
+		           customerName: '',
+                   companyId: '',
+		           companyName: '',
+                   weChatAccount: '',
+		           mobileNumber: '',
+                   customerScore: 0,
+                   customerType: 0,
+                   status: 0,
+                   createTime: ''
                 },
 				viewType:false,
 				addType:false,
-                checkboxModel:[],
-                checkAll:false
+                companyId:this.$route.query.id,
+                companyName:this.$route.query.name
             }
         },
         methods:{
             //获取数据
             getList () {
+                if(this.companyId == 'undefined' || this.companyId == undefined){
+                     this.companyId = '';
+                }
+
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/companyExtends',{
+				this.$http.get('/customers',{
                 params: {
-                    conditionsStr: 'companyName::like::' + this.companyName + '$companyCode::like::' + this.companyCode,
+                    conditionsStr: 'companyId::=::' + this.companyId + '$customerName::like::' + this.customerName + '$customerLogin::like::' + this.customerLogin,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -306,16 +261,16 @@
                 this.getList();
             },
 			handleReload(){
-			    this.companyName = ''; 
-				this.companyCode = '';
+			    this.customerName = ''; 
+				this.customerLogin = '';
                 this.currentPage = 1;
 				this.sortColumn = '';
 				this.sortType = '';
                 this.getList();
             },
 			handleCancelSearch(){
-			    this.companyName = '';
-				this.companyCode = '';
+			    this.customerName = '';
+				this.customerLogin = '';
                 this.currentPage = 1;
                 this.getList();
             },
@@ -334,9 +289,7 @@
             },
 			//处理修改
 			handleSaveCompany(model){
-			     //this.model.companyName = model.companyName + 'xxxx';
-				 //this.model.companyCode = 'yyyy';
-				 //$('#editCompanyModal').modal('hide');
+				 //$('#editCustomerModal').modal('hide');
             },
             //从page组件传递过来的当前page
             pageChange (page) {
@@ -346,7 +299,7 @@
 			//处理删除
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/company/' + id,{
+					 this.$http.delete('/customer/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -360,7 +313,7 @@
                      });  
 			},
 			//处理删除
-			deleteCompany(item){
+			deleteCustomer(item){
 			   this.model = item;
 			},
 			showEditModel(item,isEdit){
@@ -382,9 +335,9 @@
 			},
 			setForm(){
 		      //this.form = this.model;
-		      this.form.companyName = this.model.companyName;
-			  this.form.companyCode = this.model.companyCode;
-			  this.form.companyAddress = this.model.companyAddress;
+		      this.form.customerName = this.model.customerName;
+			  this.form.mobileNumber = this.model.mobileNumber;
+              this.form.customerType = this.model.customerType;
 			  this.form.status = this.model.status;
 		    },
 		    formatterDate(cellValue){
@@ -399,54 +352,14 @@
 				}
                 return stauts;
             },
-            //选中所有
-            checkedAll(){
-                   var _this = this;
-                   if (!this.checkAll) {
-                    this.checkboxModel = [];
-                   }else{
-                    _this.checkboxModel = [];
-                    _this.items.forEach(function(item) {
-                    _this.checkboxModel.push(item.companyId);
-                    });
-                  }
-            },
-            batchDelete(){
-                if(this.checkboxModel.length == 0){
-                    showNotice('warning','警告!','您没有选中任何数据!');
-                    return;
-                }else{
-                    $('#batchDeleteConfirmModel').modal('show');
-                }
-            },
-            //批量删除
-            handleBatchDelete(){
-                if(this.checkboxModel.length == 0){
-                    showNotice('warning','警告!','您没有选中任何数据!');
-                    return;
-                }
-
-                $('#batchDeleteConfirmModel').modal('hide');
-                //alert(this.checkboxModel.length);
-                var _this = this; 
-                var ids = "";
-                 _this.checkboxModel.forEach(function(item) {
-                    ids = ids + "," + item;
-                });
-
-				this.$http.delete('/companies/' + ids,{
-                })
-				.then( (res) => {
-                //子组件监听到数据返回变化会自动更新DOM
-			    if(res.status == 200){
-                   showNotice('success','Success!','批量删除成功!');
-                   this.checkAll = false;
-                   this.checkboxModel = [];					
-				   this.getList();
-                 }
-                }, (response) => {
-                   showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                });  
+			changeType(cellValue){
+			    var type = cellValue;
+			    if(cellValue == '0'){
+				    type = '<span > 普通用户 </span>';
+				}else if(cellValue == '1'){
+				    type = '<span > 公司主用户 </span>';
+				}
+                return type;
             }
         },
 		beforeCreate(){
@@ -454,8 +367,6 @@
 		},
         beforeMount(){
             this.getList();
-        },
-        computed: {
         },
         watch: {
             model: {
