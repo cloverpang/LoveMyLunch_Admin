@@ -2,70 +2,76 @@
                           <!-- BEGIN FORM-->
                            <form class="form-horizontal" @submit.prevent="validateBeforeSubmit">
                                             <!-- /.modal -->
-                                            <div class="modal fade bs-modal-lg" id="editCustomerModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal fade bs-modal-lg" id="editLunchOrderModal" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-															<h4 class="modal-title" v-show="addType"> 添加 新用户 </h4>
-                                                            <h4 class="modal-title" v-show="!addType"> {{model.customerName}} </h4>
+															<h4 class="modal-title" v-show="addType"> 添加 </h4>
+                                                            <h4 class="modal-title" v-show="!addType"> {{model.customerName}} 在 {{formatMintuesDate(model.bookTime)}} 下的订单 </h4>
                                                         </div>
                                                         <div class="modal-body"> 
                                                     <div class="portlet-body form">
                                                             <div class="form-body">
-                                                                <div class="form-group" :class="{'has-error': errors.has('customerName')}">
-                                                                    <label class="col-md-3 control-label">客户姓名</label>
+                                                                <div class="form-group" :class="{'has-error': errors.has('customerMobile')}">
+                                                                    <label class="col-md-3 control-label">客户电话</label>
                                                                     <div class="col-md-6">
                                                                           <div class="input-icon right">
-                                                                            <i class="fa fa-warning tooltips" data-original-title="请输入客户姓名!" v-show="errors.has('customerName')"></i>
-                                                                            <input v-validate="'required'" name="customerName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="客户姓名" v-model="form.customerName">
-                                                                            <span style="color:red;" v-show="errors.has('customerName')"  >请输入客户姓名!</span>  
+                                                                            <i class="fa fa-warning tooltips" data-original-title="请输入客户电话!" v-show="errors.has('customerMobile')"></i>
+                                                                            <input v-validate="'required'" name="customerMobile" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="" v-model="form.customerMobile">
+                                                                            <span style="color:red;" v-show="errors.has('customerMobile')"  >请输入客户电话!</span>  
                                                                           </div>
                                                                     </div>
                                                                 </div>
 																
                                                                 <div class="form-group">
-                                                                    <label class="col-md-3 control-label">手机电话</label>
+                                                                    <label class="col-md-3 control-label">订单备注</label>
                                                                     <div class="col-md-6">
-                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="手机电话" v-model="form.mobileNumber"> 
+                                                                        <textarea row="4" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="" v-model="form.remark"></textarea> 
                                                                     </div>
                                                                 </div>
-																
-                                                                <div class="form-group">
-                                                                    <label class="col-md-3 control-label">客户类型</label>
-                                                                    <div class="col-md-6">
-                                                                       		 <select class="form-control input-circle" :class="{'emptyInput':viewType}" :disabled="viewType" v-model="form.customerType" @change="handleTypeChange">
-                                                                                       <option v-for="option in typeOptions" v-model="option.value" v-bind:value="option.value">
-                                                                                       {{ option.text }}
-                                                                                       </option>
-                                                                             </select> 
-                                                                    </div>
-                                                                </div>
+															
 																
 																<div class="form-group">
-                                                                    <label class="col-md-3 control-label">状态 </label>
+                                                                    <label class="col-md-3 control-label">订单状态 </label>
                                                                     <div class="col-md-6">
-																			 <select class="form-control input-circle" :class="{'emptyInput':viewType}" :disabled="viewType" v-model="form.status" @change="handleStatusChange">
-                                                                                       <option v-for="option in options" v-model="option.value" v-bind:value="option.value">
+																			 <select class="form-control input-circle" :class="{'emptyInput':viewType}" :disabled="viewType" v-model="form.orderStatus">
+                                                                                       <option v-for="option in orderStatusOptions" v-model="option.value" v-bind:value="option.value">
                                                                                        {{ option.text }}
                                                                                        </option>
                                                                              </select> 
                                                                     </div>
                                                                 </div>
 
-
+																<div class="form-group">
+                                                                    <label class="col-md-3 control-label">付款状态 </label>
+                                                                    <div class="col-md-6">
+																			 <select class="form-control input-circle" :class="{'emptyInput':viewType}" :disabled="viewType" v-model="form.paymentStatus">
+                                                                                       <option v-for="option in paymentStatusOptions" v-model="option.value" v-bind:value="option.value">
+                                                                                       {{ option.text }}
+                                                                                       </option>
+                                                                             </select> 
+                                                                    </div>
+                                                                </div>
 																
                                                                 <div class="form-group " v-show='viewType'>
-                                                                    <label class="col-md-3 control-label">订单总数 </label>
+                                                                    <label class="col-md-3 control-label">订单简要 </label>
                                                                     <div class="col-md-6">
-                                                                        <span class="form-control-static">  </span>
+                                                                        <span class="form-control-static"> {{model.content}} </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group " v-show='viewType'>
+                                                                    <label class="col-md-3 control-label">就餐时间 </label>
+                                                                    <div class="col-md-6">
+                                                                        <span class="form-control-static"> {{formatterDate(model.lunchTime)}} </span>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group last" v-show='viewType'>
-                                                                    <label class="col-md-3 control-label">消费总金额 </label>
+                                                                    <label class="col-md-3 control-label">金额 </label>
                                                                     <div class="col-md-6">
-                                                                        <span class="form-control-static">  </span>
+                                                                        <span class="form-control-static"> 原始 {{model.originPrice}} / 折扣 {{model.discoutPrice}} / 真实 {{model.realPrice}} </span>
                                                                     </div>
                                                                 </div>
 																
@@ -92,10 +98,10 @@
 </template>
 
 <script>
-import customer from '../models/customer';
-import {showNotice} from '../../utils/common.js';
+import lunchOrder from '../models/lunchOrder';
+import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate} from '../../utils/common.js';
 export default {
-    name : 'editCustomerModal',
+    name : 'editLunchOrderModal',
     //通过props来接受从父组件传递过来的值
     props : {
         model : { 
@@ -121,6 +127,12 @@ export default {
            //alert('Correct them errors!');
           });
         },
+        formatMintuesDate(cellValue){
+                return formatMintuesDate(cellValue);
+        },
+        formatterDate(cellValue){
+                return formatDate(cellValue);
+        },
         handleSave () {
 		    if(this.addType){
 			   this.handleAdd();
@@ -131,13 +143,13 @@ export default {
 	    handleAdd () {
 		        this.actionProgress = true;
 				//提交到API处理
-				this.$http.post('/customer',this.form)
+				this.$http.post('/lunchOrder',this.form)
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
                      showNotice('success','Success!','添加成功!');		
                      this.$emit('refresh');							 
-			         $('#editCustomerModal').modal('hide');
+			         $('#editLunchOrderModal').modal('hide');
                  }
                 }, (response) => {
 				     this.reSetForm();
@@ -152,12 +164,12 @@ export default {
 				 
 				//提交到API处理
 				this.setModel();
-				this.$http.put('/customer',this.model)
+				this.$http.put('/lunchOrder',this.model)
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
                      showNotice('success','Success!','修改成功!');					
-			         $('#editCustomerModal').modal('hide');
+			         $('#editLunchOrderModal').modal('hide');
                  }
                 }, (response) => {
 				     this.reSetForm();
@@ -166,16 +178,18 @@ export default {
                 });
         },
 		setModel(){
-			this.model.customerName = this.form.customerName;
-			this.model.customerType = this.form.customerType;
-			this.model.mobileNumber = this.form.mobileNumber;
-			this.model.status = this.form.status;
+			//this.model = this.form;
+            this.model.customerMobile = this.form.customerMobile;
+            this.model.remark = this.form.remark;
+            this.model.orderStatus = this.form.orderStatus;
+            this.model.paymentStatus = this.form.paymentStatus;
 		},			
 		reSetForm(){
-			this.form.customerName = this.model.customerName;
-			this.form.customerType = this.model.customerType;
-			this.form.mobileNumber = this.model.mobileNumber;
-			this.form.status = this.model.status;
+			//this.form = this.model;
+            this.form.customerMobile = this.model.customerMobile;
+            this.form.remark = this.model.remark;
+            this.form.orderStatus = this.model.orderStatus;
+            this.form.paymentStatus = this.model.paymentStatus;
 		},
 		handleStatusChange(){
 		    //alert(this.form.status);
@@ -194,26 +208,37 @@ export default {
            model:null,
 		   actionProgress:false,
 		   form: {
-                   customerId: '',
-                   customerLogin: '',
-                   customerPassword: '',
-		           customerName: '',
-                   companyId: '',
-		           companyName: '',
-                   weChatAccount: '',
-		           mobileNumber: '',
-                   customerScore: 0,
-                   customerType: 0,
-                   status: 0,
-                   createTime: ''
+                      orderId: '',
+                      orderNumber: '',
+                      distributNumber: '',
+		              bookTime: '',
+                      lunchTime: '', 
+                      customerName: '',
+		              customerMobile: '',
+                      customerId: '',
+		              companyId: '',
+                      content: '',
+                      dishIds: '',
+                      remark: '',
+                      originPrice: 0,
+                      discoutPrice: 0,
+                      realPrice: 0,
+                      star: 0,
+                      appraise: '',
+                      orderStatus: 0,
+                      paymentStatus: 0,
+                      createTime: ''
            },
-		   options: [
-                { text: ' 正常状态 ', value: '0' },
-				{ text: ' 注销 ', value: '1' }
+		   orderStatusOptions: [
+                { text: ' 待确认 ', value: '0' },
+				{ text: ' 已确认 ', value: '1' },
+				{ text: ' 已取消 ', value: '2' },
+				{ text: ' 配送中 ', value: '9' },
+				{ text: ' 已完成 ', value: '10' }
            ],		  
-           typeOptions: [
-                { text: ' 普通用户 ', value: '0' },
-				{ text: ' 公司主用户 ', value: '1' }
+           paymentStatusOptions: [
+                { text: ' 未付款 ', value: '0' },
+				{ text: ' 已付款 ', value: '1' }
            ],
 		   viewType: false, //为true显示 view模式，如果为false 则为编辑模式
 		   addType: false //为true显示 add模式

@@ -20,10 +20,33 @@ export function getNowFormatDate() {
     return currentdate;
 }
 
+// 格式'yyyy-MM-dd HH:MM'
+export function formatMintuesDate(dateString) {
+    var date = new Date(dateString);
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+        + " " + date.getHours() + seperator2 + date.getMinutes();
+    return currentdate;
+}
+
+
 // 格式化时间(****年*月*日)
 export function formatDate(dateString) {
     var date = new Date(dateString);
-    return date.getFullYear() + '年' + date.getMonth() + '月' + date.getDate() + '日';
+    var month = 0;
+    if(null != date){
+        month = date.getMonth() + 1; 
+    }
+    return date.getFullYear() + '年' + month + '月' + date.getDate() + '日';
 }
 
 // 格式化uinxstamp(****年*月*日)

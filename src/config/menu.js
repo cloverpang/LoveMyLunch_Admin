@@ -102,6 +102,13 @@ export default [
 	active: false,
     items: [
       {
+        name: '系统管理员',
+        code: '/admingUser',
+        path: '/admingUser',
+		icon: 'icon-user',
+		active: false
+      },
+      {
         name: '系统设置',
         code: '/setting',
         path: '/setting',

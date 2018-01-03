@@ -455,7 +455,7 @@
 
 		},
         beforeMount(){
-            this.getList();
+            //this.getList();
         },
         created () {
              console.log(this.getStatus(this.$route.path))

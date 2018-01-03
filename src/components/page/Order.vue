@@ -51,11 +51,11 @@
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">用户</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="customerName" name="customerName" type="text" class="form-control input-circle" placeholder=""  v-model="customerName">
+                                                                        <input id="customerId" name="customerId" type="text" class="form-control input-circle" placeholder=""  v-model="customerId">
                                                                     </div>
                                                                     <label class="col-md-1 control-label">公司</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="customerLogin" name="customerLogin" type="text" class="form-control input-circle" placeholder=""  v-model="customerLogin">
+                                                                        <input id="companyId" name="companyId" type="text" class="form-control input-circle" placeholder=""  v-model="companyId">
                                                                     </div>
                                                                  </div>
                                                                 </div>
@@ -94,35 +94,40 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:20%;"> 用户名 
+                                                            <th style="width:11%;"> 订单号 
                                                             <vPageSort :sortColumn="'customerName'" @handleSort="handleSort"></vPageSort>
                                                             </th>
-                                                            <th style="width:20%;"> 登陆账号
-                                                            <vPageSort :sortColumn="'customerLogin'" @handleSort="handleSort"></vPageSort>
+                                                            <th style="width:8%;"> 下单人 </th>
+                                                            <th style="width:30%;"> 简要
 															</th>
-                                                            <th style="width:12%;"> 注册时间 </th>
-                                                            <th style="width:10%;"> 类型 </th>
-                                                            <th style="width:8%;"> 状态 </th>
-                                                            <th style="width:10%;"> 订单总数 </th>
-                                                            <th style="width:7%;"> 操作 </th>
-															<th style="width:8%;">  </th>
+                                                            <th style="width:7%;"> 金额
+                                                            <vPageSort :sortColumn="'realPrice'" @handleSort="handleSort"></vPageSort>
+                                                            </th>
+                                                            <th style="width:13%;"> 下单时间 
+                                                            <vPageSort :sortColumn="'bookTime'" @handleSort="handleSort"></vPageSort>
+                                                            </th>
+                                                            <th style="width:7%;"> 订单状态 </th>
+                                                            <th style="width:7%;"> 付款状态 </th>
+                                                            <th style="width:6%;"> 操作 </th>
+															<th style="width:6%;">  </th>
                                                         </tr>
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" id="span-item.customerId">
+             <tr v-for="(item,index) in items" id="span-item.orderId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:20%;"> <a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,false)">{{item.customerName}}</a> </td>
-                <td style="width:20%;">{{item.customerLogin}} </td>
-                <td style="width:12%;"> {{formatterDate(item.createTime)}}  </td>
-                <td style="width:10%;" v-html='changeType(item.customerType)'> </td>
-                <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
-                <td style="width:10%;">  </td>
-                <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+                <td style="width:11%;"> <a data-toggle="modal" href="#editLunchOrderModal" @click="showEditModel(item,false)">{{item.orderNumber}}</a> </td>
+                <td style="width:8%;"> {{item.customerName}} </td>
+                <td style="width:30%;">{{item.content}} </td>
+                <td style="width:7%;">{{item.realPrice}} </td>
+                <td style="width:13%;"> {{formatMintuesDate(item.bookTime)}}  </td>
+                <td style="width:7%;" v-html='changeOrderStatus(item.orderStatus)'> </td>
+                <td style="width:7%;" v-html='changePaymentStatus(item.paymentStatus)'> </td>
+                <td style="width:6%;"> 
+				<a data-toggle="modal" href="#editLunchOrderModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
-				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCustomer(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
+				<td style="width:6%;">  
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteLunchOrder(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -153,16 +158,16 @@
                 <!-- END CONTENT BODY -->
             </div>
 
-        <vCustomerEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCustomerEdit>
+        <vLunchOrderEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveLunchOrder" @refresh="refresh"></vLunchOrderEdit>
 											
-		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.customerId" :itemName="model.customerName" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.orderId" :itemName="model.customerName + ' 在 ' + formatMintuesDate(model.bookTime)  + ' 下的订单'" @handleConfirm="handleDelete"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
 </template>
 
 <script>
-    import customer from '../models/customer';
+    import lunchOrder from '../models/lunchOrder';
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
@@ -170,18 +175,16 @@
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
-	import vCustomerEdit from './customerEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
+	import vLunchOrderEdit from './LunchOrderEdit';
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCustomerEdit,tableDataLoadingProgress
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vLunchOrderEdit,tableDataLoadingProgress
         },
         data () {
             return {
 			    progressBar: true, //显示加载条
 				actionProgress: false, //
-			    customerName: '',
-				customerLogin: '',
 				sortColumn: '',
 				sortType: '',
 				selected: '15',
@@ -190,31 +193,50 @@
                    { text: ' 30 ', value: '30' },
 				   { text: ' 50 ', value: '50' }
                 ],
+		        orderStatusOptions: [
+                   { text: ' 待确认 ', value: '0' },
+				   { text: ' 已确认 ', value: '1' },
+				   { text: ' 已取消 ', value: '2' },
+				   { text: ' 配送中 ', value: '9' },
+				   { text: ' 已完成 ', value: '10' }
+                ],		  
+                paymentStatusOptions: [
+                  { text: ' 未付款 ', value: '0' },
+				  { text: ' 已付款 ', value: '1' }
+                ],
                 pageSize : 15 , //每页显示30条数据
                 currentPage : 1, //当前页码
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
-				model:customer,
-				form:customer,
+				model:lunchOrder,
+				form:lunchOrder,
 				form: {
-                   customerId: '',
-                   customerLogin: '',
-                   customerPassword: '',
-		           customerName: '',
-                   companyId: '',
-		           companyName: '',
-                   weChatAccount: '',
-		           mobileNumber: '',
-                   customerScore: 0,
-                   customerType: 0,
-                   status: 0,
-                   createTime: ''
+                      orderId: '',
+                      orderNumber: '',
+                      distributNumber: '',
+		              bookTime: '', 
+                      lunchTime: '', 
+                      customerName: '',
+		              customerMobile: '',
+                      customerId: '',
+		              companyId: '',
+                      content: '',
+                      dishIds: '',
+                      remark: '',
+                      originPrice: 0,
+                      discoutPrice: 0,
+                      realPrice: 0,
+                      star: 0,
+                      appraise: '',
+                      orderStatus: 0,
+                      paymentStatus: 0,
+                      createTime: ''
                 },
 				viewType:false,
 				addType:false,
-                companyId:this.$route.query.id,
-                companyName:this.$route.query.name
+                companyId:'',
+                customerId:''
             }
         },
         methods:{
@@ -224,10 +246,14 @@
                      this.companyId = '';
                 }
 
+                if(this.customerId == 'undefined' || this.customerId == undefined){
+                     this.customerId = '';
+                }
+
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/customers',{
+				this.$http.get('/lunchOrders',{
                 params: {
-                    conditionsStr: 'companyId::=::' + this.companyId + '$customerName::like::' + this.customerName + '$customerLogin::like::' + this.customerLogin,
+                    conditionsStr: 'companyId::=::' + this.companyId + '$customerId::=::' + this.customerId,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -269,8 +295,8 @@
                 this.getList();
             },
 			handleCancelSearch(){
-			    this.customerName = '';
-				this.customerLogin = '';
+			    this.customerId = '';
+				this.companyId = '';
                 this.currentPage = 1;
                 this.getList();
             },
@@ -288,8 +314,8 @@
                 this.getList();
             },
 			//处理修改
-			handleSaveCompany(model){
-				 //$('#editCustomerModal').modal('hide');
+			handleSaveLunchOrder(model){
+				 //$('#editLunchOrderModal').modal('hide');
             },
             //从page组件传递过来的当前page
             pageChange (page) {
@@ -299,7 +325,7 @@
 			//处理删除
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/customer/' + id,{
+					 this.$http.delete('/lunchOrder/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -313,7 +339,7 @@
                      });  
 			},
 			//处理删除
-			deleteCustomer(item){
+			deleteLunchOrder(item){
 			   this.model = item;
 			},
 			showEditModel(item,isEdit){
@@ -335,31 +361,42 @@
 			},
 			setForm(){
 		      //this.form = this.model;
-		      this.form.customerName = this.model.customerName;
-			  this.form.mobileNumber = this.model.mobileNumber;
-              this.form.customerType = this.model.customerType;
-			  this.form.status = this.model.status;
+                this.form.customerMobile = this.model.customerMobile;
+                this.form.remark = this.model.remark;
+                this.form.orderStatus = this.model.orderStatus;
+                this.form.paymentStatus = this.model.paymentStatus;
 		    },
 		    formatterDate(cellValue){
                 return formatDate(cellValue);
             },
-			changeStatus(cellValue){
+            formatMintuesDate(cellValue){
+                return formatMintuesDate(cellValue);
+            },
+			changeOrderStatus(cellValue){
 			    var stauts = cellValue;
 			    if(cellValue == '0'){
-				    stauts = '<span class="label label-sm label-info"> 正常 </span>';
+				    stauts = '<span class="label label-sm label-info"> 待确认 </span>';
 				}else if(cellValue == '1'){
-				    stauts = '<span class="label label-sm label-danger"> 注销 </span>';
+				    stauts = '<span class="label label-sm label-primary"> 已确认 </span>';
+				}else if(cellValue == '2'){
+				    stauts = '<span class="label label-sm label-danger"> 已取消 </span>';
+				}else if(cellValue == '9'){
+				    stauts = '<span class="label label-sm label-warning"> 配送中 </span>';
+				}else if(cellValue == '10'){
+				    stauts = '<span class="label label-sm label-success"> 已完成 </span>';
 				}
                 return stauts;
             },
-			changeType(cellValue){
-			    var type = cellValue;
+			changePaymentStatus(cellValue){
+			    var stauts = cellValue;
 			    if(cellValue == '0'){
-				    type = '<span > 普通用户 </span>';
+				    stauts = '<span class="label label-sm label-info"> 未付款 </span>';
 				}else if(cellValue == '1'){
-				    type = '<span > 公司主用户 </span>';
+				    stauts = '<span class="label label-sm label-primary"> 已付款 </span>';
+				}else if(cellValue == '2'){
+				    stauts = '<span class="label label-sm label-warning"> 部分付款 </span>';
 				}
-                return type;
+                return stauts;
             }
         },
 		beforeCreate(){
