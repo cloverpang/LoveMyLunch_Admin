@@ -51,7 +51,7 @@
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">用户</label>
                                                                     <div class="col-md-1">
-                                                                            <a href="javascript:;" class="btn btn-circle btn-sm red"> 选择
+                                                                            <a data-toggle="modal" href="#customerListPopup" class="btn btn-circle btn-sm red"> 选择
                                                                                 <span class="fa fa-search"> </span>
                                                                             </a>
                                                                     </div>
@@ -65,7 +65,7 @@
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">公司</label>
                                                                     <div class="col-md-1">
-                                                                            <a href="javascript:;" class="btn btn-circle btn-sm red"> 选择
+                                                                            <a  data-toggle="modal" href="#companyListPopup" class="btn btn-circle btn-sm red" @click="loadCompanyPopupData"> 选择
                                                                                 <span class="fa fa-search"> </span>
                                                                             </a>
                                                                     </div>
@@ -213,7 +213,9 @@
         <vLunchOrderEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveLunchOrder" @refresh="refresh"></vLunchOrderEdit>
 											
 		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.orderId" :itemName="model.customerName + ' 在 ' + formatMintuesDate(model.bookTime)  + ' 下的订单'" @handleConfirm="handleDelete"></vConfirmModal>
-            <!-- END CONTENT -->	
+           
+        <vCompanyListPopup></vCompanyListPopup>
+         <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
 </template>
@@ -226,12 +228,14 @@
     import vPageSort from './../Common/PageSort';
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
+
+    import vCompanyListPopup from './CompanyListPopup';
 	
 	import vLunchOrderEdit from './LunchOrderEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vLunchOrderEdit,tableDataLoadingProgress
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vLunchOrderEdit,tableDataLoadingProgress,vCompanyListPopup
         },
         data () {
             return {
@@ -449,6 +453,11 @@
 				    stauts = '<span class="badge badge-warning"> 部分付款 </span>';
 				}
                 return stauts;
+            },
+            loadCompanyPopupData(){
+                this.loadCompanyData = true;
+                this.$children[5].loadingPopupData = true;
+                this.$children[5].getPopupDataList();
             }
         },
 		beforeCreate(){
