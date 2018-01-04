@@ -1,6 +1,6 @@
 <template>
                                             <div class="caption" v-if="count">
-                                                <i class="fa fa-cogs"></i> 数据列表 
+                                                <i class="fa fa-reorder"></i> 数据列表 
 												<span style="font-size:12px;">
 												 共 {{count}} 条 
                                                  第 {{currentPage}} 页
@@ -18,7 +18,7 @@
 											</div>
 
                                             <div class="caption" v-else="count==0">
-                                                <i class="fa fa-cogs"></i> 没有数据    
+                                                <i class="fa fa-reorder"></i> 没有数据    
 											</div>
 
 </template>

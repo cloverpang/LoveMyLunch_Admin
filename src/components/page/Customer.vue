@@ -119,10 +119,10 @@
                 <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
                 <td style="width:10%;">  </td>
                 <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCustomer(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCustomer(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -346,9 +346,9 @@
 			changeStatus(cellValue){
 			    var stauts = cellValue;
 			    if(cellValue == '0'){
-				    stauts = '<span class="label label-sm label-info"> 正常 </span>';
+				    stauts = '<span class="badge badge-info"> 正常 </span>';
 				}else if(cellValue == '1'){
-				    stauts = '<span class="label label-sm label-danger"> 注销 </span>';
+				    stauts = '<span class="badge badge-danger"> 注销 </span>';
 				}
                 return stauts;
             },

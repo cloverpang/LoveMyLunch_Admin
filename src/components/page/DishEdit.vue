@@ -18,7 +18,7 @@
                                                                     <div class="col-md-7">
                                                                           <div class="input-icon right">
                                                                             <i class="fa fa-warning tooltips" data-original-title="请输入名称!" v-show="errors.has('dishName')"></i>
-                                                                            <input v-validate="'required'" name="dishName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="" v-model="form.dishName">
+                                                                            <input v-validate="'required'" maxlength="20" id="dishInputName" name="dishName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="" v-model="form.dishName">
                                                                             <span style="color:red;" v-show="errors.has('dishName')"  >请输入名称!</span>  
                                                                           </div>
                                                                     </div>

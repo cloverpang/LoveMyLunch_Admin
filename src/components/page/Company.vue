@@ -171,10 +171,10 @@
                     <!-- <router-link :to="{name:'customer',params: { id:item.companyId }}" target="_blank"> 公司人员 </router-link>-->
                </td>
                 <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 

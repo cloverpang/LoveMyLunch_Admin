@@ -38,7 +38,7 @@
                                     <div class="portlet box red">
                                                     <div class="portlet-title">
                                                         <div class="caption">
-                                                            <i class="fa fa-gift"></i> 查询</div>
+                                                            <i class="fa fa-search"></i> 筛选 </div>
                                                         <div class="tools">
                                                             <a href="javascript:;" class="collapse"> </a>
                                                         </div>
@@ -50,15 +50,67 @@
                                                                 <div class="row">
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">用户</label>
-                                                                    <div class="col-md-3">
-                                                                        <input id="customerId" name="customerId" type="text" class="form-control input-circle" placeholder=""  v-model="customerId">
+                                                                    <div class="col-md-1">
+                                                                            <a href="javascript:;" class="btn btn-circle btn-sm red"> 选择
+                                                                                <span class="fa fa-search"> </span>
+                                                                            </a>
                                                                     </div>
-                                                                    <label class="col-md-1 control-label">公司</label>
-                                                                    <div class="col-md-3">
-                                                                        <input id="companyId" name="companyId" type="text" class="form-control input-circle" placeholder=""  v-model="companyId">
+                                                                    <div class="col-md-9">
+                                                                        xx
                                                                     </div>
                                                                  </div>
                                                                 </div>
+
+                                                                <div class="row">
+                                                                 <div class="form-group">
+                                                                    <label class="col-md-1 control-label">公司</label>
+                                                                    <div class="col-md-1">
+                                                                            <a href="javascript:;" class="btn btn-circle btn-sm red"> 选择
+                                                                                <span class="fa fa-search"> </span>
+                                                                            </a>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        xx
+                                                                    </div>
+                                                                 </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                 <div class="form-group">
+                                                                    <label class="col-md-1 control-label">时间</label>
+                                                                    <div class="col-md-1">
+
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        xx
+                                                                    </div>
+                                                                 </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                 <div class="form-group">
+                                                                    <label class="col-md-1 control-label">订单状态</label>
+                                                                    <div class="col-md-1">
+
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        xx
+                                                                    </div>
+                                                                 </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                 <div class="form-group">
+                                                                    <label class="col-md-1 control-label">付款状态</label>
+                                                                    <div class="col-md-1">
+
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        xx
+                                                                    </div>
+                                                                 </div>
+                                                                </div>
+
                                                             </div>
                                                             <div class="form-actions right">
                                                                 <div class="row">
@@ -124,10 +176,10 @@
                 <td style="width:7%;" v-html='changeOrderStatus(item.orderStatus)'> </td>
                 <td style="width:7%;" v-html='changePaymentStatus(item.paymentStatus)'> </td>
                 <td style="width:6%;"> 
-				<a data-toggle="modal" href="#editLunchOrderModal" @click="showEditModel(item,true)" class="btn btn-sm grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editLunchOrderModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:6%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteLunchOrder(item)" class="btn btn-sm dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteLunchOrder(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -375,26 +427,26 @@
 			changeOrderStatus(cellValue){
 			    var stauts = cellValue;
 			    if(cellValue == '0'){
-				    stauts = '<span class="label label-sm label-info"> 待确认 </span>';
+				    stauts = '<span class="badge badge-info"> 待确认 </span>';
 				}else if(cellValue == '1'){
-				    stauts = '<span class="label label-sm label-primary"> 已确认 </span>';
+				    stauts = '<span class="badge badge-primary"> 已确认 </span>';
 				}else if(cellValue == '2'){
-				    stauts = '<span class="label label-sm label-danger"> 已取消 </span>';
+				    stauts = '<span class="badge badge-danger"> 已取消 </span>';
 				}else if(cellValue == '9'){
-				    stauts = '<span class="label label-sm label-warning"> 配送中 </span>';
+				    stauts = '<span class="badge badge-warning"> 配送中 </span>';
 				}else if(cellValue == '10'){
-				    stauts = '<span class="label label-sm label-success"> 已完成 </span>';
+				    stauts = '<span class="badge badge-success"> 已完成 </span>';
 				}
                 return stauts;
             },
 			changePaymentStatus(cellValue){
 			    var stauts = cellValue;
 			    if(cellValue == '0'){
-				    stauts = '<span class="label label-sm label-info"> 未付款 </span>';
+				    stauts = '<span class="badge badge-danger"> 未付款 </span>';
 				}else if(cellValue == '1'){
-				    stauts = '<span class="label label-sm label-primary"> 已付款 </span>';
+				    stauts = '<span class="badge badge-info"> 已付款 </span>';
 				}else if(cellValue == '2'){
-				    stauts = '<span class="label label-sm label-warning"> 部分付款 </span>';
+				    stauts = '<span class="badge badge-warning"> 部分付款 </span>';
 				}
                 return stauts;
             }
