@@ -238,7 +238,8 @@ export default {
            ],		  
            paymentStatusOptions: [
                 { text: ' 未付款 ', value: '0' },
-				{ text: ' 已付款 ', value: '1' }
+				{ text: ' 已付款 ', value: '1' },
+                { text: ' 部分付款 ', value: '2' }
            ],
 		   viewType: false, //为true显示 view模式，如果为false 则为编辑模式
 		   addType: false //为true显示 add模式

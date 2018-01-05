@@ -89,11 +89,9 @@
                                                                 <div class="row">
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">时间</label>
-                                                                    <div class="col-md-1">
 
-                                                                    </div>
                                                                     <div class="col-md-9">
-                                                                        xx
+                                                                        
                                                                     </div>
                                                                  </div>
                                                                 </div>
@@ -101,11 +99,17 @@
                                                                 <div class="row">
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">订单状态</label>
-                                                                    <div class="col-md-1">
-
-                                                                    </div>
                                                                     <div class="col-md-9">
-                                                                        xx
+
+                                                         <div class="md-checkbox-inline" id="orderStatusCheckbox">
+                                                            <div class="md-checkbox" v-for="(item,index) in orderStatusOptions">
+                                                                <input type="checkbox" :id="'orderstauts' + item.value" class="md-check" :value='item.value' v-model='selectedOrderStatus'>
+                                                                <label :for="'orderstauts' + item.value">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> {{item.text}}</label>
+                                                            </div>
+                                                         </div>
                                                                     </div>
                                                                  </div>
                                                                 </div>
@@ -113,11 +117,19 @@
                                                                 <div class="row">
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">付款状态</label>
-                                                                    <div class="col-md-1">
 
-                                                                    </div>
                                                                     <div class="col-md-9">
-                                                                        xx
+
+                                                         <div class="md-checkbox-inline" id="paymentStatusCheckbox">
+                                                            <div class="md-checkbox" v-for="(item,index) in paymentStatusOptions">
+                                                                <input type="checkbox" :id="'pay-' + item.value" class="md-check" :value='item.value' v-model='selectedPaymentStatus'>
+                                                                <label :for="'pay-' + item.value">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> {{item.text}}</label>
+                                                            </div>
+                                                         </div>
+
                                                                     </div>
                                                                  </div>
                                                                 </div>
@@ -271,7 +283,8 @@
                 ],		  
                 paymentStatusOptions: [
                   { text: ' 未付款 ', value: '0' },
-				  { text: ' 已付款 ', value: '1' }
+				  { text: ' 已付款 ', value: '1' },
+                  { text: ' 部分付款 ', value: '2' }
                 ],
                 pageSize : 15 , //每页显示30条数据
                 currentPage : 1, //当前页码
@@ -311,7 +324,9 @@
                 selectedCompanyNames:[],
                 selectedCompanyIds:[],
                 selectedCustomerNames:[],
-                selectedCustomerIds:[]
+                selectedCustomerIds:[],
+                selectedOrderStatus:[],
+                selectedPaymentStatus:[]
             }
         },
         methods:{
@@ -335,10 +350,32 @@
                     this.customerId = this.customerId.substr(1);
                 }
 
+                var orderStatus = '';
+                this.selectedOrderStatus.forEach(function(item) {
+                    orderStatus = orderStatus + "," + item;
+                });
+                if(orderStatus != ''){
+                    orderStatus = orderStatus.substr(1);
+                }
+
+                var paymentStatus = '';
+                this.selectedPaymentStatus.forEach(function(item) {
+                    paymentStatus = paymentStatus + "," + item;
+                });
+                if(paymentStatus != ''){
+                    paymentStatus = paymentStatus.substr(1);
+                }
+
+                var conditions = "";
+                conditions += 'companyId::=::' + this.companyId;
+                conditions += '$customerId::=::' + this.customerId;
+                conditions += '$orderStatus::=::' + orderStatus;
+                conditions += '$paymentStatus::=::' + paymentStatus;
+
 			    this.progressBar = true; //显示加载条
 				this.$http.get('/lunchOrders',{
                 params: {
-                    conditionsStr: 'companyId::=::' + this.companyId + '$customerId::=::' + this.customerId,
+                    conditionsStr: conditions,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -376,6 +413,8 @@
                 this.selectedCompanyNames = [];
 				this.selectedCustomerIds = [];
                 this.selectedCustomerNames = [];
+                this.selectedOrderStatus = [],
+                this.selectedPaymentStatus = [],
                 this.currentPage = 1;
 				this.sortColumn = '';
 				this.sortType = '';
@@ -386,6 +425,8 @@
                 this.selectedCompanyNames = [];
 				this.selectedCustomerIds = [];
                 this.selectedCustomerNames = [];
+                this.selectedOrderStatus = [],
+                this.selectedPaymentStatus = [],
                 this.currentPage = 1;
                 this.getList();
             },
