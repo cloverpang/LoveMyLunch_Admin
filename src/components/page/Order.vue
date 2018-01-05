@@ -530,13 +530,47 @@
             },
             loadCompanyPopupData(){
                 this.loadCompanyData = true;
-                this.$children[5].companyNames = this.selectedCompanyNames;
-                this.$children[5].companyIds = this.selectedCompanyIds;
+                //this.$children[5].companyNames = this.selectedCompanyNames;
+                //this.$children[5].companyIds = this.selectedCompanyIds;
+
+                //先清空
+                this.$children[5].companyNames = [];
+                this.$children[5].companyIds = [];
+ 
+                var _this = this; 
+                if(this.selectedCompanyNames.length > 0){
+                    this.selectedCompanyNames.forEach(function(item){
+                      _this.$children[5].companyNames.push(item);
+                    });
+                }
+
+                if(this.selectedCompanyIds.length > 0){
+                    this.selectedCompanyIds.forEach(function(item){
+                      _this.$children[5].companyIds.push(item);
+                    });
+                }
             },
             loadCustomerPopupData(){
                 this.loadCustomerData = true;
-                this.$children[6].customerNames = this.selectedCustomerNames;
-                this.$children[6].customerIds = this.selectedCustomerIds;
+                //this.$children[6].customerNames = this.selectedCustomerNames;
+                //this.$children[6].customerIds = this.selectedCustomerIds;
+
+                //先清空
+                this.$children[6].customerNames = [];
+                this.$children[6].customerIds = [];
+ 
+                var _this = this; 
+                if(this.selectedCustomerNames.length > 0){
+                    this.selectedCustomerNames.forEach(function(item){
+                      _this.$children[6].customerNames.push(item);
+                    });
+                }
+
+                if(this.selectedCustomerIds.length > 0){
+                    this.selectedCustomerIds.forEach(function(item){
+                      _this.$children[6].customerIds.push(item);
+                    });
+                }
             },
             deleteSelectedCompany(name,index){
                    this.selectedCompanyIds.splice(index,1);

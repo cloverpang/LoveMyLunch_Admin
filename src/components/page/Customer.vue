@@ -397,8 +397,25 @@
             },
             loadCompanyPopupData(){
                 this.loadCompanyData = true;
-                this.$children[5].companyNames = this.selectedCompanyNames;
-                this.$children[5].companyIds = this.selectedCompanyIds;
+                //this.$children[5].companyNames = this.selectedCompanyNames;
+                //this.$children[5].companyIds = this.selectedCompanyIds;
+
+                //先清空
+                this.$children[5].companyNames = [];
+                this.$children[5].companyIds = [];
+ 
+                var _this = this; 
+                if(this.selectedCompanyNames.length > 0){
+                    this.selectedCompanyNames.forEach(function(item){
+                      _this.$children[5].companyNames.push(item);
+                    });
+                }
+
+                if(this.selectedCompanyIds.length > 0){
+                    this.selectedCompanyIds.forEach(function(item){
+                      _this.$children[5].companyIds.push(item);
+                    });
+                }
             },
             deleteSelectedCompany(name,index){
                    this.selectedCompanyIds.splice(index,1);
