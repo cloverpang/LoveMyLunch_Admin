@@ -38,6 +38,23 @@ export function formatMintuesDate(dateString) {
     return currentdate;
 }
 
+// 格式'yyyy-MM-dd'
+export function formatNormalDate(dateString) {
+    var date = new Date(dateString);
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+    return currentdate;
+}
+
 
 // 格式化时间(****年*月*日)
 export function formatDate(dateString) {

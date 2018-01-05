@@ -88,10 +88,16 @@
 
                                                                 <div class="row">
                                                                  <div class="form-group">
-                                                                    <label class="col-md-1 control-label">时间</label>
+                                                                    <label class="col-md-1 control-label">下单时间 </label>
 
-                                                                    <div class="col-md-9">
-                                                                        
+                                                                    <div class="col-md-3">                                                            
+                                                                       
+                                                                   <datepicker v-model="startDate" class="picker"></datepicker>
+                                                                    </div>
+
+                                                                    <label class="col-md-1 control-label">到</label>
+                                                                    <div class="col-md-3">
+                                                                       <datepicker v-model="endDate" class="picker"></datepicker>
                                                                     </div>
                                                                  </div>
                                                                 </div>
@@ -257,10 +263,11 @@
 	import vCustomerListPopup from './CustomerListPopup';
 
 	import vLunchOrderEdit from './LunchOrderEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate} from '../../utils/common.js';
+
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vLunchOrderEdit,tableDataLoadingProgress,vCompanyListPopup,vCustomerListPopup
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vLunchOrderEdit,tableDataLoadingProgress,vCompanyListPopup,vCustomerListPopup,datepicker 
         },
         data () {
             return {
@@ -326,7 +333,9 @@
                 selectedCustomerNames:[],
                 selectedCustomerIds:[],
                 selectedOrderStatus:[],
-                selectedPaymentStatus:[]
+                selectedPaymentStatus:[],
+                startDate : '',
+                endDate : ''
             }
         },
         methods:{
@@ -371,6 +380,17 @@
                 conditions += '$customerId::=::' + this.customerId;
                 conditions += '$orderStatus::=::' + orderStatus;
                 conditions += '$paymentStatus::=::' + paymentStatus;
+                if(this.startDate != '' && this.endDate != ''){
+                   conditions += '$bookTime::between::' + this.startDate + ',' + this.endDate;
+                }else{
+                   if(this.startDate != ''){
+                       conditions += '$bookTime::gt::' + this.startDate
+                   }
+
+                   if(this.endDate != ''){
+                       conditions += '$bookTime::lt::' + this.endDate
+                   }
+                }
 
 			    this.progressBar = true; //显示加载条
 				this.$http.get('/lunchOrders',{
@@ -409,18 +429,11 @@
                 this.getList();
             },
 			handleReload(){
-				this.selectedCompanyIds = [];
-                this.selectedCompanyNames = [];
-				this.selectedCustomerIds = [];
-                this.selectedCustomerNames = [];
-                this.selectedOrderStatus = [],
-                this.selectedPaymentStatus = [],
-                this.currentPage = 1;
-				this.sortColumn = '';
-				this.sortType = '';
                 this.getList();
             },
 			handleCancelSearch(){
+                this.startDate = '';
+                this.endDate = '';
 				this.selectedCompanyIds = [];
                 this.selectedCompanyNames = [];
 				this.selectedCustomerIds = [];
@@ -501,6 +514,9 @@
             },
             formatMintuesDate(cellValue){
                 return formatMintuesDate(cellValue);
+            },
+            formatNormalDate(cellValue){
+                return formatNormalDate(cellValue);
             },
 			changeOrderStatus(cellValue){
 			    var stauts = cellValue;
