@@ -50,15 +50,35 @@
                                                                 <div class="row">
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">用户姓名</label>
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-2">
                                                                         <input id="customerName" name="customerName" type="text" class="form-control input-circle" placeholder="用户姓名"  v-model="customerName">
                                                                     </div>
                                                                     <label class="col-md-1 control-label">登陆账号</label>
-                                                                    <div class="col-md-3">
+                                                                    <div class="col-md-2">
                                                                         <input id="customerLogin" name="customerLogin" type="text" class="form-control input-circle" placeholder="登陆账号"  v-model="customerLogin">
                                                                     </div>
                                                                  </div>
                                                                 </div>
+
+                                                               <div class="row">
+                                                                 <div class="form-group">
+                                                                    <label class="col-md-1 control-label">公司</label>
+                                                                    <div class="col-md-2">
+                                                                            <a  data-toggle="modal" href="#companyListPopup" class="btn btn-circle btn-sm red" @click="loadCompanyPopupData"> 选择
+                                                                                <span class="fa fa-search"> </span>
+                                                                            </a>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+
+                                      <span style="padding-left:5px;padding-right:5px;" v-for="(name,index) in selectedCompanyNames"> 
+                                          <button type="button" @click="deleteSelectedCompany(name,index)" class="btn btn-circle btn-sm blue-hoki"> 
+                                           {{name}} <i class="fa fa-times"></i>
+                                          </button>
+                                      </span>
+                                                                    </div>
+                                                                 </div>
+                                                                </div>
+
                                                             </div>
                                                             <div class="form-actions right">
                                                                 <div class="row">
@@ -110,7 +130,7 @@
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" id="span-item.customerId">
+             <tr v-for="(item,index) in items" :id="item.customerId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
                 <td style="width:20%;"> <a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,false)">{{item.customerName}}</a> </td>
                 <td style="width:20%;">{{item.customerLogin}} </td>
@@ -156,6 +176,8 @@
         <vCustomerEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCustomerEdit>
 											
 		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.customerId" :itemName="model.customerName" @handleConfirm="handleDelete"></vConfirmModal>
+
+        <vCompanyListPopup :loadData=loadCompanyData></vCompanyListPopup>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -171,10 +193,12 @@
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vCustomerEdit from './customerEdit';
+    import vCompanyListPopup from './CompanyListPopup';
+
 	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCustomerEdit,tableDataLoadingProgress
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCustomerEdit,tableDataLoadingProgress,vCompanyListPopup
         },
         data () {
             return {
@@ -214,14 +238,22 @@
 				viewType:false,
 				addType:false,
                 companyId:this.$route.query.id,
-                companyName:this.$route.query.name
+                companyName:this.$route.query.name,
+                loadCompanyData:false,
+                selectedCompanyNames:[],
+                selectedCompanyIds:[],
             }
         },
         methods:{
             //获取数据
             getList () {
-                if(this.companyId == 'undefined' || this.companyId == undefined){
-                     this.companyId = '';
+                this.companyId = '';
+                var _this = this; 
+                 _this.selectedCompanyIds.forEach(function(item) {
+                    _this.companyId = _this.companyId + "," + item;
+                });
+                if(this.companyId != ''){
+                    this.companyId = this.companyId.substr(1);
                 }
 
 			    this.progressBar = true; //显示加载条
@@ -271,6 +303,8 @@
 			handleCancelSearch(){
 			    this.customerName = '';
 				this.customerLogin = '';
+				this.selectedCompanyIds = [];
+                this.selectedCompanyNames = [];
                 this.currentPage = 1;
                 this.getList();
             },
@@ -360,12 +394,28 @@
 				    type = '<span > 公司主用户 </span>';
 				}
                 return type;
+            },
+            loadCompanyPopupData(){
+                this.loadCompanyData = true;
+                this.$children[5].companyNames = this.selectedCompanyNames;
+                this.$children[5].companyIds = this.selectedCompanyIds;
+            },
+            deleteSelectedCompany(name,index){
+                   this.selectedCompanyIds.splice(index,1);
+                   this.selectedCompanyNames.splice(index,1);
             }
         },
 		beforeCreate(){
 
 		},
         beforeMount(){
+           if(this.companyId != 'undefined' && this.companyId != undefined){
+                this.selectedCompanyIds.push(this.companyId);
+           }
+           if(this.companyName != 'undefined' && this.companyName != undefined){
+                this.selectedCompanyNames.push(this.companyName);
+           }
+
             this.getList();
         },
         watch: {

@@ -2,12 +2,12 @@
 
 
                                             <!-- /.modal -->
-                                            <div class="modal fade bs-modal-lg" id="companyListPopup" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal fade bs-modal-lg" id="customerListPopup" tabindex="-1" role="dialog" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-															<h4 class="modal-title" v-show="!loadingPopupData"> 请选择公司 </h4> 
+															<h4 class="modal-title" v-show="!loadingPopupData"> 请选择用户 </h4> 
                                                             <h4 class="modal-title" v-show="loadingPopupData"> 数据加载中 ... ... </h4>
                                                         </div>
                                            <div class="modal-body">             
@@ -15,9 +15,9 @@
                                                             
                                 <div class="form-group">
                                                     <div class="input-group input-medium" v-show="!loadingPopupData">
-                                                        <input type="text" class="form-control" placeholder="公司名 or 公司代码"  v-model="keyword">
+                                                        <input type="text" class="form-control" placeholder="用户名 or 登录账号"  v-model="keyword">
                                                         <span class="input-group-btn">
-                                                            <button type="submit" class="btn green" @click="handleSearchCompany">
+                                                            <button type="submit" class="btn green" @click="handleSearchCustomer">
                                                                 <i class="fa fa-search"></i>
                                                             </button>
                                                         </span>
@@ -29,18 +29,18 @@
                                         <table class="table table-striped table-hover">
 
                                             <tbody>
-                                                <tr v-for="(item,index) in items" id="span-item.companyId">
+                                                <tr v-for="(item,index) in items" id="span-item.customerId">
                                                     <td style="width:10%;">
                                                            <div class="md-checkbox">
-                                                                <input type="checkbox" :id="item.companyId" class="md-check" :value='item.companyId' v-model='companyIds' disabled>
-                                                                <label :for="item.companyId">
+                                                                <input type="checkbox" :id="item.customerId" class="md-check" :value='item.customerId' v-model='customerIds' disabled>
+                                                                <label :for="item.customerId">
                                                                     <span></span>
                                                                     <span class="check"></span>
                                                                     <span class="box"></span>   </label>
                                                             </div>
                                                     </td>
                                                     <td style="width:90%;"> 
-                                                     <a href="javascript:void(0);" @click="selectCompany(item.companyName,item.companyId)"> {{item.companyName}} </a> 
+                                                     <a href="javascript:void(0);" @click="selectCustomer(item.customerName,item.customerId)"> {{item.customerName}} </a> 
                                                     </td>
                                                 </tr> 
                                             </tbody>
@@ -72,11 +72,11 @@
 </template>
 
 <script>
-import company from '../models/company';
+import customer from '../models/customer';
 import vMoPaging from './../Common/Paging';
 import {showNotice} from '../../utils/common.js';
 export default {
-    name : 'companyListPopup',
+    name : 'customerListPopup',
     components: {
 		    vMoPaging
     },
@@ -85,10 +85,10 @@ export default {
         loadData : { 
             default : false 
         },
-        selectedCompanyNames : { 
+        selectedCustomerNames : { 
             default : [] 
         },
-        selectedCompanyIds : { 
+        selectedCustomerIds : { 
             default : [] 
         }
     },
@@ -96,9 +96,9 @@ export default {
             //获取数据
             getPopupDataList () {
 			    this.loadingPopupData = true; //显示加载条
-				this.$http.get('/companies',{
+				this.$http.get('/customers',{
                 params: {
-                    conditionsStr: 'companyName::like::' + this.keyword + '$companyCode::like::' + this.keyword,
+                    conditionsStr: 'customerName::like::' + this.keyword + '$customerLogin::like::' + this.keyword,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -125,53 +125,36 @@ export default {
                 this.currentPage = page;
                 this.getPopupDataList();
             },
-            handleSearchCompany(){
+            handleSearchCustomer(){
                 this.currentPage = 1;
                 this.getPopupDataList();
             },
-            addCompany(companyName,companyId){
-                //alert(companyName + companyId);
-                this.companyNames.push(companyName);
-                this.companyIds.push(companyId);
+            addCustomer(customerName,customerId){
+                //alert(customerName + customerId);
+                this.customerNames.push(customerName);
+                this.customerIds.push(customerId);
             },
-            selectCompany(companyName,companyId){
+            selectCustomer(customerName,customerId){
                 //先判断当前ID是否在数组中
-                if(this.companyIds.indexOf(companyId) !== -1){
-                   var index = this.companyIds.indexOf(companyId);
-                   this.companyIds.splice(index,1);
-                   this.companyNames.splice(index,1);
+                if(this.customerIds.indexOf(customerId) !== -1){
+                   var index = this.customerIds.indexOf(customerId);
+                   this.customerIds.splice(index,1);
+                   this.customerNames.splice(index,1);
                 }else{
-                   this.companyNames.push(companyName);
-                   this.companyIds.push(companyId);
+                   this.customerNames.push(customerName);
+                   this.customerIds.push(customerId);
                 }
             },
             //确定所选公司
             saveSelected(){
                 //使用$parent 直接赋值 
-                //this.$parent.selectedCompanyNames = this.companyNames;
-                //this.$parent.selectedCompanyIds = this.companyIds;
+                this.$parent.selectedCustomerNames = this.customerNames;
+                this.$parent.selectedCustomerIds = this.customerIds;
 
-                
-                //先清空
-                this.$parent.selectedCompanyNames = [];
-                this.$parent.selectedCompanyIds = [];
- 
-                var _this = this; 
-                if(this.companyNames.length > 0){
-                    this.companyNames.forEach(function(item){
-                      _this.$parent.selectedCompanyNames.push(item);
-                    });
-                }
-
-                if(this.companyIds.length > 0){
-                    this.companyIds.forEach(function(item){
-                      _this.$parent.selectedCompanyIds.push(item);
-                    });
-                }
 
                 //调用父组件方法 
-                //this.$emit('handleSelected',this.companyNames,this.companyIds);	
-                $('#companyListPopup').modal('hide');
+                //this.$emit('handleSelected',this.customerNames,this.customerIds);	
+                $('#customerListPopup').modal('hide');
             }
     },
     computed : {
@@ -179,7 +162,7 @@ export default {
     },
     data () {
         return {
-           model:company,
+           model:customer,
            loadingPopupData:this.loadData,
            pageSize : 10 , //每页显示10条数据
            currentPage : 1, //当前页码
@@ -187,8 +170,8 @@ export default {
            count : 0, //总记录数
            items : [],
            keyword : '',
-           companyNames : this.selectedCompanyNames,
-           companyIds : this.selectedCompanyIds
+           customerNames : this.selectedCustomerNames,
+           customerIds : this.selectedCustomerIds
         }
     },
 	beforeMount(){
@@ -203,11 +186,11 @@ export default {
                this.getPopupDataList();
             }
         },
-        selectedCompanyNames(val) {
-            this.companyNames = val; 
+        selectedCustomerNames(val) {
+            this.customerNames = val; 
         },
-        selectedCompanyIds(val) {
-            this.companyIds = val; 
+        selectedCustomerIds(val) {
+            this.customerIds = val; 
         }
     }
 }

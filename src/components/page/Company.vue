@@ -154,7 +154,7 @@
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" id="span-item.companyId">
+             <tr v-for="(item,index) in items" :id="item.companyId">
                 <td style="width:5%;"> 
                                                             <label class="mt-checkbox"> 
                                                                 <input type="checkbox" class="icheck" data-checkbox="icheckbox_square-grey" :value='item.companyId' v-model='checkboxModel'/>

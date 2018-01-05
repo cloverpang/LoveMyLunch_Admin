@@ -51,12 +51,18 @@
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">用户</label>
                                                                     <div class="col-md-1">
-                                                                            <a data-toggle="modal" href="#customerListPopup" class="btn btn-circle btn-sm red"> 选择
+                                                                            <a data-toggle="modal" href="#customerListPopup" class="btn btn-circle btn-sm red" @click="loadCustomerPopupData"> 选择
                                                                                 <span class="fa fa-search"> </span>
                                                                             </a>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        xx
+
+                                      <span style="padding-left:5px;padding-right:5px;" v-for="(name,index) in selectedCustomerNames"> 
+                                          <button type="button" @click="deleteSelectedCustomer(name,index)" class="btn btn-circle btn-sm blue-hoki"> 
+                                           {{name}} <i class="fa fa-times"></i>
+                                          </button>
+                                      </span>
+
                                                                     </div>
                                                                  </div>
                                                                 </div>
@@ -70,7 +76,12 @@
                                                                             </a>
                                                                     </div>
                                                                     <div class="col-md-9">
-                                                                        xx
+
+                                      <span style="padding-left:5px;padding-right:5px;" v-for="(name,index) in selectedCompanyNames"> 
+                                          <button type="button" @click="deleteSelectedCompany(name,index)" class="btn btn-circle btn-sm blue-hoki"> 
+                                           {{name}} <i class="fa fa-times"></i>
+                                          </button>
+                                      </span>
                                                                     </div>
                                                                  </div>
                                                                 </div>
@@ -166,7 +177,7 @@
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" id="span-item.orderId">
+             <tr v-for="(item,index) in items" :id="item.orderId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
                 <td style="width:11%;"> <a data-toggle="modal" href="#editLunchOrderModal" @click="showEditModel(item,false)">{{item.orderNumber}}</a> </td>
                 <td style="width:8%;"> {{item.customerName}} </td>
@@ -214,8 +225,9 @@
 											
 		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.orderId" :itemName="model.customerName + ' 在 ' + formatMintuesDate(model.bookTime)  + ' 下的订单'" @handleConfirm="handleDelete"></vConfirmModal>
            
-        <vCompanyListPopup></vCompanyListPopup>
-         <!-- END CONTENT -->	
+        <vCompanyListPopup :loadData=loadCompanyData></vCompanyListPopup>
+        <vCustomerListPopup :loadData=loadCustomerData></vCustomerListPopup>
+          <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
 </template>
@@ -230,12 +242,13 @@
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 
     import vCompanyListPopup from './CompanyListPopup';
-	
+	import vCustomerListPopup from './CustomerListPopup';
+
 	import vLunchOrderEdit from './LunchOrderEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vLunchOrderEdit,tableDataLoadingProgress,vCompanyListPopup
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vLunchOrderEdit,tableDataLoadingProgress,vCompanyListPopup,vCustomerListPopup
         },
         data () {
             return {
@@ -292,18 +305,34 @@
 				viewType:false,
 				addType:false,
                 companyId:'',
-                customerId:''
+                customerId:'',
+                loadCompanyData:false,
+                loadCustomerData:false,
+                selectedCompanyNames:[],
+                selectedCompanyIds:[],
+                selectedCustomerNames:[],
+                selectedCustomerIds:[]
             }
         },
         methods:{
             //获取数据
             getList () {
-                if(this.companyId == 'undefined' || this.companyId == undefined){
-                     this.companyId = '';
+                this.companyId = '';
+                var _this = this; 
+                 _this.selectedCompanyIds.forEach(function(item) {
+                    _this.companyId = _this.companyId + "," + item;
+                });
+                if(this.companyId != ''){
+                    this.companyId = this.companyId.substr(1);
                 }
 
-                if(this.customerId == 'undefined' || this.customerId == undefined){
-                     this.customerId = '';
+                this.customerId = '';
+                var _this = this; 
+                 _this.selectedCustomerIds.forEach(function(item) {
+                    _this.customerId = _this.customerId + "," + item;
+                });
+                if(this.customerId != ''){
+                    this.customerId = this.customerId.substr(1);
                 }
 
 			    this.progressBar = true; //显示加载条
@@ -343,16 +372,20 @@
                 this.getList();
             },
 			handleReload(){
-			    this.customerName = ''; 
-				this.customerLogin = '';
+				this.selectedCompanyIds = [];
+                this.selectedCompanyNames = [];
+				this.selectedCustomerIds = [];
+                this.selectedCustomerNames = [];
                 this.currentPage = 1;
 				this.sortColumn = '';
 				this.sortType = '';
                 this.getList();
             },
 			handleCancelSearch(){
-			    this.customerId = '';
-				this.companyId = '';
+				this.selectedCompanyIds = [];
+                this.selectedCompanyNames = [];
+				this.selectedCustomerIds = [];
+                this.selectedCustomerNames = [];
                 this.currentPage = 1;
                 this.getList();
             },
@@ -456,8 +489,21 @@
             },
             loadCompanyPopupData(){
                 this.loadCompanyData = true;
-                this.$children[5].loadingPopupData = true;
-                this.$children[5].getPopupDataList();
+                this.$children[5].companyNames = this.selectedCompanyNames;
+                this.$children[5].companyIds = this.selectedCompanyIds;
+            },
+            loadCustomerPopupData(){
+                this.loadCustomerData = true;
+                this.$children[6].customerNames = this.selectedCustomerNames;
+                this.$children[6].customerIds = this.selectedCustomerIds;
+            },
+            deleteSelectedCompany(name,index){
+                   this.selectedCompanyIds.splice(index,1);
+                   this.selectedCompanyNames.splice(index,1);
+            },
+            deleteSelectedCustomer(name,index){
+                   this.selectedCustomerIds.splice(index,1);
+                   this.selectedCustomerNames.splice(index,1);
             }
         },
 		beforeCreate(){

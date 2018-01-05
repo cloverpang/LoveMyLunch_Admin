@@ -127,7 +127,7 @@
                                                <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
 
                                                <div class="row">
-                                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="(item,index) in items" id="span-item.dishId">
+                                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="(item,index) in items" :id="item.dishId">
                                                         <div class="mt-card-item">
                                                             <div class="mt-card-avatar mt-overlay-1">
                                                                 <img :src="item.dishImageSmall" />
