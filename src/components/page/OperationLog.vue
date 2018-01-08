@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>客户公司
+                            <h1>系统日志
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>客户公司</span>
+                                <span>系统日志</span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -48,16 +48,19 @@
                                                         <form id="form" class="form-horizontal">
                                                             <div class="form-body">
                                                                 <div class="row">
-                                                                <div class="form-group">
-                                                                    <label class="col-md-1 control-label">公司名</label>
-                                                                    <div class="col-md-3">
-                                                                        <input id="companyName" name="companyName" type="text" class="form-control input-circle" placeholder="公司名"  v-model="companyName">
+                                                                 <div class="form-group">
+                                                                    <label class="col-md-1 control-label">时间 </label>
+
+                                                                    <div class="col-md-3">                                                            
+                                                                       
+                                                                   <datepicker v-model="startDate" class="picker"></datepicker>
                                                                     </div>
-                                                                    <label class="col-md-1 control-label">公司代码</label>
+
+                                                                    <label class="col-md-1 control-label">到</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="companyCode" name="companyCode" type="text" class="form-control input-circle" placeholder="公司代码"  v-model="companyCode">
+                                                                       <datepicker v-model="endDate" class="picker"></datepicker>
                                                                     </div>
-                                                                </div>
+                                                                 </div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-actions right">
@@ -91,15 +94,9 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="btn-group">
-                                                            <a data-toggle="modal" href="#editCompanyModal" class="btn btn-outline dark" @click="showAddModel()"> 添加新公司
-                                                                <i class="fa fa-plus"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="btn-group">
                                                             <a class="btn btn-outline dark" @click="batchDelete()"> 批量删除
                                                                 <i class="fa fa-times"></i>
                                                             </a>
-
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -134,34 +131,33 @@
                                                         <tr>
                                                             <th style="width:5%;"> 
 				                                           <div class="md-checkbox">
-                                                                <input type="checkbox" id="checkAllCompany" class="md-check" v-model='checkAll' v-on:click='checkedAll'>
-                                                                <label for="checkAllCompany">
+                                                                <input type="checkbox" id="checkAllLog" class="md-check" v-model='checkAll' v-on:click='checkedAll'>
+                                                                <label for="checkAllLog">
                                                                     <span></span>
                                                                     <span class="check"></span>
                                                                     <span class="box"></span> </label>
                                                             </div>
                                                             </th>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:30%;"> 公司名称 
-                                                            <vPageSort :sortColumn="'companyName'" @handleSort="handleSort"></vPageSort>
+                                                            <th style="width:20%;"> URL 
+                                                            <vPageSort :sortColumn="'operationUrl'" @handleSort="operationUrl"></vPageSort>
                                                             </th>
-                                                            <th style="width:15%;"> 公司代码
-                                                            <vPageSort :sortColumn="'companyCode'" @handleSort="handleSort"></vPageSort>
+                                                            <th style="width:10%;"> 名称
+                                                            <vPageSort :sortColumn="'operationName'" @handleSort="operationName"></vPageSort>
 															</th>
-                                                            <th style="width:12%;"> 开始时间 </th>
-                                                            <th style="width:8%;"> 状态 </th>
-                                                            <th style="width:10%;"> 服务人数 </th>
-                                                            <th style="width:7%;"> 操作 </th>
-															<th style="width:8%;">  </th>
+                                                            <th style="width:15%;"> 操作时间 </th>
+                                                            <th style="width:10%;"> 操作人 </th>
+															<th style="width:30%;"> 返回结果 </th>
+                                                            <th style="width:5%;"> 操作 </th>
                                                         </tr>
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" :id="item.companyId">
+             <tr v-for="(item,index) in items" :id="item.operationId">
                 <td style="width:5%;"> 
 				                                           <div class="md-checkbox">
-                                                                <input type="checkbox" :id="'company-' + item.companyId" class="md-check" :value='item.companyId' v-model='checkboxModel'>
-                                                                <label :for="'company-' + item.companyId">
+                                                                <input type="checkbox" :id="'operationLog-' + item.operationId" class="md-check" :value='item.operationId' v-model='checkboxModel'>
+                                                                <label :for="'operationLog-' + item.operationId">
                                                                     <span></span>
                                                                     <span class="check"></span>
                                                                     <span class="box"></span> </label>
@@ -169,19 +165,17 @@
 															
                 </td>
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:30%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,false)">{{item.companyName}}</a> </td>
-                <td style="width:15%;">{{item.companyCode}} </td>
-                <td style="width:12%;"> {{formatterDate(item.joinTime)}}  </td>
-                <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
+                <td style="width:20%;"> <a data-toggle="modal" href="#showOperationLogModal" @click="showViewModel(item,false)">{{item.operationUrl}}</a> </td>
+                <td style="width:10%;">{{item.operationName}} </td>
+                <td style="width:15%;"> {{formatMintuesDate(item.createTime)}}  </td>
                 <td style="width:10%;"> 
-                    <router-link :to="{path:'customer',query: {id:item.companyId,name:item.companyName}}" target="_blank"> {{item.companyCustomerQuantity}} </router-link>
-                    <!-- <router-link :to="{name:'customer',params: { id:item.companyId }}" target="_blank"> 公司人员 </router-link>-->
-               </td>
-                <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
-				</td>
-				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
+                    {{item.operationUser}}
+                </td>
+				<td style="width:30%;"> 
+                    {{limitStringLength(item.operationReturn)}}
+                </td>
+				<td style="width:5%;">  
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteOperationLog(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -212,9 +206,9 @@
                 <!-- END CONTENT BODY -->
             </div>
 
-        <vCompanyEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCompanyEdit>
+        <vOperationLogView :model=model :viewType=viewType :addType=addType ></vOperationLogView>
 											
-		<vConfirmModal :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.operationId" :itemName="'该条log'" @handleConfirm="handleDelete"></vConfirmModal>
         <vConfirmModal :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
@@ -222,7 +216,7 @@
 </template>
 
 <script>
-    import company from '../models/company';
+    import operationLog from '../models/operationLog';
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
@@ -230,18 +224,18 @@
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
-	import vCompanyEdit from './companyEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
+	import vOperationLogView from './OperationLogView';
+	import {formatUnixDate,formatMintuesDate,showTip,showNotice,limitStringLength} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCompanyEdit,tableDataLoadingProgress
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vOperationLogView,tableDataLoadingProgress,datepicker
         },
         data () {
             return {
 			    progressBar: true, //显示加载条
 				actionProgress: false, //
-			    companyName: '',
-				companyCode: '',
+			    operationLogName: '',
+				operationLogCode: '',
 				sortColumn: '',
 				sortType: '',
 				selected: '15',
@@ -255,31 +249,48 @@
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
-				model:company,
-				form:company,
+				model:operationLog,
+				form:operationLog,
 				form: {
-                    companyId: '',
-                    companyName: '',
-                    companyCode: '',
-                    companyAddress: '',
-                    companyLogoPath:'',
-					operationCenterCode: '',
-                    status: 0,
-                    joinTime: ''
+                    operationId: '',
+		            operationUrl: '',
+                    operationName: '',
+		            requestParameters: '',
+                    operationReturn: '',
+                    operationException: '',
+                    operationUser: '',
+                    operationToken: '',
+		            createTime: ''
                 },
 				viewType:false,
 				addType:false,
                 checkboxModel:[],
-                checkAll:false
+                checkAll:false,
+				startDate : '',
+                endDate : ''
             }
         },
         methods:{
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/companyExtends',{
+				var conditions = "";
+                if(this.startDate != '' && this.endDate != ''){
+                   conditions += '$createTime::between::' + this.startDate + ',' + this.endDate;
+                }else{
+                   if(this.startDate != ''){
+                       conditions += '$createTime::gt::' + this.startDate
+                   }
+
+                   if(this.endDate != ''){
+                       conditions += '$createTime::lt::' + this.endDate
+                   }
+                }
+
+				
+				this.$http.get('/operationLogs',{
                 params: {
-                    conditionsStr: 'companyName::like::' + this.companyName + '$companyCode::like::' + this.companyCode,
+                    conditionsStr: conditions,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -313,16 +324,16 @@
                 this.getList();
             },
 			handleReload(){
-			    this.companyName = ''; 
-				this.companyCode = '';
+			    this.operationLogName = ''; 
+				this.operationLogCode = '';
                 this.currentPage = 1;
 				this.sortColumn = '';
 				this.sortType = '';
                 this.getList();
             },
 			handleCancelSearch(){
-			    this.companyName = '';
-				this.companyCode = '';
+			    this.operationLogName = '';
+				this.operationLogCode = '';
                 this.currentPage = 1;
                 this.getList();
             },
@@ -339,12 +350,6 @@
                 this.pageSize = this.selected;
                 this.getList();
             },
-			//处理修改
-			handleSaveCompany(model){
-			     //this.model.companyName = model.companyName + 'xxxx';
-				 //this.model.companyCode = 'yyyy';
-				 //$('#editCompanyModal').modal('hide');
-            },
             //从page组件传递过来的当前page
             pageChange (page) {
                 this.currentPage = page
@@ -353,7 +358,7 @@
 			//处理删除
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/company/' + id,{
+					 this.$http.delete('/operationLog/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -367,10 +372,10 @@
                      });  
 			},
 			//处理删除
-			deleteCompany(item){
+			deleteOperationLog(item){
 			   this.model = item;
 			},
-			showEditModel(item,isEdit){
+			showViewModel(item,isEdit){
 			   //直接取行数据等于当前model,无需ajax调取，适合简单的数据
 			   if(isEdit){
 			     this.viewType = false;
@@ -379,32 +384,9 @@
 			   }
 			   this.addType = false;
 			   this.model = item;
-			   this.setForm();
 			},
-			showAddModel(){
-			    this.addType = true;
-				this.viewType = false;
-				//this.model = form();
-				//this.form = form();
-			},
-			setForm(){
-		      //this.form = this.model;
-		      this.form.companyName = this.model.companyName;
-			  this.form.companyCode = this.model.companyCode;
-			  this.form.companyAddress = this.model.companyAddress;
-			  this.form.status = this.model.status;
-		    },
-		    formatterDate(cellValue){
-                return formatDate(cellValue);
-            },
-			changeStatus(cellValue){
-			    var stauts = cellValue;
-			    if(cellValue == '0'){
-				    stauts = '<span class="label label-sm label-info"> 正常 </span>';
-				}else if(cellValue == '1'){
-				    stauts = '<span class="label label-sm label-danger"> 注销 </span>';
-				}
-                return stauts;
+		    formatMintuesDate(cellValue){
+                return formatMintuesDate(cellValue);
             },
             //选中所有
             checkedAll(){
@@ -414,7 +396,7 @@
                    }else{
                     _this.checkboxModel = [];
                     _this.items.forEach(function(item) {
-                    _this.checkboxModel.push(item.companyId);
+                    _this.checkboxModel.push(item.operationId);
                     });
                   }
             },
@@ -426,6 +408,9 @@
                     $('#batchDeleteConfirmModel').modal('show');
                 }
             },
+			limitStringLength(cellValue){
+			     return limitStringLength(cellValue,20);
+			},
             //批量删除
             handleBatchDelete(){
                 if(this.checkboxModel.length == 0){
@@ -441,7 +426,7 @@
                     ids = ids + "," + item;
                 });
 
-				this.$http.delete('/companies/' + ids,{
+				this.$http.delete('/operationLogs/' + ids,{
                 })
 				.then( (res) => {
                 //子组件监听到数据返回变化会自动更新DOM

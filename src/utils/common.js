@@ -158,6 +158,20 @@ export function showNotice(type,title,message){
 				}
 }
 
+export function limitStringLength(str, len) {
+        var str_length = 0;
+		if(null != len && len != ""){
+			str_length = parseInt(len);
+		}
+		
+		if(str.length <= str_length){
+			return str
+		}else{
+			return str.substr(0,str_length) + " ...";
+		}
+		
+}
+
 export function actionLoading(selector, text) {
 	text = (typeof text !== 'undefined') ? text : "保存中..."; // Default ajax text
 	

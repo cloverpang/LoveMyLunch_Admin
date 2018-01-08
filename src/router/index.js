@@ -6,6 +6,7 @@ import Company from '../components/page/Company.vue'
 import Customer from '../components/page/Customer.vue'
 import Product from '../components/page/Product.vue'
 import Order from '../components/page/Order.vue'
+import OperationLog from '../components/page/OperationLog.vue'
 import Login from '../components/page/Login.vue'
 import store from '../vuex/store'
 import * as types from '../vuex/types'
@@ -73,6 +74,16 @@ let router = new Router({
                         requireAuth: true,
                     },
                     component: Order
+                },
+                {
+                    path: '/log',
+                    //path: '/log/:id',
+                    name: 'log',
+                    linkActiveClass: 'active',
+                    meta: {
+                        requireAuth: true,
+                    },
+                    component: OperationLog
                 }
             ]
         },

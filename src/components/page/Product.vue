@@ -38,7 +38,7 @@
                                     <div class="portlet box red">
                                                     <div class="portlet-title">
                                                         <div class="caption">
-                                                            <i class="fa fa-gift"></i> 查询</div>
+                                                            <i class="fa fa-search"></i> 查询</div>
                                                         <div class="tools">
                                                             <a href="javascript:;" class="collapse"> </a>
                                                         </div>
