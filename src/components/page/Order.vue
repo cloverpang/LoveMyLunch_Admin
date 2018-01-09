@@ -95,7 +95,7 @@
                                                                    <datepicker v-model="startDate" class="picker"></datepicker>
                                                                     </div>
 
-                                                                    <label class="col-md-1 control-label">到</label>
+                                                                    <label class="col-md-1 control-label" style="text-align:center;">到</label>
                                                                     <div class="col-md-3">
                                                                        <datepicker v-model="endDate" class="picker"></datepicker>
                                                                     </div>

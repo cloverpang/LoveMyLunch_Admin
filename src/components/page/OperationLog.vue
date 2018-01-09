@@ -56,7 +56,7 @@
                                                                    <datepicker v-model="startDate" class="picker"></datepicker>
                                                                     </div>
 
-                                                                    <label class="col-md-1 control-label">到</label>
+                                                                    <label class="col-md-1 control-label" style="text-align:center;">到</label>
                                                                     <div class="col-md-3">
                                                                        <datepicker v-model="endDate" class="picker"></datepicker>
                                                                     </div>
@@ -166,7 +166,7 @@
 															
                 </td>
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:20%;word-wrap:break-word;word-break:break-all;"  ><a data-toggle="modal" href="#showOperationLogModal" @click="showViewModel(item,false)"> {{item.operationUrl}} </a> </td>
+                <td style="width:20%;word-wrap:break-word;word-break:break-all;"  ><a data-toggle="modal" href="#showOperationLogModal" @click="showViewModel(item,false)"> {{limitStringLength(item.operationUrl,60)}} </a> </td>
                 <td style="width:8%;">{{item.runTime}} ms</td>
                 <td style="width:15%;"> {{formatMintuesDate(item.createTime)}}  </td>
                 <td style="width:7%;"> 
@@ -176,7 +176,7 @@
                     {{item.operationName}}
                 </td>
 				<td style="width:20%;"> 
-                    {{limitStringLength(item.operationReturn)}}
+                    {{limitStringLength(item.operationReturn,20)}}
                 </td>
 				<td style="width:5%;">  
 			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteOperationLog(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
@@ -412,8 +412,8 @@
                     $('#batchDeleteConfirmModel').modal('show');
                 }
             },
-			limitStringLength(cellValue){
-			     return limitStringLength(cellValue,20);
+			limitStringLength(cellValue,len){
+			     return limitStringLength(cellValue,len);
 			},
             //批量删除
             handleBatchDelete(){
