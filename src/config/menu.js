@@ -55,7 +55,16 @@ export default [
     code: '/order',
 	path: '/order',
 	icon: 'fa fa-shopping-cart',
-	active: false
+	active: false,
+	items: [
+      {
+        name: '当天订单',
+        code: '/order',
+        path: '/order?type=today',
+		icon: 'fa fa-clock-o',
+		active: false
+      }
+    ]
   },
   {
     name: '配送',
@@ -80,13 +89,13 @@ export default [
       }
     ]
   },
-  {
-    name: '支付',
-    code: '/payment',
-	path: '/payment',
-	icon: 'fa fa-dollar',
-	active: false
-  },
+  //{
+    //name: '支付',
+    //code: '/payment',
+	//path: '/payment',
+	//icon: 'fa fa-dollar',
+	//active: false
+  //},
   {
     name: '统计',
     code: '/dashboard',

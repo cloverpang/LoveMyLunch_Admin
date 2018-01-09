@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>订单 
+                            <h1>订单 {{type}}
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>订单</span>
+                                <span>订单 {{type}}</span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -263,7 +263,7 @@
 	import vCustomerListPopup from './CustomerListPopup';
 
 	import vLunchOrderEdit from './LunchOrderEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay} from '../../utils/common.js';
 
     export default {
         components: {
@@ -335,10 +335,24 @@
                 selectedOrderStatus:[],
                 selectedPaymentStatus:[],
                 startDate : '',
-                endDate : ''
+                endDate : '',
+				type : this.$route.query.type
             }
         },
         methods:{
+		    getStatus (type) {
+              this.type = type;
+			  if(this.type == "today"){
+			     this.startDate = this.getNowFormatDay() + " 00:00:00";
+				 this.endDate = this.getNowFormatDay() + " 23:59:59"
+				 this.getList();
+			  }else{
+			     this.handleCancelSearch();
+			  }
+            },
+            getNowFormatDay() {
+			    return getNowFormatDay();
+            },
             //获取数据
             getList () {
                 this.companyId = '';
@@ -601,14 +615,14 @@
 
 		},
         beforeMount(){
-            this.getList();
+            //this.getList();
+        },
+		created () {
+             console.log(this.getStatus(this.$route.query.type))
         },
         watch: {
-            model: {
-                handler: function (newVal) {
-                    console.log(newVal)
-                },
-                deep: true
+		    '$route' (to, from) {
+               this.getStatus(this.$route.query.type);
             }
         }
     }

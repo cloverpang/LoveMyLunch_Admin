@@ -6,6 +6,7 @@ import Company from '../components/page/Company.vue'
 import Customer from '../components/page/Customer.vue'
 import Product from '../components/page/Product.vue'
 import Order from '../components/page/Order.vue'
+import Distributer from '../components/page/Distributer.vue'
 import OperationLog from '../components/page/OperationLog.vue'
 import Login from '../components/page/Login.vue'
 import store from '../vuex/store'
@@ -84,6 +85,16 @@ let router = new Router({
                         requireAuth: true,
                     },
                     component: OperationLog
+                },
+                {
+                    path: '/distributer',
+                    //path: '/distributer/:id',
+                    name: 'distributer',
+                    linkActiveClass: 'active',
+                    meta: {
+                        requireAuth: true,
+                    },
+                    component: Distributer
                 }
             ]
         },

@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>{{changeDishType(dishType)}}  
+                            <h1>配送员
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>{{changeDishType(dishType)}} </span>
+                                <span> 配送员 </span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -49,30 +49,14 @@
                                                             <div class="form-body">
                                                                 <div class="row">
                                                                  <div class="form-group">
-                                                                    <label class="col-md-1 control-label">名称</label>
+                                                                    <label class="col-md-1 control-label">姓名</label>
                                                                     <div class="col-md-3">
-                                                                        <input id="dishName" name="dishName" type="text" class="form-control input-circle" placeholder="名称"  v-model="dishName">
-                                                                    </div>
-                                                                    <label class="col-md-1 control-label">价格</label>
-                                                                    <div class="col-md-1">
-												                              <select v-model="priceSelected" class="form-control input-circle" style="color:#000000;display:inline;">
-                                                                                       <option v-for="option in priceOptions" v-model="option.value" v-bind:value="option.value">
-                                                                                       {{ option.text }}
-                                                                                       </option>
-                                                                              </select> 
+                                                                        <input id="distributerName" name="distributerName" type="text" class="form-control input-circle" placeholder=""  v-model="distributerName">
                                                                     </div>
                                                                     <label class="col-md-1 control-label">状态</label>
-                                                                    <div class="col-md-2">
+                                                                    <div class="col-md-3">
                                                                         	  <select v-model="statusSelected" class="form-control input-circle" style="color:#000000;display:inline;">
                                                                                        <option v-for="option in statusOptions" v-model="option.value" v-bind:value="option.value">
-                                                                                       {{ option.text }}
-                                                                                       </option>
-                                                                              </select> 
-                                                                    </div>
-                                                                    <label class="col-md-1 control-label">辣度</label>
-                                                                    <div class="col-md-1">
-                                                                        	  <select v-model="pepperSelected" class="form-control input-circle" style="color:#000000;display:inline;">
-                                                                                       <option v-for="option in pepperOptions" v-model="option.value" v-bind:value="option.value">
                                                                                        {{ option.text }}
                                                                                        </option>
                                                                               </select> 
@@ -110,7 +94,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="btn-group">
-                                                            <a data-toggle="modal" href="#editDishModal" class="btn btn-outline dark" @click="showAddModel()"> 添加新{{changeDishType(dishType)}}
+                                                            <a data-toggle="modal" href="#editDistributerModal" class="btn btn-outline dark" @click="showAddModel()"> 添加新的配送员
                                                                 <i class="fa fa-plus"></i>
                                                             </a>
                                                         </div>
@@ -130,16 +114,16 @@
                                                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="(item,index) in items" :id="item.dishId">
                                                         <div class="mt-card-item">
                                                             <div class="mt-card-avatar mt-overlay-1">
-                                                                <img :src="item.dishImageSmall" />
+                                                                <img :src="item.photoPath" />
                                                                 <div class="mt-overlay">
                                                                     <ul class="mt-info">
                                                                         <li>
-                                                                            <a class="btn default btn-outline" data-toggle="modal" href="#editDishModal" @click="showEditModel(item,false)">
+                                                                            <a class="btn default btn-outline" data-toggle="modal" href="#editDistributerModal" @click="showEditModel(item,false)">
                                                                                 <i class="icon-magnifier"></i>
                                                                             </a>
                                                                         </li>
                                                                         <li>
-                                                                           <a class="btn default btn-outline" data-toggle="modal" href="#editDishModal" @click="showEditModel(item,true)">
+                                                                           <a class="btn default btn-outline" data-toggle="modal" href="#editDistributerModal" @click="showEditModel(item,true)">
                                                                                 <i class="icon-link"></i>
                                                                             </a>
                                                                         </li>
@@ -147,18 +131,18 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mt-card-content">
-                                                                <h3 class="mt-card-name"><a data-toggle="modal" href="#editDishModal" @click="showEditModel(item,false)">{{item.dishName}}</a> </h3>
+                                                                <h3 class="mt-card-name"><a data-toggle="modal" href="#editDistributerModal" @click="showEditModel(item,false)">{{item.distributerName}}</a> </h3>
                                                                 <span class="mt-card-desc font-grey-mint" v-html='changeStatus(item.status)' style="padding-right:5px;"></span> 
-                                                                <span class="badge badge-info"> {{item.dishPrice}} 元 </span>
+                                                                <span class="badge badge-info"> {{item.mobile}}  </span>
                                                                 <div class="mt-card-social">
                                                                     <ul>
                                                                         <li>
-                                                                            <a data-toggle="modal" href="#editDishModal" @click="showEditModel(item,true)">
+                                                                            <a data-toggle="modal" href="#editDistributerModal" @click="showEditModel(item,true)">
                                                                                 <i class="fa fa-pencil"></i>
                                                                             </a>
                                                                         </li>
                                                                         <li>
-                                                                            <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteDish(item)">
+                                                                            <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteDistributer(item)">
                                                                                 <i class="fa fa-times"></i>
                                                                             </a>
                                                                         </li>
@@ -188,16 +172,16 @@
                 <!-- END CONTENT BODY -->
             </div>
 
-        <vDishEdit :model=model :form=form :viewType=viewType :dishType=dishType :statusOptions=statusOptions :priceOptions=priceOptions :pepperOptions=pepperOptions :addType=addType @handleSave="handleSaveProduct" @refresh="refresh"></vDishEdit>
+        <vDistributerEdit :model=model :form=form :viewType=viewType :statusOptions=statusOptions :addType=addType @handleSave="handleSaveProduct" @refresh="refresh"></vDistributerEdit>
 											
-		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.dishId" :itemName="model.dishName" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.distributerId" :itemName="model.distributerName" @handleConfirm="handleDelete"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
 </template>
 
 <script>
-    import dish from '../models/dish';
+    import distributer from '../models/distributer';
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
@@ -205,17 +189,17 @@
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
-	import vDishEdit from './DishEdit';
+	import vDistributerEdit from './DistributerEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vDishEdit,tableDataLoadingProgress
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vDistributerEdit,tableDataLoadingProgress
         },
         data () {
             return {
 			    progressBar: true, //显示加载条
 				actionProgress: false, //
-			    dishName: '',
+			    distributerName: '',
 				customerLogin: '',
 				sortColumn: '',
 				sortType: '',
@@ -225,73 +209,37 @@
                    { text: ' 12 ', value: '12' },
 				   { text: ' 16 ', value: '16' }
                 ],
-                priceSelected: '',
-				priceOptions: [
-				   { text: ' 1元 ', value: '1' },
-                   { text: ' 2元 ', value: '2' },
-                   { text: ' 3元 ', value: '3' },
-                   { text: ' 4元 ', value: '4' },
-				   { text: ' 5元 ', value: '5' },
-				   { text: ' 6元 ', value: '6' },
-                   { text: ' 7元 ', value: '7' },
-                   { text: ' 8元 ', value: '8' },
-                   { text: ' 9元 ', value: '9' },
-                   { text: ' 10元 ', value: '10' },
-                   { text: ' 11元 ', value: '11' }
-                ],
-                pepperSelected: '',
-				pepperOptions: [
-				   { text: ' 无 ', value: '0' },
-                   { text: ' 1度 ', value: '1' },
-                   { text: ' 2度 ', value: '2' },
-                   { text: ' 3度 ', value: '3' },
-                   { text: ' 4度 ', value: '4' },
-                   { text: ' 5度 ', value: '5' }
-                ],
                 statusSelected: '',
                 statusOptions: [
-				   { text: ' 开放中 ', value: '0' },
-                   { text: ' 不开放 ', value: '1' }
+				   { text: ' 正常 ', value: '0' },
+                   { text: ' 已注销 ', value: '1' }
                 ],
                 pageSize : 8 , //每页显示30条数据
                 currentPage : 1, //当前页码
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
-				model:dish,
-				form:dish,
+				model:distributer,
+				form:distributer,
 		        form: {
-                    dishId: "",
-                    dishName: "",
-                    dishType: "dish",
-		            dishPrice: 1,
+                    distributerId: '',
+                    distributerName: '',
+                    mobile: '',
+		            photoPath: '',
                     status: 0,
-		            dishImageSmall: "",
-                    dishImageMiddle: "",
-		            dishImageLarge: "",
-                    dishStyle: "",
-                    component: "",
-                    pepper: 0,
                     createTime: ""
                 },
 				viewType:false,
-				addType:false,
-                dishType:this.$route.params.type,
+				addType:false
             }
         },
         methods:{
-            getStatus (urlStr) {
-              var urlStrArr = urlStr.split('/');
-              var newType = urlStrArr[urlStrArr.length - 1];
-              this.dishType = newType;
-              this.getList();
-            },
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/dishs',{
+				this.$http.get('/distributers',{
                 params: {
-                    conditionsStr: 'dishType::=::' + this.dishType + '$dishName::like::' + this.dishName + '$status::=::' + this.statusSelected + '$dishPrice::=::' + this.priceSelected + '$pepper::=::' + this.pepperSelected,
+                    conditionsStr: 'distributerName::like::' + this.distributerName + '$status::=::' + this.statusSelected,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -325,7 +273,7 @@
                 this.getList();
             },
 			handleReload(){
-			    this.dishName = ''; 
+			    this.distributerName = ''; 
 				this.pepperSelected = '';
                 this.priceSelected = '';
                 this.statusSelected = '';
@@ -334,7 +282,7 @@
                 this.getList();
             },
 			handleCancelSearch(){
-			    this.dishName = '';
+			    this.distributerName = '';
 				this.pepperSelected = '';
                 this.priceSelected = '';
                 this.statusSelected = '';
@@ -356,7 +304,7 @@
             },
 			//处理修改
 			handleSaveProduct(model){
-				 //$('#editDishModal').modal('hide');
+				 //$('#editDistributerModal').modal('hide');
             },
             //从page组件传递过来的当前page
             pageChange (page) {
@@ -366,7 +314,7 @@
 			//处理删除
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/dish/' + id,{
+					 this.$http.delete('/distributer/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -380,7 +328,7 @@
                      });  
 			},
 			//处理删除
-			deleteDish(item){
+			deleteDistributer(item){
 			   this.model = item;
 			},
 			showEditModel(item,isEdit){
@@ -402,16 +350,11 @@
 			},
 			setForm(){
 		      //this.form = this.model;
-                this.form.dishType = this.model.dishType;
-			    this.form.dishName = this.model.dishName;
-			    this.form.dishPrice = this.model.dishPrice;
-			    this.form.dishImageSmall = this.model.dishImageSmall;
-			    this.form.dishImageMiddle = this.model.dishImageMiddle;
-			    this.form.dishImageLarge = this.model.dishImageLarge;
-			    this.form.dishStyle = this.model.dishStyle;
-			    this.form.component = this.model.component;
-			    this.form.pepper = this.model.pepper;
-			    this.form.status = this.model.status;
+                this.form.distributerId = this.model.distributerId;
+			    this.form.distributerName = this.model.distributerName;
+			    this.form.mobile = this.model.mobile;
+			    this.form.photoPath = this.model.photoPath;
+				this.form.status = this.model.status;
 		    },
 		    formatterDate(cellValue){
                 return formatDate(cellValue);
@@ -419,51 +362,24 @@
 			changeStatus(cellValue){
 			    var stauts = cellValue;
 			    if(cellValue == '0'){
-				    stauts = '<span class="badge badge-info"> 开放中 </span>';
+				    stauts = '<span class="badge badge-info"> 正常 </span>';
 				}else if(cellValue == '1'){
-				    stauts = '<span class="badge badge-danger"> 不开放 </span>';
+				    stauts = '<span class="badge badge-danger"> 已注销 </span>';
 				}
                 return stauts;
-            },
-			changeType(cellValue){
-			    var type = cellValue;
-			    if(cellValue == '0'){
-				    type = '<span > 普通用户 </span>';
-				}else if(cellValue == '1'){
-				    type = '<span > 公司主用户 </span>';
-				}
-                return type;
-            },
-            changeDishType(type){
-               var t = type;
-               if(type == "dish"){
-                   t = "菜品";
-               }
-
-               if(type == "soup"){
-                   t = "汤品";
-               }
-
-               if(type == "staplefood"){
-                   t = "主食";
-               }
-
-               return t;
             }
         },
 		beforeCreate(){
 
 		},
         beforeMount(){
-            //this.getList();
+            this.getList();
         },
         created () {
-             console.log(this.getStatus(this.$route.path))
+             
         },
         watch: {
-            '$route' (to, from) {
-               this.getStatus(this.$route.path);
-            }
+
         }
     }
 </script>
