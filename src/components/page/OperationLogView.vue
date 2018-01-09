@@ -7,52 +7,61 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                            <h4 class="modal-title"> 操作人 -- {{model.operationUser}} </h4>
+                                                            <h4 class="modal-title"> 操作人 :{{model.operationUser}} -- 目的: {{model.operationName}}</h4>
                                                         </div>
                                                         <div class="modal-body"> 
                                                     <div class="portlet-body form">
                                                             <div class="form-body">
 															    <div class="row form-group" >
                                                                     <label class="col-md-1 control-label">时间:</label>
-                                                                    <div class="col-md-9">
+                                                                    <div class="col-md-11">
                                                                           <div class="input-icon right">
 																		  {{formatMintuesDate(model.createTime)}}
                                                                           </div>
                                                                     </div>
                                                                 </div>
 											
-															     <div class="row form-group" >
+															    <div class="row form-group" >
                                                                     <label class="col-md-1 control-label">URL:</label>
-                                                                    <div class="col-md-9">
+                                                                    <div class="col-md-11">
                                                                           <div class="input-icon right">
-																		  {{model.operationUrl}}
+																		  <textarea row="3" class="form-control input-circle emptyInput" readonly  v-model="model.operationUrl"></textarea> 
+                                                                          </div>
+                                                                    </div>
+                                                                </div>
+																
+															     <div class="row form-group" >
+                                                                    <label class="col-md-1 control-label">运行:</label>
+                                                                    <div class="col-md-11">
+                                                                          <div class="input-icon right">
+																		  {{model.runTime}}ms
                                                                           </div>
                                                                     </div>
                                                                 </div>
 																
 															    <div class="row form-group" >
                                                                     <label class="col-md-1 control-label">参数:</label>
-                                                                    <div class="col-md-9">
+                                                                    <div class="col-md-11">
                                                                           <div class="input-icon right">
-																		  {{model.requestParameters}}
+																		    <textarea row="3" class="form-control input-circle emptyInput" readonly  v-model="model.requestParameters"></textarea> 
                                                                           </div>
                                                                     </div>
                                                                 </div>
 																
 															    <div class="row form-group" >
                                                                     <label class="col-md-1 control-label">返回:</label>
-                                                                    <div class="col-md-9">
+                                                                    <div class="col-md-11">
                                                                           <div class="input-icon right">
-																		  {{model.operationReturn}}
+																		  <textarea row="3" class="form-control input-circle emptyInput" readonly  v-model="model.operationReturn"></textarea> 
                                                                           </div>
                                                                     </div>
                                                                 </div>
 																
 															    <div class="row form-group" >
                                                                     <label class="col-md-1 control-label">异常:</label>
-                                                                    <div class="col-md-9">
+                                                                    <div class="col-md-11">
                                                                           <div class="input-icon right">
-																		  {{model.operationException}}
+																		  <textarea row="3" class="form-control input-circle emptyInput" readonly  v-model="model.operationException"></textarea> 
                                                                           </div>
                                                                     </div>
                                                                 </div>

@@ -126,7 +126,7 @@
                                             <div class="table-responsive">
                                                <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
 											
-                                                <table class="table table-hover" v-if="count">
+                                                <table class="table table-hover" v-if="count" >
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 
@@ -140,14 +140,15 @@
                                                             </th>
                                                             <th style="width:5%;"> 序号 </th>
                                                             <th style="width:20%;"> URL 
-                                                            <vPageSort :sortColumn="'operationUrl'" @handleSort="operationUrl"></vPageSort>
+                                                            <vPageSort :sortColumn="'operationUrl'" @handleSort="handleSort"></vPageSort>
                                                             </th>
-                                                            <th style="width:10%;"> 名称
-                                                            <vPageSort :sortColumn="'operationName'" @handleSort="operationName"></vPageSort>
+                                                            <th style="width:8%;"> 运行
+                                                            <vPageSort :sortColumn="'runTime'" @handleSort="handleSort"></vPageSort>
 															</th>
                                                             <th style="width:15%;"> 操作时间 </th>
-                                                            <th style="width:10%;"> 操作人 </th>
-															<th style="width:30%;"> 返回结果 </th>
+                                                            <th style="width:7%;"> 操作人 </th>
+															<th style="width:15%;"> 目标 </th>
+															<th style="width:20%;"> 返回结果 </th>
                                                             <th style="width:5%;"> 操作 </th>
                                                         </tr>
                                                     </thead>
@@ -165,13 +166,16 @@
 															
                 </td>
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:20%;"> <a data-toggle="modal" href="#showOperationLogModal" @click="showViewModel(item,false)">{{item.operationUrl}}</a> </td>
-                <td style="width:10%;">{{item.operationName}} </td>
+                <td style="width:20%;word-wrap:break-word;word-break:break-all;"  ><a data-toggle="modal" href="#showOperationLogModal" @click="showViewModel(item,false)"> {{item.operationUrl}} </a> </td>
+                <td style="width:8%;">{{item.runTime}} ms</td>
                 <td style="width:15%;"> {{formatMintuesDate(item.createTime)}}  </td>
-                <td style="width:10%;"> 
+                <td style="width:7%;"> 
                     {{item.operationUser}}
                 </td>
-				<td style="width:30%;"> 
+				<td style="width:15%;"> 
+                    {{item.operationName}}
+                </td>
+				<td style="width:20%;"> 
                     {{limitStringLength(item.operationReturn)}}
                 </td>
 				<td style="width:5%;">  
