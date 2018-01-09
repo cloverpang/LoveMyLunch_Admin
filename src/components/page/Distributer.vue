@@ -274,8 +274,6 @@
             },
 			handleReload(){
 			    this.distributerName = ''; 
-				this.pepperSelected = '';
-                this.priceSelected = '';
                 this.statusSelected = '';
 				this.sortColumn = '';
 				this.sortType = '';
@@ -283,8 +281,6 @@
             },
 			handleCancelSearch(){
 			    this.distributerName = '';
-				this.pepperSelected = '';
-                this.priceSelected = '';
                 this.statusSelected = '';
                 this.currentPage = 1;
                 this.getList();
