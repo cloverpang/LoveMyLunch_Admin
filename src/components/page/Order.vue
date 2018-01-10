@@ -343,8 +343,8 @@
 		    getStatus (type) {
               this.type = type;
 			  if(this.type == "today"){
-			     this.startDate = this.getNowFormatDay() + " 00:00:00";
-				 this.endDate = this.getNowFormatDay() + " 23:59:59"
+			     this.startDate = this.getNowFormatDay();
+				 this.endDate = this.getNowFormatDay();
 				 this.getList();
 			  }else{
 			     this.handleCancelSearch();
@@ -388,6 +388,17 @@
                 if(paymentStatus != ''){
                     paymentStatus = paymentStatus.substr(1);
                 }
+				
+				var start_date = "";
+				var end_date = "";
+				
+				if(this.startDate != ''){
+				   start_date = this.startDate + " 00:00:00";
+				}
+				
+				if(this.endDate != ''){
+				   end_date = this.endDate + " 23:59:59";
+				}
 
                 var conditions = "";
                 conditions += 'companyId::=::' + this.companyId;
@@ -395,14 +406,14 @@
                 conditions += '$orderStatus::=::' + orderStatus;
                 conditions += '$paymentStatus::=::' + paymentStatus;
                 if(this.startDate != '' && this.endDate != ''){
-                   conditions += '$bookTime::between::' + this.startDate + ',' + this.endDate;
+                   conditions += '$bookTime::between::' + start_date + ',' + end_date;
                 }else{
                    if(this.startDate != ''){
-                       conditions += '$bookTime::gt::' + this.startDate
+                       conditions += '$bookTime::gt::' + start_date;
                    }
 
                    if(this.endDate != ''){
-                       conditions += '$bookTime::lt::' + this.endDate
+                       conditions += '$bookTime::lt::' + end_date;
                    }
                 }
 

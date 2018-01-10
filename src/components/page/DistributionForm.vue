@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>系统日志
+                            <h1>配送单 
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -26,7 +26,7 @@
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
-                                <span>系统日志</span>
+                                <span>配送单</span>
                             </li>
                         </ul>
                         <!-- END PAGE BREADCRUMBS -->
@@ -47,6 +47,7 @@
                                                         <!-- BEGIN FORM-->
                                                         <form id="form" class="form-horizontal">
                                                             <div class="form-body">
+															
                                                                 <div class="row">
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">时间 </label>
@@ -62,12 +63,13 @@
                                                                     </div>
                                                                  </div>
                                                                 </div>
+
                                                             </div>
                                                             <div class="form-actions right">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
                                                                         <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress"> 
-																		查 询 <span id="searchCompanyAction" v-show="actionProgress">......</span>
+																		查 询 <span id="searchAction" v-show="actionProgress">......</span>
 																		</button>
                                                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
                                                                     </div>
@@ -81,7 +83,6 @@
 									<!-- BEGIN SAMPLE TABLE PORTLET-->
                                     <div class="portlet box red">
                                         <div class="portlet-title">
-
                                             <vPageInfo :currentPage="currentPage" :totalPages="totalPages" :count="count" :selected="selected" :options="options"  @handleChange="handleChange"></vPageInfo>
 
                                             <div class="tools">
@@ -90,96 +91,54 @@
                                             </div>
                                         </div>
                                         <div class="portlet-body">
-                                            <div class="table-toolbar">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="btn-group">
-                                                            <a class="btn btn-outline dark" @click="batchDelete()"> 批量删除
-                                                                <i class="fa fa-times"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="btn-group pull-right">
-                                                            <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
-                                                                <i class="fa fa-angle-down"></i>
-                                                            </button>
-                                                            <ul class="dropdown-menu pull-right">
-                                                                <li>
-                                                                    <a href="javascript:;">
-                                                                        <i class="fa fa-print"></i> Print </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;">
-                                                                        <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;">
-                                                                        <i class="fa fa-file-excel-o"></i> Export to Excel </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 										
                                             <div class="table-responsive">
-                                               <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
+                                                <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
 											
-                                                <table class="table table-hover" v-if="count" >
+                                                <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width:5%;"> 
-				                                           <div class="md-checkbox">
-                                                                <input type="checkbox" id="checkAllLog" class="md-check" v-model='checkAll' v-on:click='checkedAll'>
-                                                                <label for="checkAllLog">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> </label>
-                                                            </div>
-                                                            </th>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:20%;"> URL 
-                                                            <vPageSort :sortColumn="'operationUrl'" @handleSort="handleSort"></vPageSort>
+                                                            <th style="width:20%;"> 配送单单号 
+															<vPageSort :sortColumn="'formNumber'" @handleSort="handleSort"></vPageSort>
                                                             </th>
-                                                            <th style="width:8%;"> 运行
-                                                            <vPageSort :sortColumn="'runTime'" @handleSort="handleSort"></vPageSort>
+                                                            <th style="width:15%;"> 公司名称
 															</th>
-                                                            <th style="width:15%;"> 操作时间 </th>
-                                                            <th style="width:7%;"> 操作人 </th>
-															<th style="width:15%;"> 目标 </th>
-															<th style="width:20%;"> 返回结果 </th>
-                                                            <th style="width:5%;"> 操作 </th>
+														    <th style="width:20%;"> 配送地址
+                                                            <vPageSort :sortColumn="'companyAddress'" @handleSort="handleSort"></vPageSort>
+															</th>
+                                                            <th style="width:15%;"> 生成时间 </th>
+                                                            <th style="width:9%;"> 状态 </th>
+                                                            <th style="width:8%;"> 配送员 </th>
+															<th style="width:8%;"> 操作 </th>
                                                         </tr>
                                                     </thead>
 													<tbody>
 
-             <tr v-for="(item,index) in items" :id="item.operationId">
-                <td style="width:5%;"> 
-				                                           <div class="md-checkbox">
-                                                                <input type="checkbox" :id="'operationLog-' + item.operationId" class="md-check" :value='item.operationId' v-model='checkboxModel'>
-                                                                <label :for="'operationLog-' + item.operationId">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span> </label>
-                                                            </div>
-															
-                </td>
+             <tr v-for="(item,index) in items" :id="item.distributionFormId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:20%;word-wrap:break-word;word-break:break-all;"  ><a data-toggle="modal" href="#showOperationLogModal" @click="showViewModel(item,false)"> {{limitStringLength(item.operationUrl,60)}} </a> </td>
-                <td style="width:8%;">{{item.runTime}} ms</td>
-                <td style="width:15%;"> {{formatMintuesDate(item.createTime)}}  </td>
-                <td style="width:7%;"> 
-                    {{item.operationUser}}
-                </td>
-				<td style="width:15%;"> 
-                    {{item.operationName}}
-                </td>
-				<td style="width:20%;"> 
-                    {{limitStringLength(item.operationReturn,20)}}
-                </td>
-				<td style="width:5%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteOperationLog(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
+                <td style="width:20%;word-wrap:break-word;word-break:break-all;"> <a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,false)">{{item.formNumber}}</a> </td>
+                <td style="width:15%;word-wrap:break-word;word-break:break-all;">{{item.companyName}} </td>
+                <td style="width:20%;word-wrap:break-word;word-break:break-all;">{{item.companyAddress}}</td>
+                <td style="width:15%;"> {{formatMintuesDate(item.createTime)}} </td>
+                <td style="width:9%;"> 
+				 <template v-if="item.status == '0'">
+				 <a data-toggle="modal" href="#arriveConfirmModel" @click="arriveDistributionForm(item)" class="btn btn-circle btn-xs red">未送达<i class="fa fa-question"></i>  </a>
+				 </template>
+			     <template v-if="item.status == '1'">
+				 <span class="badge badge-info"> 已送达 </span>
+				 </template>
+				</td>
+                <td style="width:8%;"> 
+				 <template v-if="item.distributerId == '' || item.distributerId == null">
+				 <a data-toggle="modal" href="#distributerListPopup" class="btn btn-circle btn-xs blue" @click="loadDistributerPopupData(item)"><i class="fa fa-pencil"></i> 分配配送员 </a>
+				 </template>
+				 <template v-if="item.distributerId != ''">
+				 <span> {{item.distributerName}} </span>
+				 </template>
+				</td>
+				<td style="width:8%;">  
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteDistributionForm(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -210,17 +169,17 @@
                 <!-- END CONTENT BODY -->
             </div>
 
-        <vOperationLogView :model=model :viewType=viewType :addType=addType ></vOperationLogView>
-											
-		<vConfirmModal :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.operationId" :itemName="'该条log'" @handleConfirm="handleDelete"></vConfirmModal>
-        <vConfirmModal :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
+        <vDistributerListPopup :loadData=loadDistributerData :distributionFormId=model.distributionFormId @handleSelect='handleSelectDistributer'></vDistributerListPopup>
+				
+		<vConfirmModal :confirmMessage="'确定删除 配送单'" :modalId="'deleteConfirmModel'" :itemId="model.distributionFormId" :itemName="model.formNumber" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal :confirmMessage="'确定该配送单 已到达 - '" :modalId="'arriveConfirmModel'" :itemId="model.distributionFormId" :itemName="model.formNumber" @handleConfirm="handleArrvied"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
 </template>
 
 <script>
-    import operationLog from '../models/operationLog';
+    import distributionForm from '../models/distributionForm';
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
@@ -228,18 +187,17 @@
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
-	import vOperationLogView from './OperationLogView';
-	import {formatUnixDate,formatMintuesDate,showTip,showNotice,limitStringLength} from '../../utils/common.js';
+	import vDistributerListPopup from './DistributerListPopup';
+
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vOperationLogView,tableDataLoadingProgress,datepicker
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,tableDataLoadingProgress,vDistributerListPopup,datepicker
         },
         data () {
             return {
 			    progressBar: true, //显示加载条
 				actionProgress: false, //
-			    operationLogName: '',
-				operationLogCode: '',
 				sortColumn: '',
 				sortType: '',
 				selected: '15',
@@ -253,31 +211,33 @@
 				totalPages : 0,//总页数
                 count : 0, //总记录数
                 items : [],
-				model:operationLog,
-				form:operationLog,
+				model:distributionForm,
+				form:distributionForm,
 				form: {
-                    operationId: '',
-		            operationUrl: '',
-                    operationName: '',
-		            requestParameters: '',
-                    operationReturn: '',
-                    operationException: '',
-                    operationUser: '',
-                    operationToken: '',
-		            createTime: ''
+                     distributionFormId: '',
+                     formNumber: '',
+                     companyId: '',
+		             companyName: '',
+		             companyAddress: '',
+		             lastArriveTime: '',
+		             distributerId: '',
+		             distributerName: '',
+		             orderIds: '',
+                     status: 0,
+                     createTime: ''
                 },
 				viewType:false,
 				addType:false,
-                checkboxModel:[],
-                checkAll:false,
-				startDate : '',
-                endDate : ''
+			    startDate : this.getNowFormatDay(),
+                endDate : this.getNowFormatDay(),
+				loadDistributerData : false
             }
         },
         methods:{
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
+				
 				var start_date = "";
 				var end_date = "";
 				
@@ -288,8 +248,9 @@
 				if(this.endDate != ''){
 				   end_date = this.endDate + " 23:59:59";
 				}
-				
-				var conditions = "";
+
+                var conditions = "";
+                conditions += 'companyAddress::=::';
                 if(this.startDate != '' && this.endDate != ''){
                    conditions += '$createTime::between::' + start_date + ',' + end_date;
                 }else{
@@ -301,9 +262,8 @@
                        conditions += '$createTime::lt::' + end_date;
                    }
                 }
-
 				
-				this.$http.get('/operationLogs',{
+				this.$http.get('/distributionForms',{
                 params: {
                     conditionsStr: conditions,
                     pageSize: this.pageSize,
@@ -329,6 +289,15 @@
                      //error callback
                 });
             },
+			getNowFormatDay() {
+			    return getNowFormatDay();
+            },
+			formatterDate(cellValue){
+                return formatDate(cellValue);
+            },
+			formatMintuesDate(cellValue){
+                return formatMintuesDate(cellValue);
+            },
 			handleSearch(){
 				this.actionProgress = true;
                 this.currentPage = 1;
@@ -339,16 +308,16 @@
                 this.getList();
             },
 			handleReload(){
-			    this.operationLogName = ''; 
-				this.operationLogCode = '';
                 this.currentPage = 1;
 				this.sortColumn = '';
 				this.sortType = '';
                 this.getList();
             },
 			handleCancelSearch(){
-			    this.operationLogName = '';
-				this.operationLogCode = '';
+			    this.startDate = '';
+                this.endDate = '';
+				this.sortColumn = '';
+				this.sortType = '';
                 this.currentPage = 1;
                 this.getList();
             },
@@ -373,7 +342,7 @@
 			//处理删除
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/operationLog/' + id,{
+					 this.$http.delete('/distributionForm/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -387,10 +356,14 @@
                      });  
 			},
 			//处理删除
-			deleteOperationLog(item){
+			deleteDistributionForm(item){
 			   this.model = item;
 			},
-			showViewModel(item,isEdit){
+			//处理标记到达
+			arriveDistributionForm(item){
+			   this.model = item;
+			},
+			showEditModel(item,isEdit){
 			   //直接取行数据等于当前model,无需ajax调取，适合简单的数据
 			   if(isEdit){
 			     this.viewType = false;
@@ -399,70 +372,58 @@
 			   }
 			   this.addType = false;
 			   this.model = item;
+			   this.setForm();
 			},
-		    formatMintuesDate(cellValue){
-                return formatMintuesDate(cellValue);
-            },
-            //选中所有
-            checkedAll(){
-                   var _this = this;
-                   if (!this.checkAll) {
-                    this.checkboxModel = [];
-                   }else{
-                    _this.checkboxModel = [];
-                    _this.items.forEach(function(item) {
-                    _this.checkboxModel.push(item.operationId);
-                    });
-                  }
-            },
-            batchDelete(){
-                if(this.checkboxModel.length == 0){
-                    showNotice('warning','警告!','您没有选中任何数据!');
-                    return;
-                }else{
-                    $('#batchDeleteConfirmModel').modal('show');
-                }
-            },
-			limitStringLength(cellValue,len){
-			     return limitStringLength(cellValue,len);
+			setForm(){
+		      //this.form = this.model;
+		      this.form.customerName = this.model.customerName;
+			  this.form.mobileNumber = this.model.mobileNumber;
+              this.form.customerType = this.model.customerType;
+			  this.form.status = this.model.status;
+		    },
+            handleArrvied(id){
+			         $('#arriveConfirmModel').modal('hide');
+					 this.$http.put('/distributionForm/markArrived/' + id,{
+                     })
+					 .then( (res) => {
+                       //子组件监听到数据返回变化会自动更新DOM
+					   if(res.status == 200){
+					    //showTip("Success","删除成功");
+                        showNotice('success','Success!','标记成功!');					
+						this.getList();
+                       }
+                     }, (response) => {
+                        showNotice('warning','Error!','远程数据操作失败,请检查网络!');
+                     });  
 			},
-            //批量删除
-            handleBatchDelete(){
-                if(this.checkboxModel.length == 0){
-                    showNotice('warning','警告!','您没有选中任何数据!');
-                    return;
-                }
-
-                $('#batchDeleteConfirmModel').modal('hide');
-                //alert(this.checkboxModel.length);
-                var _this = this; 
-                var ids = "";
-                 _this.checkboxModel.forEach(function(item) {
-                    ids = ids + "," + item;
-                });
-
-				this.$http.delete('/operationLogs/' + ids,{
-                })
-				.then( (res) => {
-                //子组件监听到数据返回变化会自动更新DOM
-			    if(res.status == 200){
-                   showNotice('success','Success!','批量删除成功!');
-                   this.checkAll = false;
-                   this.checkboxModel = [];					
-				   this.getList();
-                 }
-                }, (response) => {
-                   showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                });  
-            }
+			loadDistributerPopupData(item){
+			   this.model = item;
+			   this.loadDistributerData = true;
+			},
+			handleSelectDistributer(formId,distributerId,distributerName){
+			   if(distributerId != '' && distributerName != ''){
+			   	  var url = '/distributionForm/selectDistributer/' + formId + "?distributerId=" + distributerId + "&distributerName=" + distributerName;
+				  var parasData = {distributerId:distributerId,distributerName:distributerName};
+				  this.$http.put(url,parasData)
+				  .then( (res) => {
+				  if(res.status == 200){
+				     this.actionProgress = false;
+                     showNotice('success','Success!','设置成功!');	
+                     this.refresh();					 
+			         $('#distributerListPopup').modal('hide');
+                   }
+                   }, (response) => {
+				     this.actionProgress = false;
+                     showNotice('warning','Error!','远程数据操作失败,请检查网络!');
+                  });
+			     }
+			}
         },
 		beforeCreate(){
 
 		},
         beforeMount(){
             this.getList();
-        },
-        computed: {
         },
         watch: {
             model: {

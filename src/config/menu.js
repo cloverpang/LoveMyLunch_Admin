@@ -68,15 +68,15 @@ export default [
   },
     {
     name: '汇总',
-    code: '/total',
-	path: '/total',
+    code: '/summary',
+	path: '/summary',
 	icon: 'fa fa-table',
 	active: false,
 	items: [
       {
         name: '昨日汇总',
-        code: '/total',
-        path: '/total?type=yesterday',
+        code: '/summary',
+        path: '/summary?type=yesterday',
 		icon: 'fa fa-clock-o',
 		active: false
       }
