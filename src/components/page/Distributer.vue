@@ -133,7 +133,8 @@
                                                             <div class="mt-card-content">
                                                                 <h3 class="mt-card-name"><a data-toggle="modal" href="#editDistributerModal" @click="showEditModel(item,false)">{{item.distributerName}}</a> </h3>
                                                                 <span class="mt-card-desc font-grey-mint" v-html='changeStatus(item.status)' style="padding-right:5px;"></span> 
-                                                                <span class="badge badge-info"> {{item.mobile}}  </span>
+                                                                <span class="badge badge-info"> {{item.distributerTimes}}  </span>
+																<span> {{item.mobile}} </span>
                                                                 <div class="mt-card-social">
                                                                     <ul>
                                                                         <li>
@@ -227,6 +228,7 @@
                     mobile: '',
 		            photoPath: '',
                     status: 0,
+					distributerTimes: 0,
                     createTime: ""
                 },
 				viewType:false,
@@ -350,6 +352,7 @@
 			    this.form.distributerName = this.model.distributerName;
 			    this.form.mobile = this.model.mobile;
 			    this.form.photoPath = this.model.photoPath;
+				this.form.distributerTimes = this.model.distributerTimes;
 				this.form.status = this.model.status;
 		    },
 		    formatterDate(cellValue){

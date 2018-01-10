@@ -134,7 +134,8 @@ export default {
                 }, (response) => {
 				     this.reSetForm();
 				     this.actionProgress = false;
-                     showNotice('warning','Error!','远程数据操作失败,请检查网络!');
+					 //alert(response.message);
+                     showNotice('warning','Error!','远程数据操作失败,请检查网络!' + response.message);
                 });
         },
 	    handleEdit () {

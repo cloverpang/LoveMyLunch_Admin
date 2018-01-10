@@ -4,6 +4,7 @@ let model = () =>{
         distributerName: '',
         mobile: '',
 		photoPath: '',
+		distributerTimes: 0,
         status: 0,
         createTime: ""
     }

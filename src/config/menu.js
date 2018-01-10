@@ -66,6 +66,22 @@ export default [
       }
     ]
   },
+    {
+    name: '汇总',
+    code: '/total',
+	path: '/total',
+	icon: 'fa fa-table',
+	active: false,
+	items: [
+      {
+        name: '昨日汇总',
+        code: '/total',
+        path: '/total?type=yesterday',
+		icon: 'fa fa-clock-o',
+		active: false
+      }
+    ]
+  },
   {
     name: '配送',
     code: '/distributionForm',

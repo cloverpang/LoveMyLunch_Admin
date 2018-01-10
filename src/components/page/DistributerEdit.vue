@@ -50,7 +50,12 @@
                                                                     </div>
                                                                 </div>
 
-
+                                                                <div class="form-group" v-show='viewType'>
+                                                                    <label class="col-md-1 control-label">配送</label>
+                                                                    <div class="col-md-7">
+                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" readonly placeholder="" v-model="form.distributerTimes"> 
+                                                                    </div>
+                                                                </div>
 																
 																<div class="form-group">
  
@@ -164,6 +169,7 @@ export default {
 			    this.model.distributerName = this.form.distributerName;
 			    this.model.mobile = this.form.mobile;
 			    this.model.photoPath = this.form.photoPath;
+				this.model.distributerTimes = this.form.distributerTimes;
 				this.model.status = this.form.status;
 		},			
 		reSetForm(){
@@ -171,6 +177,7 @@ export default {
 			    this.form.distributerName = this.model.distributerName;
 			    this.form.mobile = this.model.mobile;
 			    this.form.photoPath = this.model.photoPath;
+				this.form.distributerTimes = this.model.distributerTimes;
 				this.form.status = this.model.status;
 		},
 		handleClose(){
@@ -192,6 +199,7 @@ export default {
                     mobile: '',
 		            photoPath: '',
                     status: 0,
+					distributerTimes: 0,
                     createTime: ""
            },
 		   viewType: false, //为true显示 view模式，如果为false 则为编辑模式
