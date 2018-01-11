@@ -150,6 +150,7 @@
 			  }else{
 			  	 this.startDate = this.getTomorrowFormatDay();
 				 this.endDate = this.getTomorrowFormatDay();
+				 this.getList();
 			  }
             },
             //获取数据
@@ -211,7 +212,7 @@
 
 		},
         beforeMount(){
-            this.getList();
+            //this.getList();
         },
 		created () {
              console.log(this.getStatus(this.$route.query.type))
