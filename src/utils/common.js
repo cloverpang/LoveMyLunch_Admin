@@ -39,6 +39,10 @@ export function getNowFormatDay() {
 
 // 格式'yyyy-MM-dd HH:MM'
 export function formatMintuesDate(dateString) {
+	if(null == dateString || dateString == ""){
+		return "";
+	}
+	
     var date = new Date(dateString);
     var seperator1 = "-";
     var seperator2 = ":";
@@ -57,6 +61,10 @@ export function formatMintuesDate(dateString) {
 
 // 格式'yyyy-MM-dd'
 export function formatNormalDate(dateString) {
+	if(null == dateString || dateString == ""){
+		return "";
+	}
+	
     var date = new Date(dateString);
     var seperator1 = "-";
     var seperator2 = ":";

@@ -177,7 +177,7 @@
 											
 		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.customerId" :itemName="model.customerName" @handleConfirm="handleDelete"></vConfirmModal>
 
-        <vCompanyListPopup :loadData=loadCompanyData></vCompanyListPopup>
+        <vCompanyListPopup ref="companyListPopup" :loadData=loadCompanyData></vCompanyListPopup>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -397,23 +397,21 @@
             },
             loadCompanyPopupData(){
                 this.loadCompanyData = true;
-                //this.$children[5].companyNames = this.selectedCompanyNames;
-                //this.$children[5].companyIds = this.selectedCompanyIds;
 
-                //先清空
-                this.$children[5].companyNames = [];
-                this.$children[5].companyIds = [];
- 
+				//先清空
+                this.$refs.companyListPopup.companyNames = [];
+                this.$refs.companyListPopup.companyIds = [];
+				
                 var _this = this; 
                 if(this.selectedCompanyNames.length > 0){
                     this.selectedCompanyNames.forEach(function(item){
-                      _this.$children[5].companyNames.push(item);
+                      _this.$refs.companyListPopup.companyNames.push(item);
                     });
                 }
 
                 if(this.selectedCompanyIds.length > 0){
                     this.selectedCompanyIds.forEach(function(item){
-                      _this.$children[5].companyIds.push(item);
+                      _this.$refs.companyListPopup.companyIds.push(item);
                     });
                 }
             },

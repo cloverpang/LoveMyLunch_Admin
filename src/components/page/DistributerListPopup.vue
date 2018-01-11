@@ -29,7 +29,7 @@
                                         <table class="table table-striped table-hover">
 
                                             <tbody>
-                                                <tr v-for="(item,index) in items" id="span-item.distributerId">
+                                                <tr v-for="(item,index) in items">
                                                     <td style="width:90%;"> 
                                                      <a href="javascript:void(0);" @click="selectDistributer(item.distributerId,item.distributerName)"> {{item.distributerName}} </a> 
                                                     </td>
@@ -49,7 +49,9 @@
                                                     </div>
 														
                                                         <div class="modal-footer">
-														    <span class="btn dark btn-outline" > 您的选择是: {{selectedDistributerName}} </span>
+													
+															<span>
+                                                <strong> {{tipMessage}} </strong></span> &nbsp; &nbsp; &nbsp; &nbsp;
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" @click="cleanSelect"> 关闭 </button>
                                                             <button type="button" class="btn green" @click="saveSelected">
 															 确定
@@ -121,6 +123,8 @@ export default {
             selectDistributer(distributerId,distributerName){
 			    this.selectedDistributerId = distributerId;
 				this.selectedDistributerName = distributerName;
+				
+				this.tipMessage = "您的选择是 : " + distributerName;
             },
             //确定
             saveSelected(){
@@ -148,7 +152,8 @@ export default {
            keyword : '',
            selectedDistributerName : '',
 		   selectedDistributerId : '',
-		   distributionFormId : this.distributionFormId
+		   distributionFormId : this.distributionFormId,
+		   tipMessage : ''
         }
     },
 	beforeMount(){

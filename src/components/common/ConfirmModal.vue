@@ -39,7 +39,7 @@ export default {
         },
 		
 	    confirmMessage : {
-            default : 'Confirm?'
+            default : 'Confirm'
         }
     },
     methods : {

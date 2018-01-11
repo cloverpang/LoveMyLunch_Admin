@@ -243,8 +243,8 @@
 											
 		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.orderId" :itemName="model.customerName + ' 在 ' + formatMintuesDate(model.bookTime)  + ' 下的订单'" @handleConfirm="handleDelete"></vConfirmModal>
            
-        <vCompanyListPopup :loadData=loadCompanyData></vCompanyListPopup>
-        <vCustomerListPopup :loadData=loadCustomerData></vCustomerListPopup>
+        <vCompanyListPopup ref="companyListPopup" :loadData=loadCompanyData></vCompanyListPopup>
+        <vCustomerListPopup ref="customerListPopup" :loadData=loadCustomerData></vCustomerListPopup>
           <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -571,45 +571,41 @@
             },
             loadCompanyPopupData(){
                 this.loadCompanyData = true;
-                //this.$children[5].companyNames = this.selectedCompanyNames;
-                //this.$children[5].companyIds = this.selectedCompanyIds;
 
                 //先清空
-                this.$children[5].companyNames = [];
-                this.$children[5].companyIds = [];
- 
+                this.$refs.companyListPopup.companyNames = [];
+                this.$refs.companyListPopup.companyIds = [];
+				
                 var _this = this; 
                 if(this.selectedCompanyNames.length > 0){
                     this.selectedCompanyNames.forEach(function(item){
-                      _this.$children[5].companyNames.push(item);
+                      _this.$refs.companyListPopup.companyNames.push(item);
                     });
                 }
 
                 if(this.selectedCompanyIds.length > 0){
                     this.selectedCompanyIds.forEach(function(item){
-                      _this.$children[5].companyIds.push(item);
+                      _this.$refs.companyListPopup.companyIds.push(item);
                     });
                 }
             },
             loadCustomerPopupData(){
                 this.loadCustomerData = true;
-                //this.$children[6].customerNames = this.selectedCustomerNames;
-                //this.$children[6].customerIds = this.selectedCustomerIds;
-
+				
                 //先清空
-                this.$children[6].customerNames = [];
-                this.$children[6].customerIds = [];
+                this.$refs.customerListPopup.customerNames = [];
+                this.$refs.customerListPopup.customerIds = [];
  
                 var _this = this; 
                 if(this.selectedCustomerNames.length > 0){
                     this.selectedCustomerNames.forEach(function(item){
-                      _this.$children[6].customerNames.push(item);
+                      _this.$refs.customerListPopup.customerNames.push(item);
                     });
                 }
 
                 if(this.selectedCustomerIds.length > 0){
                     this.selectedCustomerIds.forEach(function(item){
-                      _this.$children[6].customerIds.push(item);
+                      _this.$refs.customerListPopup.customerIds.push(item);
                     });
                 }
             },

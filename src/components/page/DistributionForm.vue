@@ -10,7 +10,12 @@
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
                             <h1>配送单 
+							
+							<a data-toggle="modal" href="#allArriveConfirmModel" class="btn dark btn-outline">标记所有配送单已到达</a>
+							
+							<a data-toggle="modal" href="#generateDistributionForm" class="btn dark btn-outline" @click="setGenerateDistributionForm">手工生成配送单</a>
                             </h1>
+							
                         </div>
                         <!-- END PAGE TITLE -->
                     </div>
@@ -117,7 +122,7 @@
 
              <tr v-for="(item,index) in items" :id="item.distributionFormId">
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:20%;word-wrap:break-word;word-break:break-all;"> <a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,false)">{{item.formNumber}}</a> </td>
+                <td style="width:20%;word-wrap:break-word;word-break:break-all;"> <a data-toggle="modal" href="#distributionFormDetailModel" @click="showDetailModel(item.distributionFormId)">{{item.formNumber}}</a> </td>
                 <td style="width:15%;word-wrap:break-word;word-break:break-all;">{{item.companyName}} </td>
                 <td style="width:20%;word-wrap:break-word;word-break:break-all;">{{item.companyAddress}}</td>
                 <td style="width:15%;"> {{formatMintuesDate(item.createTime)}} </td>
@@ -169,10 +174,13 @@
                 <!-- END CONTENT BODY -->
             </div>
 
-        <vDistributerListPopup :loadData=loadDistributerData :distributionFormId=model.distributionFormId @handleSelect='handleSelectDistributer'></vDistributerListPopup>
-				
+        <vDistributerListPopup ref="distributerListPopup" :loadData=loadDistributerData :distributionFormId=model.distributionFormId @handleSelect='handleSelectDistributer'></vDistributerListPopup>
+		<vGenerateDistributionForm ref="generateDistributionForm"></vGenerateDistributionForm>
+		<vDistributionFormDetailPopup ref="distributionFormDetailPopup"></vDistributionFormDetailPopup>
+			
 		<vConfirmModal :confirmMessage="'确定删除 配送单'" :modalId="'deleteConfirmModel'" :itemId="model.distributionFormId" :itemName="model.formNumber" @handleConfirm="handleDelete"></vConfirmModal>
 		<vConfirmModal :confirmMessage="'确定该配送单 已到达 - '" :modalId="'arriveConfirmModel'" :itemId="model.distributionFormId" :itemName="model.formNumber" @handleConfirm="handleArrvied"></vConfirmModal>
+		<vConfirmModal :confirmMessage="'确定当前所有配送单已到达'" :modalId="'allArriveConfirmModel'"  @handleConfirm="handleAllArrvied"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -188,11 +196,13 @@
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vDistributerListPopup from './DistributerListPopup';
+	import vGenerateDistributionForm from './GenerateDistributionForm';
+	import vDistributionFormDetailPopup from './DistributionFormDetailPopup';
 
 	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,tableDataLoadingProgress,vDistributerListPopup,datepicker
+		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,tableDataLoadingProgress,vDistributerListPopup,vGenerateDistributionForm,vDistributionFormDetailPopup,datepicker
         },
         data () {
             return {
@@ -363,16 +373,11 @@
 			arriveDistributionForm(item){
 			   this.model = item;
 			},
-			showEditModel(item,isEdit){
-			   //直接取行数据等于当前model,无需ajax调取，适合简单的数据
-			   if(isEdit){
-			     this.viewType = false;
-			   }else{
-			     this.viewType = true;
-			   }
-			   this.addType = false;
-			   this.model = item;
-			   this.setForm();
+			showDetailModel(id){
+			   //加载详细数据
+			   this.$refs.distributionFormDetailPopup.loadingPopupData = true;
+			   this.$refs.distributionFormDetailPopup.distributionFormId = id;
+			   this.$refs.distributionFormDetailPopup.getPopupDetailList();
 			},
 			setForm(){
 		      //this.form = this.model;
@@ -388,7 +393,20 @@
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
-					    //showTip("Success","删除成功");
+                        showNotice('success','Success!','标记成功!');					
+						this.getList();
+                       }
+                     }, (response) => {
+                        showNotice('warning','Error!','远程数据操作失败,请检查网络!');
+                     });  
+			},
+			handleAllArrvied(){
+					$('#allArriveConfirmModel').modal('hide');
+					 this.$http.put('/distributionForm/markAllArrived/',{
+                     })
+					 .then( (res) => {
+                       //子组件监听到数据返回变化会自动更新DOM
+					   if(res.status == 200){
                         showNotice('success','Success!','标记成功!');					
 						this.getList();
                        }
@@ -399,11 +417,14 @@
 			loadDistributerPopupData(item){
 			   this.model = item;
 			   this.loadDistributerData = true;
+			   this.$refs.distributerListPopup.tipMessage = '';
+			   this.$refs.distributerListPopup.selectedDistributerName = '';
+			   this.$refs.distributerListPopup.selectedDistributerId = '';
 			},
 			handleSelectDistributer(formId,distributerId,distributerName){
 			   if(distributerId != '' && distributerName != ''){
-			   	  var url = '/distributionForm/selectDistributer/' + formId + "?distributerId=" + distributerId + "&distributerName=" + distributerName;
-				  var parasData = {distributerId:distributerId,distributerName:distributerName};
+			   	  var url = '/distributionForm/selectDistributer/' + formId;
+				  var parasData = {"distributerId":distributerId,"distributerName":distributerName};
 				  this.$http.put(url,parasData)
 				  .then( (res) => {
 				  if(res.status == 200){
@@ -416,7 +437,12 @@
 				     this.actionProgress = false;
                      showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                   });
-			     }
+			   }else{
+			         showNotice('warning','Warning!','您还没有选择配送员!');
+			   }
+			},
+			setGenerateDistributionForm(){
+			    this.$refs.generateDistributionForm.tipMessage = '';
 			}
         },
 		beforeCreate(){

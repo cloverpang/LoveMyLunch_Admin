@@ -148,8 +148,25 @@ export default {
             //确定所选公司
             saveSelected(){
                 //使用$parent 直接赋值 
-                this.$parent.selectedCustomerNames = this.customerNames;
-                this.$parent.selectedCustomerIds = this.customerIds;
+                //this.$parent.selectedCustomerNames = this.customerNames;
+                //this.$parent.selectedCustomerIds = this.customerIds;
+				
+				//先清空
+                this.$parent.selectedCustomerNames = [];
+                this.$parent.selectedCustomerIds = [];
+ 
+                var _this = this; 
+                if(this.customerNames.length > 0){
+                    this.customerNames.forEach(function(item){
+                      _this.$parent.selectedCustomerNames.push(item);
+                    });
+                }
+
+                if(this.customerIds.length > 0){
+                    this.customerIds.forEach(function(item){
+                      _this.$parent.selectedCustomerIds.push(item);
+                    });
+                }
 
 
                 //调用父组件方法 
