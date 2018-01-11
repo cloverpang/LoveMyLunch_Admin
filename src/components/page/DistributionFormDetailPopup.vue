@@ -35,7 +35,7 @@
                                                                           </div>
                                                                     </div>
 																	<label class="col-md-1 control-label">送达时间:</label>
-                                                                    <div class="col-md-1">
+                                                                    <div class="col-md-2">
                                                                           <div class="input-icon right">
 																		   {{formatMintuesDate(lastArriveTime)}}
                                                                           </div>

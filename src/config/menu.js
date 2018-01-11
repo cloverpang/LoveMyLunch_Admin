@@ -74,9 +74,9 @@ export default [
 	active: false,
 	items: [
       {
-        name: '昨日汇总',
+        name: '当日汇总',
         code: '/summary',
-        path: '/summary?type=yesterday',
+        path: '/summary?type=today',
 		icon: 'fa fa-clock-o',
 		active: false
       }
