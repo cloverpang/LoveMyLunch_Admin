@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-12 footer-block">
                         <h2>关于我们</h2>
-                        <p> 钜阵资本 - 中国组合基金管理专家 </p>
+                        <p> 家里饭 - 组团订餐专家 </p>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs12 footer-block">
                         <h2>订阅我们</h2>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12 footer-block">
                         <h2>联系我们</h2>
-                        <address class="margin-bottom-40"> Phone: 0755-86968900
+                        <address class="margin-bottom-40"> Phone:13418854380 
                         </address>
                     </div>
                 </div>

@@ -7,106 +7,39 @@
                 <!-- BEGIN PAGE HEAD-->
                 <div class="page-head">
                     <div class="container">
-                        <!-- BEGIN PAGE TITLE -->
-                        <div class="page-title">
-                            <h1>系统首页
-                            </h1>
-                        </div>
-                        <!-- END PAGE TITLE -->
+                            <!-- BEGIN CONTENT HEADER -->
+                            <div class="row margin-bottom-40 about-header">
+                                <div class="col-md-12">
+                                    <h1>家里饭 后台管理系统</h1>
+                                    <h2></h2>
+                                    <button type="button" class="btn btn-danger">Login</button>
+                                </div>
+                            </div>
+                            <!-- END CONTENT HEADER -->
                     </div>
                 </div>
                 <!-- END PAGE HEAD-->
                 <!-- BEGIN PAGE CONTENT BODY -->
                 <div class="page-content">
                     <div class="container">
-                        <!-- BEGIN PAGE BREADCRUMBS -->
-                        <ul class="page-breadcrumb breadcrumb">
-                            <li>
-                                <router-link :to="{path:'default'}" > 首页 </router-link>
-                                <i class="fa fa-circle"></i>
-                            </li>
-                            <li>
-
-                            </li>
-                        </ul>
-                        <!-- END PAGE BREADCRUMBS -->
                         <!-- BEGIN PAGE CONTENT INNER -->
                         <div class="page-content-inner">
                             <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <a class="dashboard-stat dashboard-stat-v2 blue" href="javascript:ajaxLoad();">
-                                <div class="visual">
-                                    <i class="fa fa-comments"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        <span >12,349</span>
-                                    </div>
-                                    <div class="desc"> 私募公司 </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <a class="dashboard-stat dashboard-stat-v2 red" href="#">
-                                <div class="visual">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        <span >133,423</span> </div>
-                                    <div class="desc"> 私募基金 </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <a class="dashboard-stat dashboard-stat-v2 green" href="#">
-                                <div class="visual">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number">
-                                        <span >549</span>
-                                    </div>
-                                    <div class="desc"> 研究报告 </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
-                                <div class="visual">
-                                    <i class="fa fa-globe"></i>
-                                </div>
-                                <div class="details">
-                                    <div class="number"> 
-                                        <span ></span> 349</div>
-                                    <div class="desc"> 重点私募公司定性分析 </div>
-                                </div>
-                            </a>
-                        </div>
+
+
+
                             </div>
+							
                             <div class="row">
                                 <div class="col-md-12">
                                     <!-- BEGIN Portlet PORTLET-->
                                     <div class="portlet light">
                                         <div class="portlet-title">
-                                            <div class="caption">
-                                                <i class="icon-paper-plane font-yellow-casablanca"></i>
-                                                <span class="caption-subject bold font-yellow-casablanca uppercase"> 关于我们 </span>
-                                                <span class="caption-helper"><a href="http://www.mpcmom.com" target="_blank">了解更多</a></span>
-                                            </div>
-                                            <div class="inputs">
-                                                <div class="portlet-input input-inline input-medium">
-                                                    <div class="input-group">
+  
 
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="portlet-body">
-                                            <h4>前海钜阵资本管理（深圳）有限公司</h4>
-                                            <p> 成立于2014年9月，2015年7月正式运营，总部位于深圳，是一家专注于中国组合基金投资与研究的新型资产管理机构，并致力于为国内外大型的金融机构以及家族财富提供订制化的组合投资产品。
-我们独创钜阵多维定性模型和M-CVaR资产配置模型，能帮助我们发现、挖掘、甄别与组合到市场上最优秀、最合适的基金经理，充分发挥每个基金经理的投资管理能力，对冲平滑风险，为我们的客户创造绝对收益，满足我们客户多元化、多层次的投资管理需求。
-目前我们已经为国内多家大型金融机构与家族财富提供服务，并开启长期战略合作。</p>
+
                                         </div>
                                     </div>
                                     <!-- END Portlet PORTLET-->
@@ -123,3 +56,28 @@
         </div>
         <!-- END CONTAINER -->
 </template>
+
+<style>
+.about-header {
+  height: 500px;
+  background-image: url("../../../static/img/bg/25.jpg");
+  background-position: center;
+  text-align: center;
+  margin: 0 -20px; }
+
+.about-header h1 {
+  color: #fff;
+  font-size: 55px;
+  font-weight: 600;
+  margin-top: 260px;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); }
+
+.about-header h2 {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 30px;
+  margin-bottom: 40px; }
+</style>

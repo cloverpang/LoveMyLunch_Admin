@@ -128,8 +128,8 @@ export default [
     items: [
       {
         name: '系统管理员',
-        code: '/admingUser',
-        path: '/admingUser',
+        code: '/adminUser',
+        path: '/adminUser',
 		icon: 'icon-user',
 		active: false
       },

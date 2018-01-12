@@ -131,7 +131,7 @@
                                 </div>
                             </div>
 							
-                            <div class="row">
+                            <div class="row" v-show="orderChartLoadDone">
                                 <div class="col-md-12">
 								               <div class="panel panel-primary">
                                                     <div class="panel-heading">
@@ -308,7 +308,7 @@
 					this.actionProgress = false;
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
-                        this.$refs.orderChart.chartType = 'column';
+                        this.$refs.orderChart.chartType = 'line';
 						this.$refs.orderChart.chartYAxisTilte = '订单数量';
 						this.$refs.orderChart.chartSeriesTile = '数量';
 						this.$refs.orderChart.chartLineColor = '#4B77BE';

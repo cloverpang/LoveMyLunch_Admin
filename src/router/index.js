@@ -11,6 +11,7 @@ import DistributionForm from '../components/page/DistributionForm.vue'
 import Summary from '../components/page/Summary.vue'
 import OperationLog from '../components/page/OperationLog.vue'
 import Dashboard from '../components/page/Dashboard.vue'
+import AdminUser from '../components/page/AdminUser.vue'
 import Login from '../components/page/Login.vue'
 import store from '../vuex/store'
 import * as types from '../vuex/types'
@@ -128,6 +129,16 @@ let router = new Router({
                         requireAuth: true,
                     },
                     component: Dashboard
+                },
+                {
+                    path: '/adminUser',
+                    //path: '/adminUser/:id',
+                    name: 'adminUser',
+                    linkActiveClass: 'active',
+                    meta: {
+                        requireAuth: true,
+                    },
+                    component: AdminUser
                 }
             ]
         },
