@@ -88,7 +88,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 margin-bottom-10">
                                     <div class="dashboard-stat blue">
                                         <div class="visual">
-                                            <i class="fa fa-briefcase fa-icon-medium"></i>
+                                            <i class="fa fa-th-large fa-icon-medium"></i>
                                         </div>
                                         <div class="details">
                                             <div class="number"> {{dishQuantity}} </div>
@@ -99,7 +99,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="dashboard-stat green">
                                         <div class="visual">
-                                            <i class="fa fa-group fa-icon-medium"></i>
+                                            <i class="fa fa-dollar"></i>
                                         </div>
                                         <div class="details">
                                             <div class="number"> RMB {{averageOrderPrice}} </div>
@@ -110,7 +110,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="dashboard-stat red">
                                         <div class="visual">
-                                            <i class="fa fa-shopping-cart"></i>
+                                            <i class="icon-users fa-icon-medium"></i>
                                         </div>
                                         <div class="details">
                                             <div class="number"> {{companyQuantity}} </div>
@@ -121,7 +121,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="dashboard-stat green">
                                         <div class="visual">
-                                            <i class="fa fa-group fa-icon-medium"></i>
+                                            <i class="fa fa-user fa-icon-medium"></i>
                                         </div>
                                         <div class="details">
                                             <div class="number"> {{customerQuantity}} </div>
