@@ -7,16 +7,13 @@
                         <p> 家里饭 - 组团订餐专家 </p>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs12 footer-block">
-                        <h2>订阅我们</h2>
+                        <h2></h2>
                         <div class="subscribe-form">
-                            <form action="javascript:;">
+                         
                                 <div class="input-group">
-                                    <input type="text" placeholder="" class="form-control">
-                                    <span class="input-group-btn">
-                                        <button class="btn" type="submit">提交</button>
-                                    </span>
+
                                 </div>
-                            </form>
+                            
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12 footer-block">

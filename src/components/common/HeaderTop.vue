@@ -4,9 +4,9 @@
                 <div class="container">
                     <!-- BEGIN LOGO -->
                     <div class="page-logo" style="padding-top:10px;">
-                        <a href="index.html">
+                        
                             <img src="../../../static/img/logo.jpg" alt="logo" style="width:200px;height:60px;">
-                        </a>
+                      
                     </div>
                     <!-- END LOGO -->
                     <!-- BEGIN RESPONSIVE MENU TOGGLER -->
