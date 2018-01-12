@@ -176,6 +176,7 @@
 			},
 			updatePassword(item){
 			   this.model = item;
+			   this.oldPassword = item.admin_password;
 			},
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
@@ -203,7 +204,8 @@
 				if(res.status == 200){
 				     this.actionProgress = false;
 				     if(res.data.content == true){
-                       showNotice('success','Success!','修改成功!');					
+                       showNotice('success','Success!','修改成功!');
+                       this.getList();					   
 			           $('#updatePasswordModel').modal('hide');
 					 }else{
 					   showNotice('error','Error!','修改失败,请检查原密码!');
