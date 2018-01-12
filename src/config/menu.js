@@ -23,7 +23,7 @@ export default [
   {
     name: '产品',
     code: '/product',
-	path: '',
+	path: '/product/dish',
 	icon: 'fa fa-th-large',
 	active: false,
     items: [
@@ -133,13 +133,13 @@ export default [
 		icon: 'icon-user',
 		active: false
       },
-      {
-        name: '系统设置',
-        code: '/setting',
-        path: '/setting',
-		icon: 'fa fa-gear',
-		active: false
-      },
+      //{
+        //name: '系统设置',
+        //code: '/setting',
+        //path: '/setting',
+		//icon: 'fa fa-gear',
+		//active: false
+      //},
       {
         name: '系统日志',
         code: '/log',

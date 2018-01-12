@@ -10,6 +10,7 @@ import Distributer from '../components/page/Distributer.vue'
 import DistributionForm from '../components/page/DistributionForm.vue'
 import Summary from '../components/page/Summary.vue'
 import OperationLog from '../components/page/OperationLog.vue'
+import Dashboard from '../components/page/Dashboard.vue'
 import Login from '../components/page/Login.vue'
 import store from '../vuex/store'
 import * as types from '../vuex/types'
@@ -117,6 +118,16 @@ let router = new Router({
                         requireAuth: true,
                     },
                     component: Summary
+                },
+                {
+                    path: '/dashboard',
+                    //path: '/dashboard/:id',
+                    name: 'dashboard',
+                    linkActiveClass: 'active',
+                    meta: {
+                        requireAuth: true,
+                    },
+                    component: Dashboard
                 }
             ]
         },
