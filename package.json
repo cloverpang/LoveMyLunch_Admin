@@ -1,7 +1,7 @@
 {
   "name": "manage-system",
   "version": "1.0.0",
-  "description": "基于Vue.js 2.x系列 + element-ui 内容管理系统解决方案",
+  "description": "家里饭 后台管理系统",
   "author": "lin-xin <2981207131@qq.com>",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "axios": "^0.15.3",
     "babel-polyfill": "^6.23.0",
     "echarts": "^3.8.5",
-    "element-ui": "^1.4.10",
+    "highcharts": "^6.0.4",
     "vee-validate": "^2.0.0-rc.27",
     "vue": "^2.5.2",
     "vue-core-image-upload": "^2.0.5",
