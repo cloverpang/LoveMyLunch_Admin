@@ -11,7 +11,7 @@
                 <div class="col-md-6 login-container bs-reset">
                     <div class="login-content">
                         <h1>家里饭 后台管理 LOGIN </h1>
-                        <p> Lorem ipsum dolor sit amet, coectetuer adipiscing elit sed diam nonummy et nibh euismod aliquam erat volutpat. Lorem ipsum dolor sit amet, coectetuer adipiscing. </p>
+                        <p>  </p>
                         <form action="javascript:;" class="login-form" method="post">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-close="alert"></button>
