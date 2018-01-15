@@ -19,7 +19,7 @@
                             <li class="dropdown dropdown-user dropdown-dark">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <img alt="" class="img-circle" src="../../../static/assets/layouts/layout3/img/avatar9.jpg">
-                                    <span class="username username-hide-mobile">庞静波</span>
+                                    <span class="username username-hide-mobile">{{username}}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
                                     <li>
@@ -32,7 +32,7 @@
                                             <i class="icon-lock"></i> 锁屏 </a>
                                     </li>
                                     <li>
-                                        <a href="page_user_login_1.html">
+                                        <a href="javascript:void(0);" @click="logout">
                                             <i class="icon-key"></i> 退出 </a>
                                     </li>
                                 </ul>
@@ -46,4 +46,28 @@
             <!-- END HEADER TOP -->
 </template>
 
-
+<script>
+    import * as types from '../../vuex/types';
+	
+	import {showTip,showNotice} from '../../utils/common.js';
+	
+    export default {
+        data() {
+            return {
+                name: ''
+            }
+        },
+        computed:{
+            username(){
+                let username = this.$store.state.user.username;
+                return username ? username : this.name;
+            }
+        },
+        methods: {
+		   logout(){
+		      this.$store.commit(types.LOGOUT);
+              this.$router.push('/login');
+		   }
+        }
+    }
+</script>
