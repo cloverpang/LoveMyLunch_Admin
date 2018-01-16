@@ -65,8 +65,26 @@
         },
         methods: {
 		   logout(){
-		      this.$store.commit(types.LOGOUT);
+		      this.removeToken();
+		      //this.$store.commit(types.LOGOUT);
               this.$router.push('/login');
+		   },
+		   removeToken(){
+				    const self = this;
+                    self.$http.put('/auth/remove-token', {
+                      })
+                      .then(function (response) {
+                        if(response.data.statusCode == 200){
+							//alert(response.data.responseString);
+							showNotice('info','Success!','成功退出!');
+				        }else{
+						    showNotice('warning','Error!','操作失败!');
+                        }
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+						showNotice('warning','Error!','操作失败,网络异常!');
+                      });
 		   }
         }
     }

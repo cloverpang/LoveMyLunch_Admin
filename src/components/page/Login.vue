@@ -11,7 +11,7 @@
                 <div class="col-md-6 login-container bs-reset">
                     <div class="login-content">
                         <h1>家里饭 后台管理 LOGIN </h1>
-                        <p>  </p>
+                        <p> 家里饭 后台管理系统 使用vue2.0构建 </p>
                         <form action="javascript:;" class="login-form" method="post">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-close="alert"></button>
