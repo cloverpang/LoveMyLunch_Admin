@@ -9,8 +9,8 @@ axios.defaults.timeout = 20000;
 axios.defaults.baseURL = 'http://localhost:8080/lovermylunch_api';
 //axios.defaults.baseURL = '/lovermylunch_api/';
 axios.defaults.headers['ai-api-access-token'] = 'fb34e7cbca8bcac576a4ce31c9dc28ba';
-axios.defaults.headers['AI-Token'] = 'yyyy';
-axios.defaults.headers['Authorization'] = 'zzzz';
+axios.defaults.headers['AI-Token'] = '';
+axios.defaults.headers['Authorization'] = '';
 
 // http request 拦截器
 axios.interceptors.request.use(
