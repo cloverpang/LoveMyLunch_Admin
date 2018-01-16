@@ -175,7 +175,7 @@
 
         <vCustomerEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCustomerEdit>
 											
-		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.customerId" :itemName="model.customerName" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal ref="deleteConfirm" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.customerId" :itemName="model.customerName" @handleConfirm="handleDelete"></vConfirmModal>
 
         <vCompanyListPopup ref="companyListPopup" :loadData=loadCompanyData></vCompanyListPopup>
             <!-- END CONTENT -->	
@@ -332,17 +332,22 @@
             },
 			//处理删除
 			handleDelete(id){
-			         $('#deleteConfirmModel').modal('hide');
+			         this.$refs.deleteConfirm.actionProgress = true;
+
 					 this.$http.delete('/customer/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
+					   	this.$refs.deleteConfirm.actionProgress = false;
+			            $('#deleteConfirmModel').modal('hide');
 					    //showTip("Success","删除成功");
                         showNotice('success','Success!','删除成功!');					
 						this.getList();
                        }
                      }, (response) => {
+					    this.$refs.deleteConfirm.actionProgress = false;
+			            $('#deleteConfirmModel').modal('hide');
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                      });  
 			},

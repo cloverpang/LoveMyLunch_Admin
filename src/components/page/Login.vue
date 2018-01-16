@@ -104,7 +104,7 @@
 							
                             //self.$http.defaults.headers.Authorization = jsonData.token;
                             //self.$router.push('/default');
-							if(self.returnPath == undefined || self.returnPath == ""){
+							if(self.returnPath == undefined || self.returnPath == "" || self.returnPath == "/login"){
 							   self.$router.push('/default');
 							}else{
 							   self.$router.push(self.returnPath);

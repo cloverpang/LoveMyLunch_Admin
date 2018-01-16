@@ -241,7 +241,7 @@
 
         <vLunchOrderEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveLunchOrder" @refresh="refresh"></vLunchOrderEdit>
 											
-		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.orderId" :itemName="model.customerName + ' 在 ' + formatMintuesDate(model.bookTime)  + ' 下的订单'" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal ref="deleteConfirm" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.orderId" :itemName="model.customerName + ' 在 ' + formatMintuesDate(model.bookTime)  + ' 下的订单'" @handleConfirm="handleDelete"></vConfirmModal>
            
         <vCompanyListPopup ref="companyListPopup" :loadData=loadCompanyData></vCompanyListPopup>
         <vCustomerListPopup ref="customerListPopup" :loadData=loadCustomerData></vCustomerListPopup>
@@ -492,17 +492,21 @@
             },
 			//处理删除
 			handleDelete(id){
-			         $('#deleteConfirmModel').modal('hide');
+			         this.$refs.deleteConfirm.actionProgress = true;
+					 
 					 this.$http.delete('/lunchOrder/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
-					    //showTip("Success","删除成功");
+					   	this.$refs.deleteConfirm.actionProgress = false;
+			            $('#deleteConfirmModel').modal('hide');
                         showNotice('success','Success!','删除成功!');					
 						this.getList();
                        }
                      }, (response) => {
+					   	this.$refs.deleteConfirm.actionProgress = false;
+			            $('#deleteConfirmModel').modal('hide');
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                      });  
 			},

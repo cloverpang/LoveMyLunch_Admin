@@ -190,7 +190,7 @@
 
         <vDishEdit :model=model :form=form :viewType=viewType :dishType=dishType :statusOptions=statusOptions :priceOptions=priceOptions :pepperOptions=pepperOptions :addType=addType @handleSave="handleSaveProduct" @refresh="refresh"></vDishEdit>
 											
-		<vConfirmModal :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.dishId" :itemName="model.dishName" @handleConfirm="handleDelete"></vConfirmModal>
+		<vConfirmModal ref="deleteConfirm" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.dishId" :itemName="model.dishName" @handleConfirm="handleDelete"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -365,17 +365,21 @@
             },
 			//处理删除
 			handleDelete(id){
-			         $('#deleteConfirmModel').modal('hide');
+					 this.$refs.deleteConfirm.actionProgress = true;
+					 
 					 this.$http.delete('/dish/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
-					    //showTip("Success","删除成功");
+					    this.$refs.deleteConfirm.actionProgress = false;
+			            $('#deleteConfirmModel').modal('hide');
                         showNotice('success','Success!','删除成功!');					
 						this.getList();
                        }
                      }, (response) => {
+					    this.$refs.deleteConfirm.actionProgress = false;
+			            $('#deleteConfirmModel').modal('hide');
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                      });  
 			},

@@ -212,8 +212,8 @@
 
         <vOperationLogView :model=model :viewType=viewType :addType=addType ></vOperationLogView>
 											
-		<vConfirmModal :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.operationId" :itemName="'该条log'" @handleConfirm="handleDelete"></vConfirmModal>
-        <vConfirmModal :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
+		<vConfirmModal ref="deleteConfirm" :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.operationId" :itemName="'该条log'" @handleConfirm="handleDelete"></vConfirmModal>
+        <vConfirmModal ref="batchDeleteConfirm" :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -372,17 +372,21 @@
             },
 			//处理删除
 			handleDelete(id){
-			         $('#deleteConfirmModel').modal('hide');
+			         this.$refs.deleteConfirm.actionProgress = true;
+			         
 					 this.$http.delete('/operationLog/' + id,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
-					    //showTip("Success","删除成功");
+					    this.$refs.deleteConfirm.actionProgress = false;
+					    $('#deleteConfirmModel').modal('hide');
                         showNotice('success','Success!','删除成功!');					
 						this.getList();
                        }
                      }, (response) => {
+					 	this.$refs.deleteConfirm.actionProgress = false;
+					    $('#deleteConfirmModel').modal('hide');
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                      });  
 			},
@@ -433,7 +437,8 @@
                     return;
                 }
 
-                $('#batchDeleteConfirmModel').modal('hide');
+				this.$refs.batchDeleteConfirm.actionProgress = true;
+                
                 //alert(this.checkboxModel.length);
                 var _this = this; 
                 var ids = "";
@@ -446,12 +451,16 @@
 				.then( (res) => {
                 //子组件监听到数据返回变化会自动更新DOM
 			    if(res.status == 200){
+				   this.$refs.batchDeleteConfirm.actionProgress = false;
+				   $('#batchDeleteConfirmModel').modal('hide');
                    showNotice('success','Success!','批量删除成功!');
                    this.checkAll = false;
                    this.checkboxModel = [];					
 				   this.getList();
                  }
                 }, (response) => {
+				   $('#batchDeleteConfirmModel').modal('hide');
+				   this.$refs.batchDeleteConfirm.actionProgress = false;
                    showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                 });  
             }

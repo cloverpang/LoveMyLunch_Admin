@@ -10,8 +10,9 @@
                                                             <p> {{confirmMessage}} {{itemName}}? </p>
                                                         </div>
                                                         <div class="modal-footer">
+														    <span v-show="actionProgress" style="color:#000000;"><img src="../../../static/img/loading.gif"> 操作进行中...</span>
                                                             <button class="btn default" data-dismiss="modal" aria-hidden="true">取消</button>
-                                                            <button class="btn blue" @click="handleConfirm(itemId)">确认</button>
+                                                            <button class="btn blue" @click="handleConfirm(itemId)" :disabled="actionProgress">确认</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -55,7 +56,8 @@ export default {
 		    modalId : this.modalId,//当前div id
             itemName : this.itemName, //当前item name
             itemId : this.itemId, // 参数
-			confirmMessage : this.confirmMessage //显示的确认信息
+			confirmMessage : this.confirmMessage, //显示的确认信息
+			actionProgress : false
         }
     },
     watch : {
