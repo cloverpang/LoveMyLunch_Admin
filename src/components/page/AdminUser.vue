@@ -65,13 +65,13 @@
 
 																	<div class="col-md-2 control-label">    
                                                                       <h4 class="" style="color:#333333;">
-																	  <a data-toggle="modal"  href="#setFrontendPermissionModel" @click="selectedAdminUser(item)"> 显示权限 </a>
+																	  <a data-toggle="modal"  href="#setFrontendPermissionModel" @click="selectedAdminUserFrontendPermission(item)"> 显示权限 </a>
 																	  </h4>															
                                                                     </div>
 																	
 																    <div class="col-md-2 control-label">    
                                                                       <h4 class="" style="color:#333333;">
-																	  <a data-toggle="modal"  href="#setBackendPermissionModel" @click="selectedAdminUser(item)"> 后端权限 </a>
+																	  <a data-toggle="modal"  href="#setBackendPermissionModel" @click="selectedAdminUserBackendPermission(item)"> 后端权限 </a>
 																	  </h4>															
                                                                     </div>
 																	
@@ -133,6 +133,7 @@
                                             </div>
 			
 			<vAdminBackendPermission ref="backendPermission" @refresh="refresh"></vAdminBackendPermission>
+			<vAdminFrontendPermission ref="frontendPermission" @refresh="refresh"></vAdminFrontendPermission>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -144,11 +145,12 @@
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	import vAdminBackendPermission from './adminBackendPermission';
+	import vAdminFrontendPermission from './adminFrontendPermission';
 
 	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,getTomorrowFormatDay} from '../../utils/common.js';
     export default {
         components: {
-		    vConfirmModal,tableDataLoadingProgress,vAdminBackendPermission
+		    vConfirmModal,tableDataLoadingProgress,vAdminBackendPermission,vAdminFrontendPermission
         },
         data () {
             return {
@@ -187,9 +189,16 @@
             },
 			selectedAdminUser(item){
 			   this.model = item;
+			},
+			selectedAdminUserBackendPermission(item){
 			   this.$refs.backendPermission.admin_login = item.admin_login;
 			   this.$refs.backendPermission.admin_backend_permission_str = item.backend_permissions;
 			   this.$refs.backendPermission.loadAdminUserBackendPermssions();
+			},
+			selectedAdminUserFrontendPermission(item){
+			   this.$refs.frontendPermission.admin_login = item.admin_login;
+			   this.$refs.frontendPermission.admin_backend_permission_str = item.backend_permissions;
+			   this.$refs.frontendPermission.loadAdminUserBackendPermssions();
 			},
 			updatePassword(item){
 			   this.model = item;
