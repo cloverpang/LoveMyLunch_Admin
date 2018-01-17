@@ -43,26 +43,38 @@
                                                     <div class="panel-body">
 													 
                                                                  <div class="form-group">
-                                                                    <div class="col-md-3 control-label">
-																	<h3 class="" style="color:#333333;">{{item.admin_login}}</h3>
+                                                                    <div class="col-md-2 control-label">
+																	<h4 class="" style="color:#333333;">{{item.admin_login}}</h4>
 																	</div>
 
-																	<div class="col-md-3 control-label">
-                                                                       <h3 class="" style="color:#333333;">{{item.admin_name}}</h3>
+																	<div class="col-md-2 control-label">
+                                                                       <h4 class="" style="color:#333333;">{{item.admin_name}}</h4>
                                                                     </div>
 																	
-                                                                    <div class="col-md-3 control-label">    
-                                                                      <h3 class="" style="color:#333333;">
-																	  <a data-toggle="modal"  href="#deleteConfirmModel" @click="deleteAdminUser(item)"> 删除 </a>
-																	  </h3>															
+                                                                    <div class="col-md-2 control-label">    
+                                                                      <h4 class="" style="color:#333333;">
+																	  <a data-toggle="modal"  href="#deleteConfirmModel" @click="selectedAdminUser(item)"> 删除 </a>
+																	  </h4>															
                                                                     </div>
 																	
-																    <div class="col-md-3 control-label">    
-                                                                      <h3 class="" style="color:#333333;">
+																    <div class="col-md-2 control-label">    
+                                                                      <h4 class="" style="color:#333333;">
 																	  <a data-toggle="modal"  href="#updatePasswordModel" @click="updatePassword(item)"> 修改密码 </a>
-																	  </h3>															
+																	  </h4>															
                                                                     </div>
 
+																	<div class="col-md-2 control-label">    
+                                                                      <h4 class="" style="color:#333333;">
+																	  <a data-toggle="modal"  href="#setFrontendPermissionModel" @click="selectedAdminUser(item)"> 显示权限 </a>
+																	  </h4>															
+                                                                    </div>
+																	
+																    <div class="col-md-2 control-label">    
+                                                                      <h4 class="" style="color:#333333;">
+																	  <a data-toggle="modal"  href="#setBackendPermissionModel" @click="selectedAdminUser(item)"> 后端权限 </a>
+																	  </h4>															
+                                                                    </div>
+																	
                                                                  </div>
 													 
 													</div>
@@ -120,6 +132,7 @@
                                                 </div>
                                             </div>
 			
+			<vAdminBackendPermission ref="backendPermission" @refresh="refresh"></vAdminBackendPermission>
             <!-- END CONTENT -->	
         </div>
         <!-- END CONTAINER -->
@@ -130,11 +143,12 @@
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vConfirmModal from './../Common/confirmModal';
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
+	import vAdminBackendPermission from './adminBackendPermission';
 
 	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,getTomorrowFormatDay} from '../../utils/common.js';
     export default {
         components: {
-		    vConfirmModal,tableDataLoadingProgress
+		    vConfirmModal,tableDataLoadingProgress,vAdminBackendPermission
         },
         data () {
             return {
@@ -171,8 +185,11 @@
                      //error callback
                 });
             },
-			deleteAdminUser(item){
+			selectedAdminUser(item){
 			   this.model = item;
+			   this.$refs.backendPermission.admin_login = item.admin_login;
+			   this.$refs.backendPermission.admin_backend_permission_str = item.backend_permissions;
+			   this.$refs.backendPermission.loadAdminUserBackendPermssions();
 			},
 			updatePassword(item){
 			   this.model = item;
@@ -199,7 +216,7 @@
 				var url = '/adminUser/updatePassword';
 				var parasData = {"adminLogin":login,"adminPassword":this.oldPassword,"newAdminPassword":this.newPassword};
 				
-				this.$http.post(url,parasData)
+				this.$http.put(url,parasData)
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
@@ -215,7 +232,10 @@
 				     this.actionProgress = false;
                      showNotice('warning','Error!','远程数据操作失败,请检查网络!');
                 });
-			}
+			},
+			refresh(){
+                this.getList();
+            },
         },
 		beforeCreate(){
 
