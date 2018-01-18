@@ -168,7 +168,8 @@ let router = new Router({
 if (window.localStorage.getItem('ms_token')) {
     let user = {
         username: window.localStorage.getItem('ms_username'),
-        token: window.localStorage.getItem('ms_token')
+        token: window.localStorage.getItem('ms_token'),
+		permissions: window.localStorage.getItem('ms_permissions')
     }
     store.commit(types.LOGIN, user);
 }

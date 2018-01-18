@@ -205,10 +205,14 @@
                 <td style="width:7%;" v-html='changeOrderStatus(item.orderStatus)'> </td>
                 <td style="width:7%;" v-html='changePaymentStatus(item.paymentStatus)'> </td>
                 <td style="width:6%;"> 
-				<a data-toggle="modal" href="#editLunchOrderModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editLunchOrderModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade" v-if="showEditButton">
+				<i class="fa fa-pencil"></i> Edit 
+				</a>
 				</td>
 				<td style="width:6%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteLunchOrder(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteLunchOrder(item)" class="btn btn-circle btn-xs dark" v-if="showDeleteButton">
+				<i class="fa fa-times"></i> Delete 
+				</a>
 				</td>
              </tr>
 
@@ -263,7 +267,7 @@
 	import vCustomerListPopup from './CustomerListPopup';
 
 	import vLunchOrderEdit from './LunchOrderEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,checkPermission} from '../../utils/common.js';
 
     export default {
         components: {
@@ -336,7 +340,9 @@
                 selectedPaymentStatus:[],
                 startDate : '',
                 endDate : '',
-				type : this.$route.query.type
+				type : this.$route.query.type,
+				showEditButton : checkPermission('component_order_update'),
+				showDeleteButton : checkPermission('component_order_delete')
             }
         },
         methods:{

@@ -94,7 +94,8 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="btn-group">
-                                                            <a data-toggle="modal" href="#editDistributerModal" class="btn btn-outline dark" @click="showAddModel()"> 添加新的配送员
+                                                            <a data-toggle="modal" href="#editDistributerModal" class="btn btn-outline dark" @click="showAddModel()" v-if="$_has('component_distributer_add')"> 
+															    添加新的配送员
                                                                 <i class="fa fa-plus"></i>
                                                             </a>
                                                         </div>
@@ -122,7 +123,7 @@
                                                                                 <i class="icon-magnifier"></i>
                                                                             </a>
                                                                         </li>
-                                                                        <li>
+                                                                        <li v-if="showEditButton">
                                                                            <a class="btn default btn-outline" data-toggle="modal" href="#editDistributerModal" @click="showEditModel(item,true)">
                                                                                 <i class="icon-link"></i>
                                                                             </a>
@@ -137,12 +138,12 @@
 																<span> {{item.mobile}} </span>
                                                                 <div class="mt-card-social">
                                                                     <ul>
-                                                                        <li>
+                                                                        <li v-if="showEditButton">
                                                                             <a data-toggle="modal" href="#editDistributerModal" @click="showEditModel(item,true)">
                                                                                 <i class="fa fa-pencil"></i>
                                                                             </a>
                                                                         </li>
-                                                                        <li>
+                                                                        <li v-if="showDeleteButton">
                                                                             <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteDistributer(item)">
                                                                                 <i class="fa fa-times"></i>
                                                                             </a>
@@ -191,7 +192,7 @@
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vDistributerEdit from './DistributerEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,checkPermission} from '../../utils/common.js';
     export default {
         components: {
 		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vDistributerEdit,tableDataLoadingProgress
@@ -232,7 +233,9 @@
                     createTime: ""
                 },
 				viewType:false,
-				addType:false
+				addType:false,
+				showEditButton : checkPermission('component_distributer_update'),
+				showDeleteButton : checkPermission('component_distributer_delete')
             }
         },
         methods:{

@@ -57,6 +57,36 @@
         <!-- END CONTAINER -->
 </template>
 
+<script>
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,getTomorrowFormatDay} from '../../utils/common.js';
+    export default {
+        components: {
+		   
+        },
+        data () {
+            return {
+				permissions : localStorage.ms_username,
+            }
+        },
+        methods:{
+
+        },
+		beforeCreate(){
+
+		},
+        beforeMount(){
+            this.getList();
+        },
+		created () {
+
+        },
+        watch: {
+
+        }
+    }
+</script>
+
+
 <style>
 .about-header {
   height: 500px;

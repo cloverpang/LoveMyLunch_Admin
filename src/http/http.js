@@ -49,10 +49,7 @@ axios.interceptors.response.use(
                 case 405:
                     // 405 跳转到 nopermission 警告页
                     //store.commit(types.LOGOUT);
-                    router.replace({
-                        path: 'noPermission',
-                        query: {redirect: router.currentRoute.fullPath}
-                    })
+					router.push('/noPermission');
             }
         }
         // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402

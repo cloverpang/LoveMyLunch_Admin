@@ -216,3 +216,19 @@ export function limitStringLength(str, len) {
 		}
 		
 }
+
+export function checkPermission(r) {
+          let permission = false;
+		  let resources = window.localStorage.ms_permissions;
+          //校验权限
+		  if(resources != null && resources != undefined && resources != 'undefined' && resources != ''){
+			 let resourcesArray = resources.split(',');
+             resourcesArray.forEach(function(p) {
+              if (r == p) {
+                  return permission = true;
+                 }
+             });
+		  }
+		  //alert(permission);
+          return permission;
+}

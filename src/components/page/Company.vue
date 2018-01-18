@@ -90,12 +90,12 @@
                                             <div class="table-toolbar">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="btn-group">
+                                                        <div class="btn-group" v-if="$_has('component_company_add')">
                                                             <a data-toggle="modal" href="#editCompanyModal" class="btn btn-outline dark" @click="showAddModel()"> 添加新公司
                                                                 <i class="fa fa-plus"></i>
                                                             </a>
                                                         </div>
-                                                        <div class="btn-group">
+                                                        <div class="btn-group" v-if="$_has('component_company_batch_delete')">
                                                             <a class="btn btn-outline dark" @click="batchDelete()"> 批量删除
                                                                 <i class="fa fa-times"></i>
                                                             </a>
@@ -178,10 +178,10 @@
                     <!-- <router-link :to="{name:'customer',params: { id:item.companyId }}" target="_blank"> 公司人员 </router-link>-->
                </td>
                 <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade" v-if="showEditButton"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-circle btn-xs dark" v-if="showDeleteButton"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -231,7 +231,7 @@
     import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vCompanyEdit from './companyEdit';
-	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,checkPermission} from '../../utils/common.js';
     export default {
         components: {
 		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCompanyEdit,tableDataLoadingProgress
@@ -270,7 +270,9 @@
 				viewType:false,
 				addType:false,
                 checkboxModel:[],
-                checkAll:false
+                checkAll:false,
+				showEditButton : checkPermission('component_company_update'),
+				showDeleteButton : checkPermission('component_company_delete')
             }
         },
         methods:{

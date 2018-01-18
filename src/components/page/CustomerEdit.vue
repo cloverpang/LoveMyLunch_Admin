@@ -76,9 +76,11 @@
                                                     </div>
 														</div>
                                                         <div class="modal-footer">
-														    <button type="button" class="btn blue" v-show="viewType" @click="changeViewType"><i class="fa fa-pencil"></i> 修改 </button>
+														    <button type="button" class="btn blue" v-show="viewType" @click="changeViewType" v-if="$_has('component_customer_update')">
+															<i class="fa fa-pencil"></i> 修改 
+															</button>
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" @click="handleClose"> 关闭 </button>
-                                                            <button type="submit" class="btn green" v-show="!viewType" :disabled="actionProgress">
+                                                            <button type="submit" class="btn green" v-show="!viewType" :disabled="actionProgress" v-if="$_has('component_customer_update')">
 															 保存 <span id="saveCustomerAction" v-show="actionProgress">......</span>
 															</button>
                                                         </div>

@@ -13,6 +13,33 @@ const config = {
 Validator.locale ==="en" ? "zh_CN" : "en";
 Vue.use(VeeValidate,config);
 
+//权限检验方法
+ Vue.prototype.$_has = function(r) {
+          let permission = false;
+		  let resources = store.state.user.permissions;
+		  //alert(r);
+          //校验权限
+		  if(resources != null && resources != undefined && resources != 'undefined' && resources != ''){
+			 let resourcesArray = resources.split(',');
+             resourcesArray.forEach(function(p) {
+              if (r == p) {
+                  return permission = true;
+                 }
+             });
+		  }
+		  //alert(permission);
+          return permission;
+}
+		
+//权限指令
+Vue.directive('has', {
+  bind: function(el, binding) {
+    if (!Vue.prototype.$_has(binding.value)) {
+      el.parentNode.removeChild(el);
+    }
+  }
+});
+
 /*Vue.prototype.$http = axios.create({
     baseURL: 'http://www.czoll.com:8080/api/',
     timeout: 1000,

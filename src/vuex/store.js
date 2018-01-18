@@ -1,6 +1,4 @@
-/**
- * Created by yaojunjun on 12/04/2017.
- */
+
 import Vuex from 'vuex'
 import Vue from 'vue'
 import * as types from './types'
@@ -10,7 +8,8 @@ export default new Vuex.Store({
     state: {
         user: {
             username:'',
-            token:null
+            token:null,
+			permissions:''
         },
         title: ''
     },
@@ -18,14 +17,18 @@ export default new Vuex.Store({
         [types.LOGIN]: (state, data) => {
             window.localStorage.ms_token = data.token;
             window.localStorage.ms_username = data.username;
+			window.localStorage.ms_permissions = data.permissions;
             state.user.token = data.token;
             state.user.username = data.username;
+			state.user.permissions = data.permissions;
         },
         [types.LOGOUT]: (state) => {
             localStorage.removeItem('ms_token');
             localStorage.removeItem('ms_username');
+			localStorage.removeItem('ms_permissions');
             state.user.token = null;
             state.user.username = '';
+			state.user.permissions = '';
         },
         [types.TITLE]: (state, data) => {
             state.title = data;

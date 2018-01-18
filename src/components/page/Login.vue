@@ -92,19 +92,24 @@
 					    self.actionProgress = false;
                         if(response.data.statusCode == 200){
 	                        var jsonData = JSON.parse(response.data.responseString);
+							
+							//alert(jsonData.adminUser.frontend_permissions);
+							
                             localStorage.setItem('ms_username',self.ruleForm.username);
-                            localStorage.setItem('ms_token',jsonData.token);
-							//alert(response.data.responseString);
-							//alert(jsonData.token);
+                            localStorage.setItem('ms_token',jsonData.tokenSession.token);
+							localStorage.setItem('ms_permissions',jsonData.adminUser.frontend_permissions);
+							
                             let result = {
                                 username:self.ruleForm.username,
-                                token:jsonData.token
+                                token:jsonData.tokenSession.token,
+								permissions:jsonData.adminUser.frontend_permissions
                             };
+							
                             self.$store.commit(types.LOGIN, result);
 							
-                            //self.$http.defaults.headers.Authorization = jsonData.token;
+                            //self.$http.defaults.headers.Authorization = jsonData.tokenSession.token;
                             //self.$router.push('/default');
-							if(self.returnPath == undefined || self.returnPath == "" || self.returnPath == "/login"){
+							if(self.returnPath == undefined || self.returnPath == "" || self.returnPath == "/login" || self.returnPath == "/noPermission"){
 							   self.$router.push('/default');
 							}else{
 							   self.$router.push(self.returnPath);

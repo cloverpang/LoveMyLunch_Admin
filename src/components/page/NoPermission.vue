@@ -1,6 +1,6 @@
 <template>
         <!-- BEGIN CONTAINER -->
-        <div class="page-container">
+        <div class="page-container ">
             <!-- BEGIN CONTENT -->
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
@@ -32,16 +32,10 @@
                                     <div class="details">
                                         <h3>Sorry, 您没有权限访问此页面</h3>
 
-                                           
-                                        
-                                            <div class="input-group input-medium">
-
-                                            </div>
-                                            <!-- /input-group -->
-                                        
                                     </div>
                                 </div>
                             </div>
+                            <div style="height:150px;"></div>
                         </div>
                         <!-- END PAGE CONTENT INNER -->
                     </div>

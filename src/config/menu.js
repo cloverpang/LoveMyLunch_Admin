@@ -11,14 +11,50 @@ export default [
     code: '/company',
 	path: '/company',
 	icon: 'icon-users',
-	active: false
+	active: false,
+	permission: 'company_get_list',
+	components:[
+	  {
+		  name : '添加新公司',
+		  code : 'component_company_add',
+		  permission : 'company_add'
+	  },
+	  {
+		  name : '批量删除',
+		  code : 'component_company_batch_delete',
+		  permission : 'company_batch_delete'
+	  },
+	  {
+		  name : '删除',
+		  code : 'component_company_delete',
+		  permission : 'company_delete'
+	  },
+	  {
+		  name : '编辑',
+		  code : 'component_company_update',
+		  permission : 'company_update'
+	  }
+	]
   },
   {
     name: '用户',
     code: '/customer',
 	path: '/customer',
 	icon: 'icon-user',
-	active: false
+	active: false,
+	permission: 'customer_get_list',
+	components:[
+	  {
+		  name : '删除',
+		  code : 'component_customer_delete',
+		  permission : 'customer_delete'
+	  },
+	  {
+		  name : '编辑',
+		  code : 'component_customer_update',
+		  permission : 'customer_update'
+	  }
+	]
   },
   {
     name: '产品',
@@ -26,6 +62,24 @@ export default [
 	path: '/product/dish',
 	icon: 'fa fa-th-large',
 	active: false,
+	permission: 'dish_get_list',
+	components:[
+	  {
+		  name : '删除',
+		  code : 'component_dish_delete',
+		  permission : 'dish_delete'
+	  },
+	  {
+		  name : '编辑',
+		  code : 'component_dish_update',
+		  permission : 'dish_update'
+	  },
+	  {
+		  name : '新增',
+		  code : 'component_dish_add',
+		  permission : 'dish_add'
+	  }
+	],
     items: [
       {
         name: '菜品',
@@ -56,6 +110,19 @@ export default [
 	path: '/order',
 	icon: 'fa fa-shopping-cart',
 	active: false,
+	permission: 'order_get_list',
+	components:[
+	  {
+		  name : '删除',
+		  code : 'component_order_delete',
+		  permission : 'order_delete'
+	  },
+	  {
+		  name : '编辑',
+		  code : 'component_order_update',
+		  permission : 'order_update'
+	  }
+	],
 	items: [
       {
         name: '当天订单',
@@ -72,6 +139,7 @@ export default [
 	path: '/summary',
 	icon: 'fa fa-table',
 	active: false,
+	permission: 'summary',
 	items: [
       {
         name: '当日汇总',
@@ -94,14 +162,60 @@ export default [
         code: '/distributionForm',
         path: '/distributionForm',
 		icon: 'fa fa-file-text',
-		active: false
+		active: false,
+	    permission: 'distributionForm_get_list',
+	    components:[
+	      {
+		    name : '删除',
+		    code : 'component_distributionForm_delete',
+		    permission : 'distributionForm_delete'
+	      },
+	      {
+		    name : '生成配送单',
+		    code : 'component_distributionForm_generate',
+		    permission : 'distributionForm_generate'
+	      },
+	      {
+		    name : '标记所有已到达',
+		    code : 'component_distributionForm_mark_all_arrived',
+		    permission : 'distributionForm_mark_all_arrived'
+	      },
+	      {
+		    name : '标记到达',
+		    code : 'component_distributionForm_mark_arrived',
+		    permission : 'distributionForm_mark_arrived'
+	      },
+	      {
+		    name : '分配配送员',
+		    code : 'component_distributionForm_select_dirstributer',
+		    permission : 'distributionForm_select_dirstributer'
+	      }
+	    ]
       },
       {
         name: '配送员',
         code: '/distributer',
         path: '/distributer',
 		icon: 'fa fa-user-md',
-		active: false
+		active: false,
+	    permission: 'distributer_get_list',
+	    components:[
+	      {
+		    name : '删除',
+		    code : 'component_distributer_delete',
+		    permission : 'distributer_delete'
+	      },
+	      {
+		    name : '编辑',
+		    code : 'component_distributer_update',
+		    permission : 'distributer_update'
+	      },
+	      {
+		    name : '新增',
+		    code : 'component_distributer_add',
+		    permission : 'distributer_add'
+	      }
+	    ]
       }
     ]
   },
@@ -117,7 +231,8 @@ export default [
     code: '/dashboard',
 	path: '/dashboard',
 	icon: 'icon-bar-chart',
-	active: false
+	active: false,
+	permission: 'dashboard_summary,dashboard_order_chart,dashboard_customer_chart'
   },
   {
     name: '系统',
@@ -131,7 +246,30 @@ export default [
         code: '/adminUser',
         path: '/adminUser',
 		icon: 'icon-user',
-		active: false
+		active: false,
+		permission: 'adminUser_getAll',
+	    components:[
+	      {
+		    name : '删除',
+		    code : 'component_adminUser_delete',
+		    permission : 'adminUser_delete'
+	      },
+	      {
+		    name : '修改密码',
+		    code : 'component_adminUser_updatePassword',
+		    permission : 'adminUser_updatePassword'
+	      },
+	      {
+		    name : '修改前端权限',
+		    code : 'component_adminUser_update_front_permission',
+		    permission : 'adminUser_update_front_permission'
+	      },
+	      {
+		    name : '修改后端权限',
+		    code : 'component_adminUser_update_backend_permission',
+		    permission : 'adminUser_update_backend_permission'
+	      }
+	    ]
       },
       //{
         //name: '系统设置',
@@ -145,7 +283,8 @@ export default [
         code: '/log',
         path: '/log',
 		icon: 'fa fa-file-code-o',
-		active: false
+		active: false,
+		permission: 'operationLog_get_list',
       }
     ]
   }

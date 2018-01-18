@@ -52,25 +52,25 @@
                                                                     </div>
 																	
                                                                     <div class="col-md-2 control-label">    
-                                                                      <h4 class="" style="color:#333333;">
+                                                                      <h4 class="" style="color:#333333;" v-if="showDeleteButton">
 																	  <a data-toggle="modal"  href="#deleteConfirmModel" @click="selectedAdminUser(item)"> 删除 </a>
 																	  </h4>															
                                                                     </div>
 																	
 																    <div class="col-md-2 control-label">    
-                                                                      <h4 class="" style="color:#333333;">
+                                                                      <h4 class="" style="color:#333333;" v-if="showUpdatePasswordButton">
 																	  <a data-toggle="modal"  href="#updatePasswordModel" @click="updatePassword(item)"> 修改密码 </a>
 																	  </h4>															
                                                                     </div>
 
 																	<div class="col-md-2 control-label">    
-                                                                      <h4 class="" style="color:#333333;">
+                                                                      <h4 class="" style="color:#333333;" v-if="showSetFrontPermissionButton">
 																	  <a data-toggle="modal"  href="#setFrontendPermissionModel" @click="selectedAdminUserFrontendPermission(item)"> 显示权限 </a>
 																	  </h4>															
                                                                     </div>
 																	
 																    <div class="col-md-2 control-label">    
-                                                                      <h4 class="" style="color:#333333;">
+                                                                      <h4 class="" style="color:#333333;" v-if="showSetBackPermissionButton">
 																	  <a data-toggle="modal"  href="#setBackendPermissionModel" @click="selectedAdminUserBackendPermission(item)"> 后端权限 </a>
 																	  </h4>															
                                                                     </div>
@@ -147,7 +147,7 @@
 	import vAdminBackendPermission from './adminBackendPermission';
 	import vAdminFrontendPermission from './adminFrontendPermission';
 
-	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,getTomorrowFormatDay} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,getTomorrowFormatDay,checkPermission} from '../../utils/common.js';
     export default {
         components: {
 		    vConfirmModal,tableDataLoadingProgress,vAdminBackendPermission,vAdminFrontendPermission
@@ -161,6 +161,10 @@
                 items : [],
 				oldPassword : '',
 				newPassword : '',
+				showDeleteButton : checkPermission('component_adminUser_delete'),
+				showUpdatePasswordButton : checkPermission('component_adminUser_updatePassword'),
+				showSetFrontPermissionButton : checkPermission('component_adminUser_update_front_permission'),
+				showSetBackPermissionButton : checkPermission('component_adminUser_update_backend_permission')
             }
         },
         methods:{
@@ -197,8 +201,8 @@
 			},
 			selectedAdminUserFrontendPermission(item){
 			   this.$refs.frontendPermission.admin_login = item.admin_login;
-			   this.$refs.frontendPermission.admin_backend_permission_str = item.backend_permissions;
-			   this.$refs.frontendPermission.loadAdminUserBackendPermssions();
+			   this.$refs.frontendPermission.admin_frontend_permission_str = item.frontend_permissions;
+			   this.$refs.frontendPermission.loadAdminUserFrontendPermssions();
 			},
 			updatePassword(item){
 			   this.model = item;

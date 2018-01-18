@@ -139,10 +139,10 @@
                 <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
                 <td style="width:10%;">  </td>
                 <td style="width:7%;"> 
-				<a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade"><i class="fa fa-pencil"></i> Edit </a>
+				<a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade" v-if="showEditButton"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
 				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCustomer(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCustomer(item)" class="btn btn-circle btn-xs dark" v-if="showDeleteButton"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
@@ -195,7 +195,7 @@
 	import vCustomerEdit from './customerEdit';
     import vCompanyListPopup from './CompanyListPopup';
 
-	import {formatUnixDate,formatDate,showTip,showNotice} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,checkPermission} from '../../utils/common.js';
     export default {
         components: {
 		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCustomerEdit,tableDataLoadingProgress,vCompanyListPopup
@@ -242,6 +242,8 @@
                 loadCompanyData:false,
                 selectedCompanyNames:[],
                 selectedCompanyIds:[],
+				showEditButton : checkPermission('component_customer_update'),
+				showDeleteButton : checkPermission('component_customer_delete')
             }
         },
         methods:{

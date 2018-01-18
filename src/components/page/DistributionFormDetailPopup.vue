@@ -45,7 +45,7 @@
                                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row distributform-full-page" v-show="!loadingPopupData">
                                     <div class="col-xs-12">
                                         <table class="table table-striped table-hover">
                                               <thead>
@@ -180,6 +180,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.distributform-full-page {
+  overflow-x: hidden;
+  padding: 20px;
+  height:400px;
+  margin-bottom: 20px;
+  background-color: #fafafa !important; }
 
 </style>

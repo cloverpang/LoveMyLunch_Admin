@@ -9,14 +9,14 @@
                         <ul class="nav navbar-nav">
             <template>
               <li class="menu-dropdown mega-menu-dropdown"  v-for="(menu,index) in menus" @click="selectStyle(menu, index)" :class="{'active':menu.active}">
-                <router-link :to="menu.path">
+                <router-link :to="menu.path" v-if="$_has(menu.code)">
                   <i :class="menu.icon"></i>
                   {{ menu.name }}
 				 <span class="arrow"></span>
                 </router-link>
 			    <ul class="dropdown-menu pull-left">
                  <li v-for="item in menu.items" @click="selectSubStyle(menu, item, index)" :class="{'active':item.active}">
-                   <router-link :to="item.path">
+                   <router-link :to="item.path" v-if="$_has(item.code)">
                      <i :class="item.icon"></i>
                      {{ item.name }}
                     </router-link>

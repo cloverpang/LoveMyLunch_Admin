@@ -11,9 +11,13 @@
                         <div class="page-title">
                             <h1>配送单 
 							
-							<a data-toggle="modal" href="#allArriveConfirmModel" class="btn dark btn-outline">标记所有配送单已到达</a>
+							<a data-toggle="modal" href="#allArriveConfirmModel" class="btn dark btn-outline" v-if="$_has('component_distributionForm_mark_all_arrived')">
+							标记所有配送单已到达
+							</a>
 							
-							<a data-toggle="modal" href="#generateDistributionForm" class="btn dark btn-outline" @click="setGenerateDistributionForm">手工生成配送单</a>
+							<a data-toggle="modal" href="#generateDistributionForm" class="btn dark btn-outline" @click="setGenerateDistributionForm" v-if="$_has('component_distributionForm_generate')">
+							手工生成配送单
+							</a>
                             </h1>
 							
                         </div>
@@ -128,7 +132,9 @@
                 <td style="width:15%;"> {{formatMintuesDate(item.createTime)}} </td>
                 <td style="width:9%;"> 
 				 <template v-if="item.status == '0'">
-				 <a data-toggle="modal" href="#arriveConfirmModel" @click="arriveDistributionForm(item)" class="btn btn-circle btn-xs red">未送达<i class="fa fa-question"></i>  </a>
+				 <a data-toggle="modal" href="#arriveConfirmModel" @click="arriveDistributionForm(item)" class="btn btn-circle btn-xs red" v-if="showMarkButton">
+				 未送达<i class="fa fa-question"></i>  
+				 </a>
 				 </template>
 			     <template v-if="item.status == '1'">
 				 <span class="badge badge-info"> 已送达 </span>
@@ -136,14 +142,18 @@
 				</td>
                 <td style="width:8%;"> 
 				 <template v-if="item.distributerId == '' || item.distributerId == null">
-				 <a data-toggle="modal" href="#distributerListPopup" class="btn btn-circle btn-xs blue" @click="loadDistributerPopupData(item)"><i class="fa fa-pencil"></i> 分配配送员 </a>
+				 <a data-toggle="modal" href="#distributerListPopup" class="btn btn-circle btn-xs blue" @click="loadDistributerPopupData(item)" v-if="showSelectDistrbuterButton">
+				 <i class="fa fa-pencil"></i> 分配配送员
+				 </a>
 				 </template>
 				 <template v-if="item.distributerId != ''">
 				 <span> {{item.distributerName}} </span>
 				 </template>
 				</td>
 				<td style="width:8%;">  
-			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteDistributionForm(item)" class="btn btn-circle btn-xs dark"><i class="fa fa-times"></i> Delete </a>
+			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteDistributionForm(item)" class="btn btn-circle btn-xs dark" v-if="showDeleteButton">
+				<i class="fa fa-times"></i> Delete
+				</a>
 				</td>
              </tr>
 
@@ -199,7 +209,7 @@
 	import vGenerateDistributionForm from './GenerateDistributionForm';
 	import vDistributionFormDetailPopup from './DistributionFormDetailPopup';
 
-	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay} from '../../utils/common.js';
+	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,checkPermission} from '../../utils/common.js';
     export default {
         components: {
 		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,tableDataLoadingProgress,vDistributerListPopup,vGenerateDistributionForm,vDistributionFormDetailPopup,datepicker
@@ -240,7 +250,10 @@
 				addType:false,
 			    startDate : this.getNowFormatDay(),
                 endDate : this.getNowFormatDay(),
-				loadDistributerData : false
+				loadDistributerData : false,
+				showMarkButton : checkPermission('component_distributionForm_mark_arrived'),
+				showSelectDistrbuterButton : checkPermission('component_distributionForm_select_dirstributer'),
+				showDeleteButton : checkPermission('component_distributionForm_delete')
             }
         },
         methods:{

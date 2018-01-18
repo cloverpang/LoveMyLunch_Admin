@@ -10,7 +10,7 @@
                                                             <h4 class="modal-title"> {{admin_login}} 的后端权限 </h4>
                                                         </div>
                                                         <div class="modal-body"> 
-                                                    <div class="portlet-body form">
+                                                    <div class="portlet-body form backend-permission-full-page">
                                                             <div class="form-body">
 
 																
@@ -111,4 +111,15 @@ export default {
     }
 }
 </script>
+
+<style>
+.backend-permission-full-page {
+  overflow-x: hidden;
+  padding: 20px;
+  height:400px;
+  margin-bottom: 20px;
+  background-color: #fafafa !important; }
+
+</style>
+
 
