@@ -12,7 +12,7 @@
                                 <div class="col-md-12">
                                     <h1>家里饭 后台管理系统</h1>
                                     <h2></h2>
-                                    <button type="button" class="btn btn-danger">Login</button>
+                                    <button type="button" class="btn btn-danger" @click="logout">退出</button>
                                 </div>
                             </div>
                             <!-- END CONTENT HEADER -->
@@ -69,7 +69,28 @@
             }
         },
         methods:{
-
+		   logout(){
+		      this.removeToken();
+		      //this.$store.commit(types.LOGOUT);
+              this.$router.push('/login');
+		   },
+		   removeToken(){
+				    const self = this;
+                    self.$http.put('/auth/remove-token', {
+                      })
+                      .then(function (response) {
+                        if(response.data.statusCode == 200){
+							//alert(response.data.responseString);
+							showNotice('info','Success!','成功退出!');
+				        }else{
+						    showNotice('warning','Error!','操作失败!');
+                        }
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+						showNotice('warning','Error!','操作失败,网络异常!');
+                      });
+		   }
         },
 		beforeCreate(){
 

@@ -19,21 +19,26 @@
                             <li class="dropdown dropdown-user dropdown-dark">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <img alt="" class="img-circle" src="../../../static/assets/layouts/layout3/img/avatar9.jpg">
-                                    <span class="username username-hide-mobile">{{username}}</span>
+                                    <span class="username username-hide-mobile">{{username}}
+									
+                                        <a href="javascript:void(0);" @click="logout">
+                                            <i class="fa fa-sign-out"></i> 退出
+										</a>
+									
+									</span>
+
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
                                     <li>
-                                        <a href="#">
-                                            <i class="icon-user"></i> 我的资料 </a>
+                                        <a href="javascript:void(0);" v-show="false">
+                                            <i class="icon-user"></i> 我的资料
+										</a>
                                     </li>
-                                    <li class="divider"> </li>
-                                    <li>
-                                        <a href="page_user_lock_1.html">
-                                            <i class="icon-lock"></i> 锁屏 </a>
-                                    </li>
+                                    <li class="divider" v-show="false"> </li>
                                     <li>
                                         <a href="javascript:void(0);" @click="logout">
-                                            <i class="icon-key"></i> 退出 </a>
+                                            <i class="fa fa-sign-out"></i> 退出 
+										</a>
                                     </li>
                                 </ul>
                             </li>
