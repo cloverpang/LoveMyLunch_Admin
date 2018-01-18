@@ -6,7 +6,7 @@
             <div class="row bs-reset">
                 <div class="col-md-6 bs-reset">
                     <div class="login-bg" style="background-image:url(../../../static/img/login/bg1.jpg)">
-                        <img class="login-logo" src="../../../static/img/login/logo.png" /> </div>
+                    </div>
                 </div>
                 <div class="col-md-6 login-container bs-reset">
                     <div class="login-content">
