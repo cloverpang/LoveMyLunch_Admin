@@ -177,7 +177,32 @@ if (window.localStorage.getItem('ms_token')) {
 router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.requireAuth)) {
         if (store.state.user.token) {
-            next();
+		  //alert(JSON.stringify(to));	
+		  //alert(to.path);
+		  var permission = false;
+		  let resources = window.localStorage.ms_permissions;
+		  //alert(resources);
+		  
+		  //如果是无权限页,直接进入
+		  if(to.path == "/noPermission"){
+			  next();
+		  }
+		  
+          //校验权限
+		  if(resources != null && resources != undefined && resources != 'undefined' && resources != ''){
+			 let resourcesArray = resources.split(',');
+             resourcesArray.forEach(function(p) {
+              if (to.path == p) {
+                  return permission = true;
+                 }
+             });
+		  }
+		  
+		  if(permission){
+			  next();
+		  }else{
+			  router.push('/noPermission');
+		  }
         }
         else {
             next({

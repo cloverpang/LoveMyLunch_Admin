@@ -58,8 +58,8 @@ export default [
   },
   {
     name: '产品',
-    code: '/product',
-	path: '/product/dish',
+    code: '/product/dish',
+	path: '',
 	icon: 'fa fa-th-large',
 	active: false,
 	permission: 'dish_get_list',
