@@ -12,7 +12,7 @@ export default [
 	path: '/company',
 	icon: 'icon-users',
 	active: false,
-	permission: 'company_get_list',
+	permission: 'company_get_list,company_get_one',
 	components:[
 	  {
 		  name : '添加新公司',
@@ -42,7 +42,7 @@ export default [
 	path: '/customer',
 	icon: 'icon-user',
 	active: false,
-	permission: 'customer_get_list',
+	permission: 'customer_get_list,customer_get_one,customer_add',
 	components:[
 	  {
 		  name : '删除',
@@ -58,11 +58,11 @@ export default [
   },
   {
     name: '产品',
-    code: '/product/dish',
+    code: '/product',
 	path: '',
 	icon: 'fa fa-th-large',
 	active: false,
-	permission: 'dish_get_list',
+	permission: 'dish_get_list,dish_get_one,dish_marknotuse',
 	components:[
 	  {
 		  name : '删除',
@@ -110,7 +110,7 @@ export default [
 	path: '/order',
 	icon: 'fa fa-shopping-cart',
 	active: false,
-	permission: 'order_get_list',
+	permission: 'order_get_list,order_get_one,order_cancel,order_add',
 	components:[
 	  {
 		  name : '删除',
@@ -152,7 +152,7 @@ export default [
   },
   {
     name: '配送',
-    code: '/distributionForm',
+    code: '/distribution',
 	path: '',
 	icon: 'fa fa-bus',
 	active: false,
@@ -163,7 +163,7 @@ export default [
         path: '/distributionForm',
 		icon: 'fa fa-file-text',
 		active: false,
-	    permission: 'distributionForm_get_list',
+	    permission: 'distributionForm_get_list,distributionForm_get_one,distributionForm_update,distributionForm_add',
 	    components:[
 	      {
 		    name : '删除',
@@ -198,7 +198,7 @@ export default [
         path: '/distributer',
 		icon: 'fa fa-user-md',
 		active: false,
-	    permission: 'distributer_get_list',
+	    permission: 'distributer_get_list,distributer_get_one',
 	    components:[
 	      {
 		    name : '删除',
@@ -284,7 +284,7 @@ export default [
         path: '/log',
 		icon: 'fa fa-file-code-o',
 		active: false,
-		permission: 'operationLog_get_list',
+		permission: 'operationLog_get_list,operationLog_delete,operationLog_batch_delete,operationLog_get_one',
       }
     ]
   }

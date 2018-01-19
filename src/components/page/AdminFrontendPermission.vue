@@ -13,7 +13,7 @@
                                                     <div class="portlet-body form frontend-permission-full-page">
                                                             <div class="form-body">
 
-                                                <div class="panel panel-default" v-for="(masterItem,index) in allPermssions">
+                                                <div class="panel panel-default" v-for="(masterItem,index) in allFrontPermssions">
 												    <div class="panel-heading">
 													
                                                            <div class="md-checkbox">
@@ -109,8 +109,10 @@ export default {
     methods : {
 	    save() {
 		        this.actionProgress = true;
+				//根据设置的前端权限重新设定后端权限
+				this.loadAdminUserBackendPermssions();
 				//提交到API处理
-				var parasData = {"admin_login":this.admin_login,"admin_frontend_permission":this.admin_frontend_permission};
+				var parasData = {"admin_login":this.admin_login,"admin_frontend_permission":this.admin_frontend_permission,"admin_backend_permission":this.admin_backend_permission};
 				this.$http.put('/adminUser/updateFrontendPermissions',parasData)
 				.then( (res) => {
 				if(res.status == 200){
@@ -133,6 +135,51 @@ export default {
 			     this.admin_frontend_permission.push(permissionArr[i]);
 			   }
 			}
+			
+			//加载完前端权限后再根据前端权限 初始化 后端权限
+			this.loadAdminUserBackendPermssions();
+		},
+		loadAdminUserBackendPermssions(){
+		    //先清空
+		    this.admin_backend_permission = [];
+			
+			var _this = this;
+			_this.admin_frontend_permission.forEach(function(p) {
+			    var permissionCode = _this.findPermissionCode(p);
+				if(null != permissionCode && permissionCode != ''){
+                   _this.admin_backend_permission.push(permissionCode);
+				}
+			});
+		},
+		findPermissionCode(path){
+				var permission = '';
+				var _this = this;
+
+				this.allFrontPermssions.forEach(function(p){
+
+				    if(p.code == path){
+					    permission = p.permission;
+					}else if(null != p.components){
+				      p.components.forEach(function(item){
+					     if(path == item.code){
+						     permission = item.permission;
+						 }
+					  });
+					}else if(null != p.items){
+				      p.items.forEach(function(item){
+					     if(path == item.code){
+						     permission = item.permission;
+						 }else if(null != item.components){
+				               item.components.forEach(function(item){
+					           if(path == item.code){
+						           permission = item.permission;
+						       } });
+						 }
+					  });
+					}
+				});
+				
+				return permission;
 		}
     },
     computed : {
@@ -143,7 +190,9 @@ export default {
 		   admin_login:'',
 		   admin_frontend_permission_str : '',
 		   admin_frontend_permission:[],
-		   allPermssions : menuConfig
+
+		   admin_backend_permission:[],
+		   allFrontPermssions : menuConfig
         }
     },
 	beforeMount(){
