@@ -347,6 +347,8 @@
                 this.getList();
             },
 			handleCancelSearch(){
+			    this.startDate = '';
+				this.endDate = '';
 			    this.operationLogName = '';
 				this.operationLogCode = '';
                 this.currentPage = 1;
