@@ -8,15 +8,15 @@
                     <div class="hor-menu">
                         <ul class="nav navbar-nav">
             <template>
-              <li class="menu-dropdown mega-menu-dropdown"  v-for="(menu,index) in menus" @click="selectStyle(menu, index)" :class="{'active':menu.active}">
-                <router-link :to="menu.path" v-if="$_has(menu.code)">
+              <li class="menu-dropdown mega-menu-dropdown"  v-for="(menu,index) in customerMenus" @click="selectStyle(menu, index)" :class="{'active':menu.active}">
+                <router-link :to="menu.path">
                   <i :class="menu.icon"></i>
                   {{ menu.name }}
 				 <span class="arrow"></span>
                 </router-link>
 			    <ul class="dropdown-menu pull-left">
                  <li v-for="item in menu.items" @click="selectSubStyle(menu, item, index)" :class="{'active':item.active}">
-                   <router-link :to="item.path" v-if="$_has(item.code)">
+                   <router-link :to="item.path">
                      <i :class="item.icon"></i>
                      {{ item.name }}
                     </router-link>
@@ -34,14 +34,25 @@
 
 <script>
   import menuConfig from '../../config/menu'
+  import {checkPermission} from '../../utils/common.js';
 
   export default {
     data () {
       return {
-        menus: menuConfig
+        menus: menuConfig,
+		customerMenus:[],
       }
     },
     methods:{
+	  loadMenu(){
+			var _this = this;
+	  		_this.menus.forEach(function(item) {
+                if(checkPermission(item.code)){
+				  //alert(item.code);
+                  _this.customerMenus.push(item);
+                }
+            });
+	  },
       //according to current menu, to set the class
       loadMenuActive (urlStr) {
               //alert(urlStr);
@@ -72,6 +83,9 @@
 			item.active = true;
 　　　}
 	},
+	beforeMount(){
+          this.loadMenu();
+    },
     created () {
          //alert(this.$route.path);
           this.handleMenuChange(this.$route.path);
