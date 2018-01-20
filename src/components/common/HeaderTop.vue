@@ -4,9 +4,7 @@
                 <div class="container">
                     <!-- BEGIN LOGO -->
                     <div class="page-logo" style="padding-top:10px;">
-                        
                             <img src="../../../static/img/logo.jpg" alt="logo" style="width:200px;height:60px;">
-                      
                     </div>
                     <!-- END LOGO -->
                     <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -19,7 +17,7 @@
                             <li class="dropdown dropdown-user dropdown-dark">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <img alt="" class="img-circle" src="../../../static/assets/layouts/layout3/img/avatar9.jpg">
-                                    <span class="username username-hide-mobile">{{username}}
+                                    <span class="username username-hide-mobile">{{operationCenterCode}} / {{username}}
 									
                                         <a href="javascript:void(0);" @click="logout">
                                             <i class="fa fa-sign-out"></i> 退出
@@ -59,7 +57,8 @@
     export default {
         data() {
             return {
-                name: ''
+                name: '',
+				operationCenterCode:this.$store.state.user.operationCenter
             }
         },
         computed:{

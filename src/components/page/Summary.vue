@@ -162,7 +162,7 @@
 				   return;
 				}
 				
-				var url = '/summary?startDate=' + this.startDate + '&endDate=' + this.endDate;
+				var url = '/' + this.$store.state.user.operationCenter + '/summary?startDate=' + this.startDate + '&endDate=' + this.endDate;
 				this.$http.get(url,{
                 params: {
                  }

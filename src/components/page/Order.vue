@@ -424,7 +424,8 @@
                 }
 
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/lunchOrders',{
+				var url = '/' + this.$store.state.user.operationCenter + '/lunchOrders';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: conditions,
                     pageSize: this.pageSize,
@@ -500,7 +501,8 @@
 			handleDelete(id){
 			         this.$refs.deleteConfirm.actionProgress = true;
 					 
-					 this.$http.delete('/lunchOrder/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/lunchOrder/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM

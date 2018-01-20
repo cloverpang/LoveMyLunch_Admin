@@ -112,8 +112,9 @@ export default {
 				//根据设置的前端权限重新设定后端权限
 				this.loadAdminUserBackendPermssions();
 				//提交到API处理
+				var url = '/' + this.$store.state.user.operationCenter + '/adminUser/updateFrontendPermissions';
 				var parasData = {"admin_login":this.admin_login,"admin_frontend_permission":this.admin_frontend_permission,"admin_backend_permission":this.admin_backend_permission};
-				this.$http.put('/adminUser/updateFrontendPermissions',parasData)
+				this.$http.put(url,parasData)
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;

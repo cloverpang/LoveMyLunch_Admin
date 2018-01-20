@@ -302,8 +302,8 @@
                    }
                 }
 
-				
-				this.$http.get('/operationLogs',{
+				var url = '/' + this.$store.state.user.operationCenter + '/operationLogs';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: conditions,
                     pageSize: this.pageSize,
@@ -376,7 +376,8 @@
 			handleDelete(id){
 			         this.$refs.deleteConfirm.actionProgress = true;
 			         
-					 this.$http.delete('/operationLog/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/operationLog/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -448,7 +449,8 @@
                     ids = ids + "," + item;
                 });
 
-				this.$http.delete('/operationLogs/' + ids,{
+				var url = '/' + this.$store.state.user.operationCenter + '/operationLogs/' + ids;
+				this.$http.delete(url,{
                 })
 				.then( (res) => {
                 //子组件监听到数据返回变化会自动更新DOM

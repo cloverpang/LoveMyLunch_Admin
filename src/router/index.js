@@ -169,7 +169,8 @@ if (window.localStorage.getItem('ms_token')) {
     let user = {
         username: window.localStorage.getItem('ms_username'),
         token: window.localStorage.getItem('ms_token'),
-		permissions: window.localStorage.getItem('ms_permissions')
+		permissions: window.localStorage.getItem('ms_permissions'),
+		operationCenter: window.localStorage.getItem('ms_operationCenter')
     }
     store.commit(types.LOGIN, user);
 }

@@ -125,7 +125,8 @@ export default {
             //获取数据
             getPopupDetailList () {
 			    this.loadingPopupData = true; //显示加载条
-				this.$http.get('/distributionForm/' + this.distributionFormId,{
+				var url = '/' + this.$store.state.user.operationCenter + '/distributionForm/' + this.distributionFormId;
+				this.$http.get(url,{
                 params: {
                  }
                 })

@@ -49,7 +49,8 @@ export default {
         generateDistributionForm () {
 		   this.generateProgress = true;
 		   //alert(this.generateDate);
-		   	this.$http.put('/distributionForm/generate/' + this.generateDate,{
+		    var url = '/' + this.$store.state.user.operationCenter + '/distributionForm/generate/' + this.generateDate;
+		   	this.$http.put(url,{
             })
 			.then( (res) => {
                //子组件监听到数据返回变化会自动更新DOM

@@ -286,7 +286,8 @@
                    }
                 }
 				
-				this.$http.get('/distributionForms',{
+				var url = '/' + this.$store.state.user.operationCenter + '/distributionForms';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: conditions,
                     pageSize: this.pageSize,
@@ -365,7 +366,8 @@
 			//处理删除
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/distributionForm/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/distributionForm/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -401,7 +403,8 @@
 		    },
             handleArrvied(id){
 			         $('#arriveConfirmModel').modal('hide');
-					 this.$http.put('/distributionForm/markArrived/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/distributionForm/markArrived/' + id;
+					 this.$http.put(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -415,7 +418,8 @@
 			},
 			handleAllArrvied(){
 					$('#allArriveConfirmModel').modal('hide');
-					 this.$http.put('/distributionForm/markAllArrived/',{
+					var url = '/' + this.$store.state.user.operationCenter + '/distributionForm/markAllArrived';
+					 this.$http.put(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -436,7 +440,7 @@
 			},
 			handleSelectDistributer(formId,distributerId,distributerName){
 			   if(distributerId != '' && distributerName != ''){
-			   	  var url = '/distributionForm/selectDistributer/' + formId;
+				  var url = '/' + this.$store.state.user.operationCenter + '/distributionForm/selectDistributer/' + formId;
 				  var parasData = {"distributerId":distributerId,"distributerName":distributerName};
 				  this.$http.put(url,parasData)
 				  .then( (res) => {

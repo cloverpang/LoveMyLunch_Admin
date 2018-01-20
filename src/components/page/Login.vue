@@ -94,15 +94,17 @@
 	                        var jsonData = JSON.parse(response.data.responseString);
 							
 							//alert(jsonData.adminUser.frontend_permissions);
-							
+							//alert(jsonData.operationCenterCode);
                             localStorage.setItem('ms_username',self.ruleForm.username);
                             localStorage.setItem('ms_token',jsonData.tokenSession.token);
 							localStorage.setItem('ms_permissions',jsonData.adminUser.frontend_permissions);
+							localStorage.setItem('ms_operationCenter',jsonData.operationCenterCode);
 							
                             let result = {
                                 username:self.ruleForm.username,
                                 token:jsonData.tokenSession.token,
-								permissions:jsonData.adminUser.frontend_permissions
+								permissions:jsonData.adminUser.frontend_permissions,
+								operationCenter:jsonData.operationCenterCode
                             };
 							
                             self.$store.commit(types.LOGIN, result);

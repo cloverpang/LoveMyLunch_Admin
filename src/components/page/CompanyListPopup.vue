@@ -96,7 +96,8 @@ export default {
             //获取数据
             getPopupDataList () {
 			    this.loadingPopupData = true; //显示加载条
-				this.$http.get('/companies',{
+				var url = '/' + this.$store.state.user.operationCenter + '/companies';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: 'companyName::like::' + this.keyword + '$companyCode::like::' + this.keyword,
                     pageSize: this.pageSize,

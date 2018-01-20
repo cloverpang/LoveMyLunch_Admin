@@ -69,7 +69,8 @@ export default {
 		        this.actionProgress = true;
 				//提交到API处理
 				var parasData = {"admin_login":this.admin_login,"admin_backend_permission":this.admin_backend_permission};
-				this.$http.put('/adminUser/updateBackendPermissions',parasData)
+				var url = '/' + this.$store.state.user.operationCenter + '/adminUser/updateBackendPermissions';
+				this.$http.put(url,parasData)
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;

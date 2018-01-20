@@ -188,7 +188,8 @@ export default {
 		        this.actionProgress = true;
                 this.form.dishType = this.dishType;
 				//提交到API处理
-				this.$http.post('/dish',this.form)
+				var url = '/' + this.$store.state.user.operationCenter + '/dish';
+				this.$http.post(url,this.form)
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
@@ -209,7 +210,8 @@ export default {
 				 
 				//提交到API处理
 				this.setModel();
-				this.$http.put('/dish',this.model)
+				var url = '/' + this.$store.state.user.operationCenter + '/dish';
+				this.$http.put(url,this.model)
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;

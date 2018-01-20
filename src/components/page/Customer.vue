@@ -259,7 +259,8 @@
                 }
 
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/customers',{
+				var url = '/' + this.$store.state.user.operationCenter + '/customers';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: 'companyId::=::' + this.companyId + '$customerName::like::' + this.customerName + '$customerLogin::like::' + this.customerLogin,
                     pageSize: this.pageSize,
@@ -335,8 +336,8 @@
 			//处理删除
 			handleDelete(id){
 			         this.$refs.deleteConfirm.actionProgress = true;
-
-					 this.$http.delete('/customer/' + id,{
+                     var url = '/' + this.$store.state.user.operationCenter + '/customer/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM

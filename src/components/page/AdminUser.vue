@@ -172,7 +172,7 @@
             getList () {
 			    this.progressBar = true; //显示加载条
 				
-				var url = '/adminUsers';
+				var url = '/' + this.$store.state.user.operationCenter + '/adminUsers';
 				this.$http.get(url,{
                 params: {
                  }
@@ -210,7 +210,8 @@
 			},
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/adminUser/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/adminUser/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -226,7 +227,7 @@
 			handleUpdatePassword(login){
 		        this.actionProgress = true;
 
-				var url = '/adminUser/updatePassword';
+				var url = '/' + this.$store.state.user.operationCenter + '/adminUser/updatePassword';
 				var parasData = {"adminLogin":login,"adminPassword":this.oldPassword,"newAdminPassword":this.newPassword};
 				
 				this.$http.put(url,parasData)

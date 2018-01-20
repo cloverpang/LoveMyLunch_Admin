@@ -212,7 +212,7 @@
                 <!-- END CONTENT BODY -->
             </div>
 
-        <vCompanyEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCompanyEdit>
+        <vCompanyEdit ref="editForm" :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCompanyEdit>
 											
 		<vConfirmModal ref="deleteConfirm"  :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
         <vConfirmModal ref="batchDeleteConfirm" :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
@@ -279,7 +279,8 @@
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/companyExtends',{
+				var url = '/' + this.$store.state.user.operationCenter + '/companyExtends';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: 'companyName::like::' + this.companyName + '$companyCode::like::' + this.companyCode,
                     pageSize: this.pageSize,
@@ -356,7 +357,8 @@
 			handleDelete(id){
 			         this.$refs.deleteConfirm.actionProgress = true;
 
-					 this.$http.delete('/company/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/company/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
@@ -447,7 +449,8 @@
                     ids = ids + "," + item;
                 });
 
-				this.$http.delete('/companies/' + ids,{
+				var url = '/' + this.$store.state.user.operationCenter + '/companies/' + ids;
+				this.$http.delete(url,{
                 })
 				.then( (res) => {
                 //子组件监听到数据返回变化会自动更新DOM

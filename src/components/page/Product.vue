@@ -292,7 +292,8 @@
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/dishs',{
+				var url = '/' + this.$store.state.user.operationCenter + '/dishs';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: 'dishType::=::' + this.dishType + '$dishName::like::' + this.dishName + '$status::=::' + this.statusSelected + '$dishPrice::=::' + this.priceSelected + '$pepper::=::' + this.pepperSelected,
                     pageSize: this.pageSize,
@@ -370,7 +371,8 @@
 			handleDelete(id){
 					 this.$refs.deleteConfirm.actionProgress = true;
 					 
-					 this.$http.delete('/dish/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/dish/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM

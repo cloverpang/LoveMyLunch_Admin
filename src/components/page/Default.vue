@@ -10,7 +10,7 @@
                             <!-- BEGIN CONTENT HEADER -->
                             <div class="row margin-bottom-40 about-header">
                                 <div class="col-md-12">
-                                    <h1>家里饭 后台管理系统</h1>
+                                    <h1> 家里饭 - <span style="color:#ffffff;">{{operationCenterCodeName}}</span> 后台管理</h1>
                                     <h2></h2>
                                     <button type="button" class="btn btn-danger" @click="logout">退出</button>
                                 </div>
@@ -66,6 +66,8 @@
         data () {
             return {
 				permissions : localStorage.ms_username,
+				operationCenterCode:this.$store.state.user.operationCenter,
+				operationCenterCodeName:''
             }
         },
         methods:{
@@ -73,6 +75,15 @@
 		      this.removeToken();
 		      //this.$store.commit(types.LOGOUT);
               this.$router.push('/login');
+		   },
+		   loadCenterName(center){
+			  if(center == "kexing"){
+			     this.operationCenterCodeName = "科兴科学园";
+			  }
+			  
+			  if(center == "luohu"){
+			     this.operationCenterCodeName = "罗湖店";
+			  }
 		   },
 		   removeToken(){
 				    const self = this;
@@ -96,7 +107,7 @@
 
 		},
         beforeMount(){
-            this.getList();
+		    this.loadCenterName(this.operationCenterCode);
         },
 		created () {
 

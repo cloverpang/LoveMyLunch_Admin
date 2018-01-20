@@ -87,7 +87,8 @@ export default {
             //获取数据
             getPopupDataList () {
 			    this.loadingPopupData = true; //显示加载条
-				this.$http.get('/distributers',{
+				var url = '/' + this.$store.state.user.operationCenter + '/distributers';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: 'distributerName::like::' + this.keyword,
                     pageSize: this.pageSize,

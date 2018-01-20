@@ -15,9 +15,12 @@ axios.defaults.headers['Authorization'] = '';
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
-        if (store.state.user.token) {
+        if(store.state.user.token) {
             config.headers.Authorization = `${store.state.user.token}`;
         }
+		if(store.state.user.operationCenter){
+
+		}
         return config;
     },
     err => {

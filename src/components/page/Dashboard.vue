@@ -271,7 +271,8 @@
         methods:{
 		   loadDashboardSummary(){
 		        this.loadingSummaryProgrss = true;
-				this.$http.get('/dashboard/summary',{
+				var url = '/' + this.$store.state.user.operationCenter + '/dashboard/summary';
+				this.$http.get(url,{
                 params: {
                  }
                 })
@@ -298,7 +299,7 @@
 		   },
 		   generateOrderChart(){
 		        this.loadingOrderChartProgrss = true;
-				var url = '/dashboard/order/chart' + "?startDate=" + this.startDate + "&endDate=" + this.endDate;
+				var url = '/' + this.$store.state.user.operationCenter + '/dashboard/order/chart' + "?startDate=" + this.startDate + "&endDate=" + this.endDate;
 				this.$http.get(url,{
                 params: {
                  }
@@ -308,12 +309,12 @@
 					this.actionProgress = false;
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
-                        this.$refs.orderChart.chartType = 'line';
+                        this.$refs.orderChart.chartType = 'column';
 						this.$refs.orderChart.chartYAxisTilte = '订单数量';
 						this.$refs.orderChart.chartSeriesTile = '数量';
 						this.$refs.orderChart.chartLineColor = '#4B77BE';
 						this.$refs.orderChart.chartSeriesColor = '#4B77BE';
-						this.$refs.orderChart.chartTitle = "订单走势图 日期 : " + this.startDate + " to " + this.endDate;
+						this.$refs.orderChart.chartTitle = "订单图 日期 : " + this.startDate + " to " + this.endDate;
 						this.$refs.orderChart.chartAxisTitle = res.data.content.titles;
 						this.$refs.orderChart.chartData = res.data.content.datas;
 
@@ -331,7 +332,7 @@
 		   },
 		   generateCustomerChart(){
 		        this.loadingCustomerChartProgrss = true;
-				var url = '/dashboard/customer/chart' + "?startDate=" + this.startDate + "&endDate=" + this.endDate;
+				var url = '/' + this.$store.state.user.operationCenter + '/dashboard/customer/chart' + "?startDate=" + this.startDate + "&endDate=" + this.endDate;
 				this.$http.get(url,{
                 params: {
                  }
@@ -341,12 +342,12 @@
 					this.actionProgress = false;
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
-                        this.$refs.customerChart.chartType = 'column';
+                        this.$refs.customerChart.chartType = 'line';
 						this.$refs.customerChart.chartYAxisTilte = '用户数量';
 						this.$refs.customerChart.chartSeriesTile = '数量';
 						this.$refs.customerChart.chartLineColor = '#4B77BE';
 						this.$refs.customerChart.chartSeriesColor = '#4B77BE';
-						this.$refs.customerChart.chartTitle = "用户增长图 日期 : " + this.startDate + " to " + this.endDate;
+						this.$refs.customerChart.chartTitle = "用户增长走势图 日期 : " + this.startDate + " to " + this.endDate;
 						this.$refs.customerChart.chartAxisTitle = res.data.content.titles;
 						this.$refs.customerChart.chartData = res.data.content.datas;
 

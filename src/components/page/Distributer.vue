@@ -242,7 +242,8 @@
             //获取数据
             getList () {
 			    this.progressBar = true; //显示加载条
-				this.$http.get('/distributers',{
+				var url = '/' + this.$store.state.user.operationCenter + '/distributers';
+				this.$http.get(url,{
                 params: {
                     conditionsStr: 'distributerName::like::' + this.distributerName + '$status::=::' + this.statusSelected,
                     pageSize: this.pageSize,
@@ -315,7 +316,8 @@
 			//处理删除
 			handleDelete(id){
 			         $('#deleteConfirmModel').modal('hide');
-					 this.$http.delete('/distributer/' + id,{
+					 var url = '/' + this.$store.state.user.operationCenter + '/distributer/' + id;
+					 this.$http.delete(url,{
                      })
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
