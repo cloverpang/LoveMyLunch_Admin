@@ -23,7 +23,9 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12 footer-block">
                         <h2>联系我们</h2>
-                        <address class="margin-bottom-40"> Phone:13418854380 
+                        <address class="margin-bottom-10"> Phone:13418854380 
+                        </address>
+						<address class="margin-bottom-10"> Email:qingzhoubaiyang#163.com (# 请用 @代替)
                         </address>
                     </div>
                 </div>
