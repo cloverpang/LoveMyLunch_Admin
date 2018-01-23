@@ -10,7 +10,12 @@
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
                             <h1>统计
+							
+														 <button type="submit" class="btn green" @click="handleForceData">
+                                                               刷新数据
+                                                         </button>
                             </h1>
+
                         </div>
                         <!-- END PAGE TITLE -->
                     </div>
@@ -265,7 +270,10 @@
 			   
 			   summaryLoadDone : false,
 			   orderChartLoadDone : false,
-			   customerChartLoadDone : false
+			   customerChartLoadDone : false,
+			   summaryForceData:'notForceData',
+			   orderForceData:'notForceData',
+			   userForceData:'notForceData'
 		   }
         },
         methods:{
@@ -274,6 +282,7 @@
 				var url = '/' + this.$store.state.user.operationCenter + '/dashboard/summary';
 				this.$http.get(url,{
                 params: {
+				   force: this.summaryForceData
                  }
                 })
                 .then( (res) => {
@@ -292,16 +301,21 @@
                 }, (response) => {
                      //showTip("Error","远程获取数据错误！");
 					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
-                     //this.loadingSummaryProgrss = false;
+                     this.loadingSummaryProgrss = false;
                      //error callback
                 });
 		   
+		   },
+		   handleForceData(){
+		     this.summaryForceData = 'forceData';
+			 this.loadDashboardSummary();
 		   },
 		   generateOrderChart(){
 		        this.loadingOrderChartProgrss = true;
 				var url = '/' + this.$store.state.user.operationCenter + '/dashboard/order/chart' + "?startDate=" + this.startDate + "&endDate=" + this.endDate;
 				this.$http.get(url,{
                 params: {
+				   force: this.orderForceData
                  }
                 })
                 .then( (res) => {
@@ -335,6 +349,7 @@
 				var url = '/' + this.$store.state.user.operationCenter + '/dashboard/customer/chart' + "?startDate=" + this.startDate + "&endDate=" + this.endDate;
 				this.$http.get(url,{
                 params: {
+				  force: this.userForceData
                  }
                 })
                 .then( (res) => {
@@ -365,8 +380,12 @@
 		   },
 		   generateNewChart(){
 		      this.actionProgress = true;
+			  this.orderForceData = 'forceData';
+			  this.userForceData = 'forceData';
 			  this.generateOrderChart();
 			  this.generateCustomerChart();
+			  this.orderForceData = 'notForceData';
+			  this.userForceData = 'notForceData';
 		   },
 		   getTenDaysBeforeDate(){
                 var date = new Date();

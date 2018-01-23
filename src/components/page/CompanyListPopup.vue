@@ -58,6 +58,9 @@
                                                     </div>
 														
                                                         <div class="modal-footer">
+														   <button type="submit" class="btn green" @click="handleForceData">
+                                                               刷新数据
+                                                           </button>
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" > 关闭 </button>
                                                             <button type="button" class="btn green" @click="saveSelected">
 															 确定
@@ -103,7 +106,8 @@ export default {
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
-					sortType: this.sortType
+					sortType: this.sortType,
+					force: this.forceData
                  }
                 })
                 .then( (res) => {
@@ -127,9 +131,18 @@ export default {
                 this.getPopupDataList();
             },
             handleSearchCompany(){
+			    this.forceData = 'forceData';
                 this.currentPage = 1;
                 this.getPopupDataList();
+				this.forceData = 'notForceData';
             },
+			handleForceData(){
+			    //this.forceData = 'forceData' 表示向后台强制获取数据而不是从缓存获取
+				this.forceData = 'forceData';
+                this.currentPage = 1;
+                this.getPopupDataList();
+				this.forceData = 'notForceData';
+			},
             addCompany(companyName,companyId){
                 //alert(companyName + companyId);
                 this.companyNames.push(companyName);
@@ -189,7 +202,8 @@ export default {
            items : [],
            keyword : '',
            companyNames : this.selectedCompanyNames,
-           companyIds : this.selectedCompanyIds
+           companyIds : this.selectedCompanyIds,
+		   forceData:'notForceData'
         }
     },
 	beforeMount(){
