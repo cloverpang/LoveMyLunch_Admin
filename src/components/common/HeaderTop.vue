@@ -4,7 +4,7 @@
                 <div class="container">
                     <!-- BEGIN LOGO -->
                     <div class="page-logo" style="padding-top:10px;">
-                            <img src="../../../static/img/logo.jpg" alt="logo" style="width:200px;height:60px;">
+                            <img src="../../../static/img/logo1.jpg" alt="logo" style="width:200px;height:60px;">
                     </div>
                     <!-- END LOGO -->
                     <!-- BEGIN RESPONSIVE MENU TOGGLER -->
@@ -16,8 +16,11 @@
                             <!-- BEGIN USER LOGIN DROPDOWN -->
                             <li class="dropdown dropdown-user dropdown-dark">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="../../../static/assets/layouts/layout3/img/avatar9.jpg">
-                                    <span class="username username-hide-mobile">{{operationCenterCode}} / {{username}}
+                                   
+                                    <span class="username username-hide-mobile">
+									 <i class="fa fa-user"></i>
+									
+									{{operationCenterCode}} / {{username}}
 									
                                         <a href="javascript:void(0);" @click="logout">
                                             <i class="fa fa-sign-out"></i> 退出
