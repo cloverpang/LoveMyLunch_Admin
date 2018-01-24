@@ -25,6 +25,8 @@
       show(tipMessage) {
         this.isShow = true;
 		if(tipMessage != ''){
+		   this.tipMessage = tipMessage;
+		}else{
 		   this.tipMessage = originTipMessage;
 		}
       },
