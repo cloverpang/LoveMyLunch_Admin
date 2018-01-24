@@ -88,7 +88,7 @@
                                                                 </div>
 																
 																<div class="form-group">
- 
+
                                                                 </div>
 
                                                             </div>
@@ -116,9 +116,15 @@
 </template>
 
 <script>
+import axios from 'axios'
 import dish from '../models/dish';
+import VueCoreImageUpload  from 'vue-core-image-upload';	// 导入VueCoreImageUpload组件
 import {showNotice} from '../../utils/common.js';
+
 export default {
+    components: {
+            VueCoreImageUpload								// 声明组件VueCoreImageUpload
+    },
     name : 'editDishModal',
     //通过props来接受从父组件传递过来的值
     props : {
@@ -293,7 +299,9 @@ export default {
                     createTime: ""
            },
 		   viewType: false, //为true显示 view模式，如果为false 则为编辑模式
-		   addType: false //为true显示 add模式
+		   addType: false, //为true显示 add模式,
+		   uploadUrl: axios.defaults.baseURL + '/file/upload',
+		   src_small:'' //默认图片地址
         }
     },
 	beforeMount(){
