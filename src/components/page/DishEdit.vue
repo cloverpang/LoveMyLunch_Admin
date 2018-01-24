@@ -118,12 +118,11 @@
 <script>
 import axios from 'axios'
 import dish from '../models/dish';
-import VueCoreImageUpload  from 'vue-core-image-upload';	// 导入VueCoreImageUpload组件
 import {showNotice} from '../../utils/common.js';
 
 export default {
     components: {
-            VueCoreImageUpload								// 声明组件VueCoreImageUpload
+
     },
     name : 'editDishModal',
     //通过props来接受从父组件传递过来的值
