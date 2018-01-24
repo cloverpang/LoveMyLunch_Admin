@@ -7,7 +7,14 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-															<h4 class="modal-title" v-show="!loadingPopupData"> 配送单 -- {{formNumber}} -- {{orderQuantity}} 订单</h4> 
+															<h4 class="modal-title" v-show="!loadingPopupData"> 
+															配送单号 : <b>{{formNumber}}</b> -- 共 {{orderQuantity}} 份订单
+															
+														 <button type="submit" class="btn green" @click="handleExportToExcel" :disabled="exportProgress">
+                                                               <span id="saveCustomerAction" v-show="!exportProgress"> 导出EXCEL</span>
+															   <span id="saveCustomerAction" v-show="exportProgress"> 导出中 ......</span>
+                                                         </button>
+															</h4> 
                                                             <h4 class="modal-title" v-show="loadingPopupData"> 数据加载中 ... ...</h4>
                                                         </div>
                                            <div class="modal-body">             
@@ -149,6 +156,32 @@ export default {
                      //error callback
                 });
             },
+			handleExportToExcel(){
+			    this.exportProgress = true;
+                var self = this;
+				var url = '/' + this.$store.state.user.operationCenter + '/distributionForm/export/' + this.distributionFormId;
+                self.$http.get(url,{
+                    params: {
+                    },
+                    responseType: 'arraybuffer'
+                })
+				.then( (res) => {
+				    this.exportProgress = false;
+                    //子组件监听到数据返回变化会自动更新DOM
+					if(res.status == 200){
+                      //创建一个blob对象,file的一种
+                      let blob = new Blob([res.data], { type: 'application/x-xls' })
+                      let link = document.createElement('a')
+                      link.href = window.URL.createObjectURL(blob)
+                      link.download = this.formNumber + '.xls'
+                      link.click()
+                    }
+                }, (response) => {
+				     this.exportProgress = false;
+					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
+                     //error callback
+                });
+            },
 			formatNormalDate(cell){
 			   return formatNormalDate(cell);
 			},
@@ -169,7 +202,8 @@ export default {
 		   companyAddress : '',
 		   lastArriveTime : '',
 		   distributerName : '',
-		   orderQuantity : 0
+		   orderQuantity : 0,
+		   exportProgress: false
         }
     },
 	beforeMount(){
