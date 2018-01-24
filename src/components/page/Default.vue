@@ -53,6 +53,7 @@
                 <!-- END CONTENT BODY -->
             </div>
             <!-- END CONTENT -->
+			
         </div>
         <!-- END CONTAINER -->
 </template>
@@ -107,7 +108,11 @@
 
 		},
         beforeMount(){
+	        //this.$loading('');
+			
 		    this.loadCenterName(this.operationCenterCode);
+			
+			//this.$loading.end();
         },
 		created () {
 

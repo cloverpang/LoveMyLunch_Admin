@@ -5,6 +5,7 @@ import store from './vuex/store'
 import axios from './http/http';
 import VeeValidate, {Validator}  from 'vee-validate';
 import zh_CN from 'vee-validate/dist/locale/zh_CN';
+import Loading from './plugin/loading';
 
 const config = {
   locale: 'zh_CN'
@@ -12,6 +13,13 @@ const config = {
 
 Validator.locale ==="en" ? "zh_CN" : "en";
 Vue.use(VeeValidate,config);
+
+//Vue.use(Loading);
+
+Vue.use(Loading, {
+  container: '.app',
+})
+
 
 //权限检验方法
  Vue.prototype.$_has = function(r) {
