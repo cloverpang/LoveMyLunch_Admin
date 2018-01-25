@@ -5,7 +5,7 @@
         <div class="user-login-5">
             <div class="row bs-reset">
                 <div class="col-md-6 bs-reset">
-                    <div class="login-bg" style="background-image:url(../../../static/img/login/bg1.jpg)">
+                    <div class="login-bg" style="background-image:url(../static/img/login/bg1.jpg)">
                     </div>
                 </div>
                 <div class="col-md-6 login-container bs-reset">
