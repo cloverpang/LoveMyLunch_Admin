@@ -80,7 +80,6 @@
                                                     </div>
                                                 </div>
 												
-								<tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
                                     <!-- END search from -->
 									<!-- BEGIN SAMPLE TABLE PORTLET-->
 									<template v-if="!count">
@@ -141,12 +140,11 @@
 <script>
     import {APIDOMAIN} from '../../vuex/types.js';
 	import vConfirmModal from './../Common/confirmModal';
-    import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 
 	import {formatUnixDate,formatDate,showTip,showNotice,formatMintuesDate,formatNormalDate,getNowFormatDay,getTomorrowFormatDay} from '../../utils/common.js';
     export default {
         components: {
-		    vConfirmModal,tableDataLoadingProgress,datepicker
+		    vConfirmModal,datepicker
         },
         data () {
             return {
@@ -174,13 +172,14 @@
             },
             //获取数据
             getList () {
-			    this.progressBar = true; //显示加载条
+			    //this.progressBar = true; //显示加载条
 				
 				if(this.startDate == '' || this.endDate == ''){
 				   showNotice('warning','Error!','查询汇总必须选择日期!');
 				   return;
 				}
 				
+				this.$loading('数据加载中 ...');
 				var url = '/' + this.$store.state.user.operationCenter + '/summary?startDate=' + this.startDate + '&endDate=' + this.endDate;
 				this.$http.get(url,{
                 params: {
@@ -188,7 +187,8 @@
                 })
                 .then( (res) => {
 				    this.actionProgress = false;
-				    this.progressBar = false;
+				    //this.progressBar = false;
+					this.$loading.end();
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
                         this.count = res.data.content.length;
@@ -198,7 +198,8 @@
                      //showTip("Error","远程获取数据错误！");
 					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
 					 this.actionProgress = false;
-                     this.progressBar = false;
+                     //this.progressBar = false;
+					 this.$loading.end();
                      //error callback
                 });
             },
