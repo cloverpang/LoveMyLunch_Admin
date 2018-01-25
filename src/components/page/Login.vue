@@ -5,7 +5,7 @@
         <div class="user-login-5">
             <div class="row bs-reset">
                 <div class="col-md-6 bs-reset">
-                    <div class="login-bg" style="background-image:url(../static/img/login/bg1.jpg)">
+                    <div class="login-bg login-bg-image">
                     </div>
                 </div>
                 <div class="col-md-6 login-container bs-reset">
@@ -139,6 +139,10 @@
 </script>
 
 <style scoped>
+.login-bg-image {
+  background-image: url("../../../static/img/login/bg1.jpg");
+}
+
 .user-login-5 {
   min-height: 100vh; }
   .user-login-5 .bs-reset {
