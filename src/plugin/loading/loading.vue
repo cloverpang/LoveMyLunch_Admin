@@ -1,7 +1,7 @@
 <template>
 <div class="loader" v-show="isShow">
  <div class="loadingbox">
-{{tipMessage}}
+{{tipMessage}} 耗时:{{timeSecond}}秒
  </div>
 </div>
 </template>
@@ -12,7 +12,8 @@
       return {
         isShow: false,
 		originTipMessage:'页面加载中，请稍等...',
-		tipMessage:'页面加载中，请稍等...'
+		tipMessage:'页面加载中，请稍等...',
+		timeSecond:1
       }
     },
     computed: {
@@ -22,21 +23,34 @@
       /**
        * 显示动画loading
        */
-      show(tipMessage) {
+      show(message) {
+	    this.timeSecond = 1;
         this.isShow = true;
-		if(tipMessage != ''){
-		   this.tipMessage = tipMessage;
+		if(message != ''){
+		   this.tipMessage = message;
 		}else{
-		   this.tipMessage = originTipMessage;
+		   this.tipMessage = this.originTipMessage;
 		}
+
+		var intervalid;
+        this.intervalid = setInterval(() => {
+		  if(this.timeSecond == 10){
+		     this.hide();	 
+		  }
+          this.timeSecond++;
+        }, 1000)
       },
       /**
        * 隐藏动画loading
        */
       hide() {
+	    clearInterval(this.intervalid);
         this.isShow = false;
-      },
+      }
     },
+	beforeDestroy () {
+      clearInterval(this.intervalid);
+    }
   }
 </script>
 

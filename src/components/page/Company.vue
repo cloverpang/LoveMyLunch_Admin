@@ -439,7 +439,7 @@
                     return;
                 }
 
-				this.$loading('操作执行中...');
+				//this.$loading('操作执行中...');
 				this.$refs.batchDeleteConfirm.actionProgress = true;
                 
                 var _this = this; 
@@ -454,7 +454,7 @@
 				.then( (res) => {
                 //子组件监听到数据返回变化会自动更新DOM
 			    if(res.status == 200){
-				   this.$loading.end();
+				   //this.$loading.end();
 				   this.$refs.batchDeleteConfirm.actionProgress = false;
 				   $('#batchDeleteConfirmModel').modal('hide');
                    showNotice('success','Success!','批量删除成功!');
@@ -463,7 +463,7 @@
 				   this.getList();
                  }
                 }, (response) => {
-				   this.$loading.end();
+				   //this.$loading.end();
 				   this.$refs.batchDeleteConfirm.actionProgress = false;
 				   $('#batchDeleteConfirmModel').modal('hide');
                    showNotice('warning','Error!','远程数据操作失败,请检查网络!');
