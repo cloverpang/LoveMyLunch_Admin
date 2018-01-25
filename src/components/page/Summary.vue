@@ -83,6 +83,25 @@
 								<tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
                                     <!-- END search from -->
 									<!-- BEGIN SAMPLE TABLE PORTLET-->
+									<template v-if="!count">
+									            <div class="panel panel-default">
+                                                    <div class="panel-body">
+													 
+                                                                 <div class="form-group">
+
+
+																	<div class="col-md-6 control-label">
+                                                                       <h1 class="" style="color:#333333;"><b>该时间段内尚无订单数据!</b></h1>
+                                                                    </div>
+																	
+ 
+
+                                                                 </div>
+													 
+													</div>
+                                                </div>
+									</template>
+												
                                                 <div class="panel panel-default" v-for="(item,index) in items" :id="item.orderId">
                                                     <div class="panel-body">
 													 
@@ -131,7 +150,7 @@
         },
         data () {
             return {
-			    progressBar: true, //显示加载条
+			    progressBar: false, //显示加载条
 				actionProgress: false, //
                 count : 0, //总记录数
                 items : [],

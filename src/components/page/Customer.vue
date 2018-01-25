@@ -108,8 +108,6 @@
                                         <div class="portlet-body">
 										
                                             <div class="table-responsive">
-                                                <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
-											
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
@@ -186,11 +184,8 @@
 <script>
     import customer from '../models/customer';
     import {APIDOMAIN} from '../../vuex/types.js';
-	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
-    import vPageSort from './../Common/PageSort';
 	import vConfirmModal from './../Common/confirmModal';
-    import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vCustomerEdit from './customerEdit';
     import vCompanyListPopup from './CompanyListPopup';
@@ -198,11 +193,11 @@
 	import {formatUnixDate,formatDate,showTip,showNotice,checkPermission} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCustomerEdit,tableDataLoadingProgress,vCompanyListPopup
+		    vPageInfo,vConfirmModal,vCustomerEdit,vCompanyListPopup
         },
         data () {
             return {
-			    progressBar: true, //显示加载条
+			    progressBar: false, //显示加载条
 				actionProgress: false, //
 			    customerName: '',
 				customerLogin: '',
@@ -258,7 +253,8 @@
                     this.companyId = this.companyId.substr(1);
                 }
 
-			    this.progressBar = true; //显示加载条
+			    //this.progressBar = true; //显示加载条
+				this.$loading('数据加载中 ...');
 				var url = '/' + this.$store.state.user.operationCenter + '/customers';
 				this.$http.get(url,{
                 params: {
@@ -271,7 +267,8 @@
                 })
                 .then( (res) => {
 				    this.actionProgress = false;
-				    this.progressBar = false;
+				    //this.progressBar = false;
+					this.$loading.end();
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
                         this.count = res.data.content.totalSize;
@@ -282,7 +279,8 @@
                      //showTip("Error","远程获取数据错误！");
 					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
 					 this.actionProgress = false;
-                     this.progressBar = false;
+                     //this.progressBar = false;
+					 this.$loading.end();
                      //error callback
                 });
             },

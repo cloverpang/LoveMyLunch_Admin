@@ -125,8 +125,6 @@
                                             </div>
 
                                            <div class="mt-element-card mt-card-round mt-element-overlay">
-                                               <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
-
                                                <div class="row">
                                                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="(item,index) in items" :id="item.dishId">
                                                         <div class="mt-card-item">
@@ -200,21 +198,18 @@
 <script>
     import dish from '../models/dish';
     import {APIDOMAIN} from '../../vuex/types.js';
-	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
-    import vPageSort from './../Common/PageSort';
 	import vConfirmModal from './../Common/confirmModal';
-    import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vDishEdit from './DishEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice,checkPermission} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vDishEdit,tableDataLoadingProgress
+		    vPageInfo,vConfirmModal,vDishEdit
         },
         data () {
             return {
-			    progressBar: true, //显示加载条
+			    progressBar: false, //显示加载条
 				actionProgress: false, //
 			    dishName: '',
 				customerLogin: '',
@@ -291,7 +286,8 @@
             },
             //获取数据
             getList () {
-			    this.progressBar = true; //显示加载条
+			    //this.progressBar = true; //显示加载条
+				this.$loading('数据加载中 ...');
 				var url = '/' + this.$store.state.user.operationCenter + '/dishs';
 				this.$http.get(url,{
                 params: {
@@ -304,7 +300,8 @@
                 })
                 .then( (res) => {
 				    this.actionProgress = false;
-				    this.progressBar = false;
+				    //this.progressBar = false;
+					this.$loading.end();
                     //子组件监听到数据返回变化会自动更新DOM
 					if(res.status == 200){
                         this.count = res.data.content.totalSize;
@@ -315,7 +312,8 @@
                      //showTip("Error","远程获取数据错误！");
 					 showNotice('warning','Error!','远程获取数据错误,请检查网络!');
 					 this.actionProgress = false;
-                     this.progressBar = false;
+                     //this.progressBar = false;
+					 this.$loading.end();
                      //error callback
                 });
             },

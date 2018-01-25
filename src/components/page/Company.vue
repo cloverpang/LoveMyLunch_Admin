@@ -127,8 +127,6 @@
                                             </div>
 										
                                             <div class="table-responsive">
-                                               <tableDataLoadingProgress v-show="progressBar"></tableDataLoadingProgress>
-											
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
@@ -224,17 +222,14 @@
 <script>
     import company from '../models/company';
     import {APIDOMAIN} from '../../vuex/types.js';
-	import vMoPaging from './../Common/Paging';
     import vPageInfo from './../Common/PageInfo';
-    import vPageSort from './../Common/PageSort';
 	import vConfirmModal from './../Common/confirmModal';
-    import tableDataLoadingProgress from './../Common/TableDataLoadingProgress';
 	
 	import vCompanyEdit from './companyEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice,checkPermission} from '../../utils/common.js';
     export default {
         components: {
-		    vMoPaging,vPageInfo,vPageSort,vConfirmModal,vCompanyEdit,tableDataLoadingProgress
+		    vPageInfo,vConfirmModal,vCompanyEdit
         },
         data () {
             return {

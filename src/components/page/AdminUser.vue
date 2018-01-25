@@ -155,7 +155,7 @@
         data () {
             return {
 			    model: adminUser,
-			    progressBar: true, //显示加载条
+			    progressBar: false, //显示加载条
 				actionProgress: false, //
                 count : 0, //总记录数
                 items : [],

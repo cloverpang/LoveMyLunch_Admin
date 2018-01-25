@@ -6,6 +6,8 @@ import axios from './http/http';
 import VeeValidate, {Validator}  from 'vee-validate';
 import zh_CN from 'vee-validate/dist/locale/zh_CN';
 import Loading from './plugin/loading';
+import Paging from './plugin/paging';
+import PageSort from './plugin/pageSort';
 
 const config = {
   locale: 'zh_CN'
@@ -14,11 +16,16 @@ const config = {
 Validator.locale ==="en" ? "zh_CN" : "en";
 Vue.use(VeeValidate,config);
 
-//Vue.use(Loading);
+Vue.use(Paging);
 
-Vue.use(Loading, {
-  container: '.app',
-})
+Vue.use(PageSort);
+
+Vue.use(Loading);
+
+//Vue.use(Loading, 
+//{
+  //container: '.app',
+//})
 
 
 //权限检验方法
