@@ -6,7 +6,8 @@ import router from '../router'
 
 // axios 配置
 axios.defaults.timeout = 60000;
-axios.defaults.baseURL = 'http://localhost:8080/lovermylunch_api';
+//axios.defaults.baseURL = 'http://localhost:8080/lovermylunch_api';
+axios.defaults.baseURL = 'http://120.78.64.127:8080/lovermylunch_api';
 //axios.defaults.baseURL = '/lovermylunch_api/';
 axios.defaults.headers['ai-api-access-token'] = 'fb34e7cbca8bcac576a4ce31c9dc28ba';
 axios.defaults.headers['AI-Token'] = '';
