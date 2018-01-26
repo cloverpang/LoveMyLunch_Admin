@@ -34,7 +34,7 @@
 
 		var intervalid;
         this.intervalid = setInterval(() => {
-		  if(this.timeSecond == 10){
+		  if(this.timeSecond == 30){
 		     this.hide();	 
 		  }
           this.timeSecond++;

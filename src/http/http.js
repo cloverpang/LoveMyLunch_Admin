@@ -5,7 +5,7 @@ import * as types from '../vuex/types'
 import router from '../router'
 
 // axios 配置
-axios.defaults.timeout = 60000;
+axios.defaults.timeout = 30000;
 //axios.defaults.baseURL = 'http://localhost:8080/lovermylunch_api';
 axios.defaults.baseURL = 'http://120.78.64.127:8080/lovermylunch_api';
 //axios.defaults.baseURL = '/lovermylunch_api/';
