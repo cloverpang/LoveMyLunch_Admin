@@ -30,7 +30,8 @@ module.exports = {
     proxyTable: {
       '/lovermylunch_api': {
         //target: 'http://localhost:8080/lovermylunch_api',
-        target: 'http://localhost:8080',
+        //target: 'http://localhost:8080',
+        target: 'http://localhost:8081',
         changeOrigin: true,
         pathRewrite: {
           '^/lovermylunch_api': ''

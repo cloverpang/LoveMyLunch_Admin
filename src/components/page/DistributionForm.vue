@@ -9,17 +9,17 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>配送单 
-							
+                            <h1>配送单
+
 							<a data-toggle="modal" href="#allArriveConfirmModel" class="btn dark btn-outline" v-if="$_has('component_distributionForm_mark_all_arrived')">
 							标记所有配送单已到达
 							</a>
-							
+
 							<a data-toggle="modal" href="#generateDistributionForm" class="btn dark btn-outline" @click="setGenerateDistributionForm" v-if="$_has('component_distributionForm_generate')">
 							手工生成配送单
 							</a>
                             </h1>
-							
+
                         </div>
                         <!-- END PAGE TITLE -->
                     </div>
@@ -56,13 +56,13 @@
                                                         <!-- BEGIN FORM-->
                                                         <form id="form" class="form-horizontal">
                                                             <div class="form-body">
-															
+
                                                                 <div class="row">
                                                                  <div class="form-group">
                                                                     <label class="col-md-1 control-label">时间 </label>
 
-                                                                    <div class="col-md-3">                                                            
-                                                                       
+                                                                    <div class="col-md-3">
+
                                                                    <datepicker v-model="startDate" class="picker"></datepicker>
                                                                     </div>
 
@@ -77,7 +77,7 @@
                                                             <div class="form-actions right">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
-                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress"> 
+                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress">
 																		查 询 <span id="searchAction" v-show="actionProgress">......</span>
 																		</button>
                                                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
@@ -100,13 +100,13 @@
                                             </div>
                                         </div>
                                         <div class="portlet-body">
-										
+
                                             <div class="table-responsive">
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:20%;"> 配送单单号 
+                                                            <th style="width:20%;"> 配送单单号
 															<vPageSort :sortColumn="'formNumber'" @handleSort="handleSort"></vPageSort>
                                                             </th>
                                                             <th style="width:15%;"> 公司名称
@@ -128,27 +128,29 @@
                 <td style="width:15%;word-wrap:break-word;word-break:break-all;">{{item.companyName}} </td>
                 <td style="width:20%;word-wrap:break-word;word-break:break-all;">{{item.companyAddress}}</td>
                 <td style="width:15%;"> {{formatMintuesDate(item.createTime)}} </td>
-                <td style="width:9%;"> 
+                <td style="width:9%;">
 				 <template v-if="item.status == '0'">
 				 <a data-toggle="modal" href="#arriveConfirmModel" @click="arriveDistributionForm(item)" class="btn btn-circle btn-xs red" v-if="showMarkButton">
-				 未送达<i class="fa fa-question"></i>  
+				 未送达<i class="fa fa-question"></i>
 				 </a>
 				 </template>
 			     <template v-if="item.status == '1'">
 				 <span class="badge badge-info"> 已送达 </span>
 				 </template>
 				</td>
-                <td style="width:8%;"> 
+                <td style="width:8%;">
 				 <template v-if="item.distributerId == '' || item.distributerId == null">
 				 <a data-toggle="modal" href="#distributerListPopup" class="btn btn-circle btn-xs blue" @click="loadDistributerPopupData(item)" v-if="showSelectDistrbuterButton">
 				 <i class="fa fa-pencil"></i> 分配配送员
 				 </a>
 				 </template>
 				 <template v-if="item.distributerId != ''">
-				 <span> {{item.distributerName}} </span>
+         <a data-toggle="modal" href="#distributerListPopup" class="btn btn-circle btn-xs blue" @click="loadDistributerPopupData(item)" v-if="showSelectDistrbuterButton">
+          <span> {{item.distributerName}} </span>
+         </a>
 				 </template>
 				</td>
-				<td style="width:8%;">  
+				<td style="width:8%;">
 			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteDistributionForm(item)" class="btn btn-circle btn-xs dark" v-if="showDeleteButton">
 				<i class="fa fa-times"></i> Delete
 				</a>
@@ -157,13 +159,13 @@
 
 													</tbody>
                                                 </table>
-												 
-												
-												
-                                            </div>
-											
 
-                                            
+
+
+                                            </div>
+
+
+
         <template v-if="count">
 		   <vMoPaging :page-index="currentPage" :total="count" :page-size="pageSize" @change="pageChange"></vMoPaging>
         </template>
@@ -185,11 +187,11 @@
         <vDistributerListPopup ref="distributerListPopup" :loadData=loadDistributerData :distributionFormId=model.distributionFormId @handleSelect='handleSelectDistributer'></vDistributerListPopup>
 		<vGenerateDistributionForm ref="generateDistributionForm"></vGenerateDistributionForm>
 		<vDistributionFormDetailPopup ref="distributionFormDetailPopup"></vDistributionFormDetailPopup>
-			
+
 		<vConfirmModal :confirmMessage="'确定删除 配送单'" :modalId="'deleteConfirmModel'" :itemId="model.distributionFormId" :itemName="model.formNumber" @handleConfirm="handleDelete"></vConfirmModal>
 		<vConfirmModal :confirmMessage="'确定该配送单 已到达 - '" :modalId="'arriveConfirmModel'" :itemId="model.distributionFormId" :itemName="model.formNumber" @handleConfirm="handleArrvied"></vConfirmModal>
 		<vConfirmModal :confirmMessage="'确定当前所有配送单已到达'" :modalId="'allArriveConfirmModel'"  @handleConfirm="handleAllArrvied"></vConfirmModal>
-            <!-- END CONTENT -->	
+            <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
 </template>
@@ -199,7 +201,7 @@
     import {APIDOMAIN} from '../../vuex/types.js';
     import vPageInfo from './../Common/PageInfo';
 	import vConfirmModal from './../Common/confirmModal';
-	
+
 	import vDistributerListPopup from './DistributerListPopup';
 	import vGenerateDistributionForm from './GenerateDistributionForm';
 	import vDistributionFormDetailPopup from './DistributionFormDetailPopup';
@@ -255,14 +257,14 @@
             //获取数据
             getList () {
 			    //this.progressBar = true; //显示加载条
-				
+
 				var start_date = "";
 				var end_date = "";
-				
+
 				if(this.startDate != ''){
 				   start_date = this.startDate + " 00:00:00";
 				}
-				
+
 				if(this.endDate != ''){
 				   end_date = this.endDate + " 23:59:59";
 				}
@@ -280,7 +282,7 @@
                        conditions += '$createTime::lt::' + end_date;
                    }
                 }
-				
+
 				this.$loading('数据加载中 ...');
 				var url = '/' + this.$store.state.user.operationCenter + '/distributionForms';
 				this.$http.get(url,{
@@ -371,12 +373,12 @@
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
 					    //showTip("Success","删除成功");
-                        showNotice('success','Success!','删除成功!');					
+                        showNotice('success','Success!','删除成功!');
 						this.getList();
                        }
                      }, (response) => {
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                     });  
+                     });
 			},
 			//处理删除
 			deleteDistributionForm(item){
@@ -407,12 +409,12 @@
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
-                        showNotice('success','Success!','标记成功!');					
+                        showNotice('success','Success!','标记成功!');
 						this.getList();
                        }
                      }, (response) => {
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                     });  
+                     });
 			},
 			handleAllArrvied(){
 					$('#allArriveConfirmModel').modal('hide');
@@ -422,12 +424,12 @@
 					 .then( (res) => {
                        //子组件监听到数据返回变化会自动更新DOM
 					   if(res.status == 200){
-                        showNotice('success','Success!','标记成功!');					
+                        showNotice('success','Success!','标记成功!');
 						this.getList();
                        }
                      }, (response) => {
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                     });  
+                     });
 			},
 			loadDistributerPopupData(item){
 			   this.model = item;
@@ -444,8 +446,8 @@
 				  .then( (res) => {
 				  if(res.status == 200){
 				     this.actionProgress = false;
-                     showNotice('success','Success!','设置成功!');	
-                     this.refresh();					 
+                     showNotice('success','Success!','设置成功!');
+                     this.refresh();
 			         $('#distributerListPopup').modal('hide');
                    }
                    }, (response) => {
