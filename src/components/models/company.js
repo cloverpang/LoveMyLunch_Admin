@@ -6,6 +6,8 @@ let model = () =>{
 		companyAddress: "",
         operationCenterCode: "",
         companyLogoPath: "",
+        distributerId:"",
+        distributerName:"",
         status: 0,
         joinTime: ""
     }

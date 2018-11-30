@@ -10,7 +10,7 @@
 															<h4 class="modal-title" v-show="addType"> 添加 新公司 </h4>
                                                             <h4 class="modal-title" v-show="!addType"> {{model.companyName}} </h4>
                                                         </div>
-                                                        <div class="modal-body"> 
+                                                        <div class="modal-body">
                                                     <div class="portlet-body form">
                                                             <div class="form-body">
                                                                 <div class="form-group" :class="{'has-error': errors.has('companyName')}">
@@ -23,46 +23,59 @@
                                                                           </div>
                                                                     </div>
                                                                 </div>
-																
+
                                                                 <div class="form-group" :class="{'has-error': errors.has('companyCode')}">
                                                                     <label class="col-md-3 control-label">公司代码</label>
                                                                     <div class="col-md-6">
                                                                        <div class="input-icon right">
                                                                         <i class="fa fa-warning tooltips" data-original-title="请输入公司代码且必须是英文字母!" v-show="errors.has('companyCode')"></i>
-                                                                        <input v-validate="'required|alpha_dash'" name="companyCode" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode"> 
+                                                                        <input v-validate="'required|alpha_dash'" name="companyCode" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司代码" v-model="form.companyCode">
                                                                          <span style="color:red;" v-show="errors.has('companyCode')"  >请输入公司代码!</span>
                                                                        </div>
                                                                     </div>
                                                                 </div>
-																
+
                                                                 <div class="form-group">
                                                                     <label class="col-md-3 control-label">公司地址</label>
                                                                     <div class="col-md-6">
-                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司地址" v-model="form.companyAddress"> 
+                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="公司地址" v-model="form.companyAddress">
                                                                     </div>
                                                                 </div>
-																
-																<div class="form-group">
+
+																                         <div class="form-group">
                                                                     <label class="col-md-3 control-label">状态 </label>
                                                                     <div class="col-md-6">
 																			 <select name="status" v-validate="'required'" class="form-control input-circle" :class="{'emptyInput':viewType}" :disabled="viewType" v-model="form.status" @change="handleStatusChange">
                                                                                        <option v-for="option in options" v-model="option.value" v-bind:value="option.value">
                                                                                        {{ option.text }}
                                                                                        </option>
-                                                                             </select> 
-                                                                             <span style="color:red;" v-show="errors.has('status')"  >状态必须选择!</span>
+                                                                             </select>
+                                                                             <!-- <span style="color:red;" v-show="errors.has('status')"  >状态必须选择!</span> -->
                                                                     </div>
                                                                 </div>
 
+                                                                <div class="form-group">
+                                                                          <label class="col-md-3 control-label">配送人</label>
+                                                                            <div class="col-md-6">
+                                                                              <a data-toggle="modal" href="#distributerListPopup" class="btn btn-circle blue" v-show='!viewType'>
+                                                                                  <i class="fa fa-plus"></i>点击选择
+                                                                              </a>
+                                                                              <input type="text" class="form-control input-circle emptyInput" readonly v-model="form.distributerName">
+                                                                              <input type="hidden" name="distributerId" v-model="form.distributerId"/>
+                                                                              <input type="hidden" name="distributerName" v-model="form.distributerName"/>
 
-																
+                                                                            </div>
+                                                                </div>
+
+
+
                                                                 <div class="form-group last" v-show='viewType'>
                                                                     <label class="col-md-3 control-label">服务人数 </label>
                                                                     <div class="col-md-6">
                                                                         <span class="form-control-static">  </span>
                                                                     </div>
                                                                 </div>
-																
+
                                                             </div>
 
                                                         <!-- END FORM-->
@@ -81,6 +94,7 @@
                                                 <!-- /.modal-dialog -->
                                             </div>
                            </form>
+
 </template>
 
 <script>
@@ -90,16 +104,16 @@ export default {
     name : 'editCompanyModal',
     //通过props来接受从父组件传递过来的值
     props : {
-        model : { 
+        model : {
             default : null
         },
-        form : { 
+        form : {
             default : null
         },
-	    viewType : { 
+	    viewType : {
             default : false
         },
-		addType : { 
+		addType : {
             default : false
         }
     },
@@ -128,8 +142,8 @@ export default {
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
-                     showNotice('success','Success!','添加成功!');		
-                     this.$emit('refresh');							 
+                     showNotice('success','Success!','添加成功!');
+                     this.$emit('refresh');
 			         $('#editCompanyModal').modal('hide');
                  }
                 }, (response) => {
@@ -143,7 +157,7 @@ export default {
 		        this.actionProgress = true;
                 //父组件通过handleSave方法来处理该请求
                 //this.$emit('handleSave', this.model);
-				 
+
 				//提交到API处理
 				this.setModel();
 				var url = '/' + this.$store.state.user.operationCenter + '/company';
@@ -151,7 +165,7 @@ export default {
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
-                     showNotice('success','Success!','修改成功!');					
+                     showNotice('success','Success!','修改成功!');
 			         $('#editCompanyModal').modal('hide');
                  }
                 }, (response) => {
@@ -165,15 +179,22 @@ export default {
 			this.model.companyCode = this.form.companyCode;
 			this.model.companyAddress = this.form.companyAddress;
 			this.model.status = this.form.status;
-		},			
+      this.model.distributerId = this.form.distributerId;
+      this.model.distributerName = this.form.distributerName;
+		},
 		reSetForm(){
 			this.form.companyName = this.model.companyName;
 			this.form.companyCode = this.model.companyCode;
 			this.form.companyAddress = this.model.companyAddress;
 			this.form.status = this.model.status;
+      this.form.distributerId = this.model.distributerId;
+      this.form.distributerName = this.model.distributerName;
 		},
 		handleStatusChange(){
 		    //alert(this.form.status);
+        },
+    handleDistributerChange(){
+    		    //alert(this.form.status);
         },
 		handleClose(){
 		   this.reSetForm();
@@ -183,7 +204,7 @@ export default {
 		}
     },
     computed : {
-        
+
     },
     data () {
         return {
@@ -195,7 +216,9 @@ export default {
                companyCode: '',
                companyAddress: '',
                companyLogoPath:'',
-			   operationCenterCode: '',
+			         operationCenterCode: '',
+               distributerId:'',
+               distributerName:'',
                status: 0,
                joinTime: ''
            },

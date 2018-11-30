@@ -63,7 +63,7 @@
                                                             <div class="form-actions right">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
-                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress"> 
+                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress">
 																		查 询 <span id="searchCompanyAction" v-show="actionProgress">......</span>
 																		</button>
                                                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
@@ -125,12 +125,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-										
+
                                             <div class="table-responsive">
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width:5%;"> 
+                                                            <th style="width:5%;">
 				                                           <div class="md-checkbox">
                                                                 <input type="checkbox" id="checkAllCompany" class="md-check" v-model='checkAll' v-on:click='checkedAll'>
                                                                 <label for="checkAllCompany">
@@ -140,23 +140,24 @@
                                                             </div>
                                                             </th>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:30%;"> 公司名称 
+                                                            <th style="width:24%;"> 公司名称
                                                             <vPageSort :sortColumn="'companyName'" @handleSort="handleSort"></vPageSort>
                                                             </th>
                                                             <th style="width:15%;"> 公司代码
                                                             <vPageSort :sortColumn="'companyCode'" @handleSort="handleSort"></vPageSort>
-															</th>
+															                             </th>
                                                             <th style="width:12%;"> 开始时间 </th>
                                                             <th style="width:8%;"> 状态 </th>
-                                                            <th style="width:10%;"> 服务人数 </th>
+                                                            <th style="width:8%;"> 服务人数 </th>
+                                                            <th style="width:8%;"> 默认配送人 </th>
                                                             <th style="width:7%;"> 操作 </th>
-															<th style="width:8%;">  </th>
+															                              <th style="width:8%;">  </th>
                                                         </tr>
                                                     </thead>
 													<tbody>
 
              <tr v-for="(item,index) in items" :id="item.companyId">
-                <td style="width:5%;"> 
+                <td style="width:5%;">
 				                                           <div class="md-checkbox">
                                                                 <input type="checkbox" :id="'company-' + item.companyId" class="md-check" :value='item.companyId' v-model='checkboxModel'>
                                                                 <label :for="'company-' + item.companyId">
@@ -164,34 +165,35 @@
                                                                     <span class="check"></span>
                                                                     <span class="box"></span> </label>
                                                             </div>
-															
+
                 </td>
                 <td style="width:5%;"> {{Number(index + 1 + (currentPage-1) * selected) }}</td>
-                <td style="width:30%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,false)">{{item.companyName}}</a> </td>
+                <td style="width:24%;"> <a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,false)">{{item.companyName}}</a> </td>
                 <td style="width:15%;">{{item.companyCode}} </td>
                 <td style="width:12%;"> {{formatterDate(item.joinTime)}}  </td>
                 <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
-                <td style="width:10%;"> 
+                <td style="width:8%;">
                     <router-link :to="{path:'customer',query: {id:item.companyId,name:item.companyName}}" target="_blank"> {{item.companyCustomerQuantity}} </router-link>
                     <!-- <router-link :to="{name:'customer',params: { id:item.companyId }}" target="_blank"> 公司人员 </router-link>-->
                </td>
-                <td style="width:7%;"> 
+               <td style="width:8%;">{{item.distributerName}} </td>
+                <td style="width:7%;">
 				<a data-toggle="modal" href="#editCompanyModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade" v-if="showEditButton"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
-				<td style="width:8%;">  
+				<td style="width:8%;">
 			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCompany(item)" class="btn btn-circle btn-xs dark" v-if="showDeleteButton"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
 													</tbody>
                                                 </table>
-												 
-												
-												
-                                            </div>
-											
 
-                                            
+
+
+                                            </div>
+
+
+
         <template v-if="count">
 		   <vMoPaging :page-index="currentPage" :total="count" :page-size="pageSize" @change="pageChange"></vMoPaging>
         </template>
@@ -211,10 +213,11 @@
             </div>
 
         <vCompanyEdit ref="editForm" :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCompanyEdit>
-											
+        <vDistributerListPopupForCompany ref="distributerListPopupForCompany" :loadData=loadDistributerData @handleSelect='selectedDistributer'></vDistributerListPopupForCompany>
+
 		<vConfirmModal ref="deleteConfirm"  :name="DeleteConfirmModal" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.companyId" :itemName="model.companyName" @handleConfirm="handleDelete"></vConfirmModal>
         <vConfirmModal ref="batchDeleteConfirm" :name="BatchDeleteConfirmModal" :confirmMessage="'确定批量删除 '" :modalId="'batchDeleteConfirmModel'" @handleConfirm="handleBatchDelete"></vConfirmModal>
-            <!-- END CONTENT -->	
+            <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
 </template>
@@ -224,12 +227,13 @@
     import {APIDOMAIN} from '../../vuex/types.js';
     import vPageInfo from './../Common/PageInfo';
 	import vConfirmModal from './../Common/confirmModal';
-	
+  import vDistributerListPopupForCompany from './DistributerListPopupForCompany';
+
 	import vCompanyEdit from './companyEdit';
 	import {formatUnixDate,formatDate,showTip,showNotice,checkPermission} from '../../utils/common.js';
     export default {
         components: {
-		    vPageInfo,vConfirmModal,vCompanyEdit
+		    vPageInfo,vConfirmModal,vCompanyEdit,vDistributerListPopupForCompany
         },
         data () {
             return {
@@ -258,14 +262,17 @@
                     companyCode: '',
                     companyAddress: '',
                     companyLogoPath:'',
-					operationCenterCode: '',
+					          operationCenterCode: '',
+                    distributerId:'',
+                    distributerName:'',
                     status: 0,
                     joinTime: ''
                 },
 				viewType:false,
 				addType:false,
-                checkboxModel:[],
-                checkAll:false,
+        checkboxModel:[],
+        checkAll:false,
+        loadDistributerData : true,
 				showEditButton : checkPermission('component_company_update'),
 				showDeleteButton : checkPermission('component_company_delete')
             }
@@ -314,7 +321,7 @@
                 this.getList();
             },
 			handleReload(){
-			    this.companyName = ''; 
+			    this.companyName = '';
 				this.companyCode = '';
                 this.currentPage = 1;
 				this.sortColumn = '';
@@ -363,14 +370,14 @@
 					   if(res.status == 200){
 					    this.$refs.deleteConfirm.actionProgress = false;
 					    $('#deleteConfirmModel').modal('hide');
-                        showNotice('success','Success!','删除成功!');					
+                        showNotice('success','Success!','删除成功!');
 						this.getList();
                        }
                      }, (response) => {
 					    this.$refs.deleteConfirm.actionProgress = false;
 					    $('#deleteConfirmModel').modal('hide');
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                     });  
+                     });
 			},
 			//处理删除
 			deleteCompany(item){
@@ -385,11 +392,23 @@
 			   }
 			   this.addType = false;
 			   this.model = item;
+         this.form.companyName = this.model.companyName;
+         this.form.companyCode = this.model.companyCode;
+         this.form.companyAddress = this.model.companyAddress;
+         this.form.status = this.model.status;
+         this.form.distributerId = this.model.distributerId;
+         this.form.distributerName = this.model.distributerName;
 			   this.setForm();
 			},
 			showAddModel(){
 			    this.addType = true;
 				this.viewType = false;
+        this.form.companyName = '';
+        this.form.companyCode = '';
+        this.form.companyAddress = '';
+        this.form.status = '0';
+        this.form.distributerId = '';
+        this.form.distributerName = '';
 				//this.model = form();
 				//this.form = form();
 			},
@@ -441,8 +460,8 @@
 
 				//this.$loading('操作执行中...');
 				this.$refs.batchDeleteConfirm.actionProgress = true;
-                
-                var _this = this; 
+
+                var _this = this;
                 var ids = "";
                  _this.checkboxModel.forEach(function(item) {
                     ids = ids + "," + item;
@@ -459,7 +478,7 @@
 				   $('#batchDeleteConfirmModel').modal('hide');
                    showNotice('success','Success!','批量删除成功!');
                    this.checkAll = false;
-                   this.checkboxModel = [];					
+                   this.checkboxModel = [];
 				   this.getList();
                  }
                 }, (response) => {
@@ -467,9 +486,16 @@
 				   this.$refs.batchDeleteConfirm.actionProgress = false;
 				   $('#batchDeleteConfirmModel').modal('hide');
                    showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                });  
+                });
             }
         },
+    selectedDistributer(distributerId,distributerName){
+          alert(1);
+          // this.form.distributerId = distributerId;
+          // this.form.distributerName = distributerName;
+          alert(2);
+          $('#distributerListPopup').modal('hide');
+    },
 		beforeCreate(){
 
 		},

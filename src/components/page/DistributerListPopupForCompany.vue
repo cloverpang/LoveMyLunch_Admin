@@ -53,9 +53,6 @@
 															<span>
                                                 <strong> {{tipMessage}} </strong></span> &nbsp; &nbsp; &nbsp; &nbsp;
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" @click="cleanSelect"> 关闭 </button>
-                                                            <button type="button" class="btn green" @click="saveSelected">
-															 确定
-															</button>
                                                         </div>
                                                     </div>
                                                     <!-- /.modal-content -->
@@ -70,7 +67,7 @@ import distributer from '../models/distributer';
 import vMoPaging from './../Common/Paging';
 import {showNotice} from '../../utils/common.js';
 export default {
-    name : 'distributerListPopup',
+    name : 'distributerListPopupForCompany',
     components: {
 		    vMoPaging
     },
@@ -93,8 +90,8 @@ export default {
                     conditionsStr: 'distributerName::like::' + this.keyword + '$status::=::0',//只选取状态正常的配送员
                     pageSize: this.pageSize,
                     page: this.currentPage,
-					sortColumn: this.sortColumn,
-					sortType: this.sortType
+					          sortColumn: this.sortColumn,
+					          sortType: this.sortType
                  }
                 })
                 .then( (res) => {
@@ -122,15 +119,22 @@ export default {
                 this.getPopupDataList();
             },
             selectDistributer(distributerId,distributerName){
-			    this.selectedDistributerId = distributerId;
-				this.selectedDistributerName = distributerName;
+			        // this.selectedDistributerId = distributerId;
+				      // this.selectedDistributerName = distributerName;
 
-				this.tipMessage = "您的选择是 : " + distributerName;
+              this.$parent.form.distributerId = distributerId;
+              this.$parent.form.distributerName = distributerName;
+
+              //
+				      this.tipMessage = "您的选择是 : " + distributerName;
+              // $('#distributerListPopup').modal('hide');
+              //this.$emit('handleSelect',distributerId,distributerName);
+              $('#distributerListPopup').modal('hide');
             },
             //确定
             saveSelected(){
                 //调用父组件方法
-                this.$emit('handleSelect',this.distributionFormId,this.selectedDistributerId,this.selectedDistributerName);
+                //this.$emit('handleSelect',this.selectedDistributerId,this.selectedDistributerName);
                 //$('#distributerListPopup').modal('hide');
             },
 			cleanSelect(){
