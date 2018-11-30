@@ -9,7 +9,7 @@
                     <div class="container">
                         <!-- BEGIN PAGE TITLE -->
                         <div class="page-title">
-                            <h1>{{companyName}} 用户 
+                            <h1>{{companyName}} 用户
                             </h1>
                         </div>
                         <!-- END PAGE TITLE -->
@@ -70,8 +70,8 @@
                                                                     </div>
                                                                     <div class="col-md-9">
 
-                                      <span style="padding-left:5px;padding-right:5px;" v-for="(name,index) in selectedCompanyNames"> 
-                                          <button type="button" @click="deleteSelectedCompany(name,index)" class="btn btn-circle btn-sm blue-hoki"> 
+                                      <span style="padding-left:5px;padding-right:5px;" v-for="(name,index) in selectedCompanyNames">
+                                          <button type="button" @click="deleteSelectedCompany(name,index)" class="btn btn-circle btn-sm blue-hoki">
                                            {{name}} <i class="fa fa-times"></i>
                                           </button>
                                       </span>
@@ -83,7 +83,7 @@
                                                             <div class="form-actions right">
                                                                 <div class="row">
                                                                     <div class="col-md-offset-3 col-md-9">
-                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress"> 
+                                                                        <button type="button" class="btn btn-circle red" @click="handleSearch" :disabled="actionProgress">
 																		查 询 <span id="searchAction" v-show="actionProgress">......</span>
 																		</button>
                                                                         <button type="button" class="btn btn-circle grey-salsa btn-outline" @click="handleCancelSearch"> 取 消 </button>
@@ -106,13 +106,13 @@
                                             </div>
                                         </div>
                                         <div class="portlet-body">
-										
+
                                             <div class="table-responsive">
                                                 <table class="table table-hover" v-if="count">
                                                     <thead>
                                                         <tr>
                                                             <th style="width:5%;"> 序号 </th>
-                                                            <th style="width:20%;"> 用户名 
+                                                            <th style="width:20%;"> 用户名
                                                             <vPageSort :sortColumn="'customerName'" @handleSort="handleSort"></vPageSort>
                                                             </th>
                                                             <th style="width:20%;"> 登陆账号
@@ -135,24 +135,24 @@
                 <td style="width:12%;"> {{formatterDate(item.createTime)}}  </td>
                 <td style="width:10%;" v-html='changeType(item.customerType)'> </td>
                 <td style="width:8%;" v-html='changeStatus(item.status)'> </td>
-                <td style="width:10%;">  </td>
-                <td style="width:7%;"> 
+                <td style="width:10%;"> {{item.orderCount}}</td>
+                <td style="width:7%;">
 				<a data-toggle="modal" href="#editCustomerModal" @click="showEditModel(item,true)" class="btn btn-circle btn-xs grey-cascade" v-if="showEditButton"><i class="fa fa-pencil"></i> Edit </a>
 				</td>
-				<td style="width:8%;">  
+				<td style="width:8%;">
 			    <a data-toggle="modal" href="#deleteConfirmModel" @click="deleteCustomer(item)" class="btn btn-circle btn-xs dark" v-if="showDeleteButton"><i class="fa fa-times"></i> Delete </a>
 				</td>
              </tr>
 
 													</tbody>
                                                 </table>
-												 
-												
-												
-                                            </div>
-											
 
-                                            
+
+
+                                            </div>
+
+
+
         <template v-if="count">
 		   <vMoPaging :page-index="currentPage" :total="count" :page-size="pageSize" @change="pageChange"></vMoPaging>
         </template>
@@ -172,11 +172,11 @@
             </div>
 
         <vCustomerEdit :model=model :form=form :viewType=viewType :addType=addType @handleSave="handleSaveCompany" @refresh="refresh"></vCustomerEdit>
-											
+
 		<vConfirmModal ref="deleteConfirm" :confirmMessage="'确定删除 '" :modalId="'deleteConfirmModel'" :itemId="model.customerId" :itemName="model.customerName" @handleConfirm="handleDelete"></vConfirmModal>
 
         <vCompanyListPopup ref="companyListPopup" :loadData=loadCompanyData></vCompanyListPopup>
-            <!-- END CONTENT -->	
+            <!-- END CONTENT -->
         </div>
         <!-- END CONTAINER -->
 </template>
@@ -186,7 +186,7 @@
     import {APIDOMAIN} from '../../vuex/types.js';
     import vPageInfo from './../Common/PageInfo';
 	import vConfirmModal from './../Common/confirmModal';
-	
+
 	import vCustomerEdit from './customerEdit';
     import vCompanyListPopup from './CompanyListPopup';
 
@@ -245,7 +245,7 @@
             //获取数据
             getList () {
                 this.companyId = '';
-                var _this = this; 
+                var _this = this;
                  _this.selectedCompanyIds.forEach(function(item) {
                     _this.companyId = _this.companyId + "," + item;
                 });
@@ -294,7 +294,7 @@
                 this.getList();
             },
 			handleReload(){
-			    this.customerName = ''; 
+			    this.customerName = '';
 				this.customerLogin = '';
                 this.currentPage = 1;
 				this.sortColumn = '';
@@ -343,14 +343,14 @@
 					   	this.$refs.deleteConfirm.actionProgress = false;
 			            $('#deleteConfirmModel').modal('hide');
 					    //showTip("Success","删除成功");
-                        showNotice('success','Success!','删除成功!');					
+                        showNotice('success','Success!','删除成功!');
 						this.getList();
                        }
                      }, (response) => {
 					    this.$refs.deleteConfirm.actionProgress = false;
 			            $('#deleteConfirmModel').modal('hide');
                         showNotice('warning','Error!','远程数据操作失败,请检查网络!');
-                     });  
+                     });
 			},
 			//处理删除
 			deleteCustomer(item){
@@ -407,8 +407,8 @@
 				//先清空
                 this.$refs.companyListPopup.companyNames = [];
                 this.$refs.companyListPopup.companyIds = [];
-				
-                var _this = this; 
+
+                var _this = this;
                 if(this.selectedCompanyNames.length > 0){
                     this.selectedCompanyNames.forEach(function(item){
                       _this.$refs.companyListPopup.companyNames.push(item);

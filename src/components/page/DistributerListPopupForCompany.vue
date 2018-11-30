@@ -126,7 +126,7 @@ export default {
               this.$parent.form.distributerName = distributerName;
 
               //
-				      this.tipMessage = "您的选择是 : " + distributerName;
+				      //this.tipMessage = "您的选择是 : " + distributerName;
               // $('#distributerListPopup').modal('hide');
               //this.$emit('handleSelect',distributerId,distributerName);
               $('#distributerListPopup').modal('hide');

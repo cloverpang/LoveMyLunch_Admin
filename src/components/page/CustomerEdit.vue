@@ -10,7 +10,7 @@
 															<h4 class="modal-title" v-show="addType"> 添加 新用户 </h4>
                                                             <h4 class="modal-title" v-show="!addType"> {{model.customerName}} </h4>
                                                         </div>
-                                                        <div class="modal-body"> 
+                                                        <div class="modal-body">
                                                     <div class="portlet-body form">
                                                             <div class="form-body">
                                                                 <div class="form-group" :class="{'has-error': errors.has('customerName')}">
@@ -19,18 +19,18 @@
                                                                           <div class="input-icon right">
                                                                             <i class="fa fa-warning tooltips" data-original-title="请输入客户姓名!" v-show="errors.has('customerName')"></i>
                                                                             <input v-validate="'required'" name="customerName" type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="客户姓名" v-model="form.customerName">
-                                                                            <span style="color:red;" v-show="errors.has('customerName')"  >请输入客户姓名!</span>  
+                                                                            <span style="color:red;" v-show="errors.has('customerName')"  >请输入客户姓名!</span>
                                                                           </div>
                                                                     </div>
                                                                 </div>
-																
+
                                                                 <div class="form-group">
                                                                     <label class="col-md-3 control-label">手机电话</label>
                                                                     <div class="col-md-6">
-                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="手机电话" v-model="form.mobileNumber"> 
+                                                                        <input type="text" class="form-control input-circle" :class="{'emptyInput':viewType}" :readonly="viewType" placeholder="手机电话" v-model="form.mobileNumber">
                                                                     </div>
                                                                 </div>
-																
+
                                                                 <div class="form-group">
                                                                     <label class="col-md-3 control-label">客户类型</label>
                                                                     <div class="col-md-6">
@@ -38,10 +38,10 @@
                                                                                        <option v-for="option in typeOptions" v-model="option.value" v-bind:value="option.value">
                                                                                        {{ option.text }}
                                                                                        </option>
-                                                                             </select> 
+                                                                             </select>
                                                                     </div>
                                                                 </div>
-																
+
 																<div class="form-group">
                                                                     <label class="col-md-3 control-label">状态 </label>
                                                                     <div class="col-md-6">
@@ -49,7 +49,7 @@
                                                                                        <option v-for="option in options" v-model="option.value" v-bind:value="option.value">
                                                                                        {{ option.text }}
                                                                                        </option>
-                                                                             </select> 
+                                                                             </select>
                                                                     </div>
                                                                 </div>
 
@@ -58,26 +58,26 @@
                                                                 <div class="form-group " v-show='viewType'>
                                                                     <label class="col-md-3 control-label">订单总数 </label>
                                                                     <div class="col-md-6">
-                                                                        <span class="form-control-static">  </span>
+                                                                        <span class="form-control-static"> {{model.orderCount}}  </span>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="form-group last" v-show='viewType'>
                                                                     <label class="col-md-3 control-label">消费总金额 </label>
                                                                     <div class="col-md-6">
-                                                                        <span class="form-control-static">  </span>
+                                                                        <span class="form-control-static"> {{model.totalCost}}  </span>
                                                                     </div>
                                                                 </div>
-																
+
                                                             </div>
 
-               
-                                                       
+
+
                                                     </div>
 														</div>
                                                         <div class="modal-footer">
 														    <button type="button" class="btn blue" v-show="viewType" @click="changeViewType" v-if="$_has('component_customer_update')">
-															<i class="fa fa-pencil"></i> 修改 
+															<i class="fa fa-pencil"></i> 修改
 															</button>
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" @click="handleClose"> 关闭 </button>
                                                             <button type="submit" class="btn green" v-show="!viewType" :disabled="actionProgress" v-if="$_has('component_customer_update')">
@@ -100,16 +100,16 @@ export default {
     name : 'editCustomerModal',
     //通过props来接受从父组件传递过来的值
     props : {
-        model : { 
+        model : {
             default : null
         },
-        form : { 
+        form : {
             default : null
         },
-	    viewType : { 
+	    viewType : {
             default : false
         },
-		addType : { 
+		addType : {
             default : false
         }
     },
@@ -138,8 +138,8 @@ export default {
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
-                     showNotice('success','Success!','添加成功!');		
-                     this.$emit('refresh');							 
+                     showNotice('success','Success!','添加成功!');
+                     this.$emit('refresh');
 			         $('#editCustomerModal').modal('hide');
                  }
                 }, (response) => {
@@ -152,7 +152,7 @@ export default {
 		        this.actionProgress = true;
                 //父组件通过handleSave方法来处理该请求
                 //this.$emit('handleSave', this.model);
-				 
+
 				//提交到API处理
 				this.setModel();
 				var url = '/' + this.$store.state.user.operationCenter + '/customer';
@@ -160,7 +160,7 @@ export default {
 				.then( (res) => {
 				if(res.status == 200){
 				     this.actionProgress = false;
-                     showNotice('success','Success!','修改成功!');					
+                     showNotice('success','Success!','修改成功!');
 			         $('#editCustomerModal').modal('hide');
                  }
                 }, (response) => {
@@ -174,7 +174,7 @@ export default {
 			this.model.customerType = this.form.customerType;
 			this.model.mobileNumber = this.form.mobileNumber;
 			this.model.status = this.form.status;
-		},			
+		},
 		reSetForm(){
 			this.form.customerName = this.model.customerName;
 			this.form.customerType = this.model.customerType;
@@ -214,7 +214,7 @@ export default {
 		   options: [
                 { text: ' 正常状态 ', value: '0' },
 				{ text: ' 注销 ', value: '1' }
-           ],		  
+           ],
            typeOptions: [
                 { text: ' 普通用户 ', value: '0' },
 				{ text: ' 公司主用户 ', value: '1' }
