@@ -7,12 +7,12 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-															<h4 class="modal-title" v-show="!loadingPopupData"> 请选择用户 <span>检索出 {{count}} 条数据</span> </h4> 
+															<h4 class="modal-title" v-show="!loadingPopupData"> 请选择用户 <span>检索出 {{count}} 条数据</span> </h4>
                                                             <h4 class="modal-title" v-show="loadingPopupData"> 数据加载中 ... ... </h4>
                                                         </div>
-                                           <div class="modal-body">             
+                                           <div class="modal-body">
                                                     <div class="portlet-body form">
-                                                            
+
                                 <div class="form-group">
                                                     <div class="input-group input-medium" v-show="!loadingPopupData">
                                                         <input type="text" class="form-control" placeholder="用户名 or 登录账号"  v-model="keyword">
@@ -39,10 +39,10 @@
                                                                     <span class="box"></span>   </label>
                                                             </div>
                                                     </td>
-                                                    <td style="width:90%;"> 
-                                                     <a href="javascript:void(0);" @click="selectCustomer(item.customerName,item.customerId)"> {{item.customerName}} </a> 
+                                                    <td style="width:90%;">
+                                                     <a href="javascript:void(0);" @click="selectCustomer(item.customerName,item.customerId)"> {{item.customerName}} </a>
                                                     </td>
-                                                </tr> 
+                                                </tr>
                                             </tbody>
 
                                         </table>
@@ -53,10 +53,10 @@
 		   <vMoPaging :page-index="currentPage" :total="count" :page-size="pageSize" @change="pageChange"></vMoPaging>
         </template>
 
-                                                           
+
                                                        </div>
                                                     </div>
-														
+
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn dark btn-outline" data-dismiss="modal" > 关闭 </button>
                                                             <button type="button" class="btn green" @click="saveSelected">
@@ -82,14 +82,14 @@ export default {
     },
     //通过props来接受从父组件传递过来的值
     props : {
-        loadData : { 
-            default : false 
+        loadData : {
+            default : false
         },
-        selectedCustomerNames : { 
-            default : [] 
+        selectedCustomerNames : {
+            default : []
         },
-        selectedCustomerIds : { 
-            default : [] 
+        selectedCustomerIds : {
+            default : []
         }
     },
     methods : {
@@ -99,7 +99,7 @@ export default {
 				var url = '/' + this.$store.state.user.operationCenter + '/customers';
 				this.$http.get(url,{
                 params: {
-                    conditionsStr: 'customerName::like::' + this.keyword + '$customerLogin::like::' + this.keyword,
+                    conditionsStr: 'customerName,customerLogin::like::' + this.keyword,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -148,15 +148,15 @@ export default {
             },
             //确定所选公司
             saveSelected(){
-                //使用$parent 直接赋值 
+                //使用$parent 直接赋值
                 //this.$parent.selectedCustomerNames = this.customerNames;
                 //this.$parent.selectedCustomerIds = this.customerIds;
-				
+
 				//先清空
                 this.$parent.selectedCustomerNames = [];
                 this.$parent.selectedCustomerIds = [];
- 
-                var _this = this; 
+
+                var _this = this;
                 if(this.customerNames.length > 0){
                     this.customerNames.forEach(function(item){
                       _this.$parent.selectedCustomerNames.push(item);
@@ -170,13 +170,13 @@ export default {
                 }
 
 
-                //调用父组件方法 
-                //this.$emit('handleSelected',this.customerNames,this.customerIds);	
+                //调用父组件方法
+                //this.$emit('handleSelected',this.customerNames,this.customerIds);
                 $('#customerListPopup').modal('hide');
             }
     },
     computed : {
-        
+
     },
     data () {
         return {
@@ -199,16 +199,16 @@ export default {
     },
     watch : {
         loadData(val) {
-            this.loadingPopupData = val; 
+            this.loadingPopupData = val;
             if(this.loadingPopupData){
                this.getPopupDataList();
             }
         },
         selectedCustomerNames(val) {
-            this.customerNames = val; 
+            this.customerNames = val;
         },
         selectedCustomerIds(val) {
-            this.customerIds = val; 
+            this.customerIds = val;
         }
     }
 }

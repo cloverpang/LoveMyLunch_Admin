@@ -7,12 +7,12 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-															<h4 class="modal-title" v-show="!loadingPopupData"> 请选择公司 <span>检索出 {{count}} 条数据</span></h4> 
+															<h4 class="modal-title" v-show="!loadingPopupData"> 请选择公司 <span>检索出 {{count}} 条数据</span></h4>
                                                             <h4 class="modal-title" v-show="loadingPopupData"> 数据加载中 ... ... </h4>
                                                         </div>
-                                           <div class="modal-body">             
+                                           <div class="modal-body">
                                                     <div class="portlet-body form">
-                                                            
+
                                 <div class="form-group">
                                                     <div class="input-group input-medium" v-show="!loadingPopupData">
                                                         <input type="text" class="form-control" placeholder="公司名 or 公司代码"  v-model="keyword">
@@ -39,10 +39,10 @@
                                                                     <span class="box"></span>   </label>
                                                             </div>
                                                     </td>
-                                                    <td style="width:90%;"> 
-                                                     <a href="javascript:void(0);" @click="selectCompany(item.companyName,item.companyId)"> {{item.companyName}} </a> 
+                                                    <td style="width:90%;">
+                                                     <a href="javascript:void(0);" @click="selectCompany(item.companyName,item.companyId)"> {{item.companyName}} </a>
                                                     </td>
-                                                </tr> 
+                                                </tr>
                                             </tbody>
 
                                         </table>
@@ -53,10 +53,10 @@
 		   <vMoPaging :page-index="currentPage" :total="count" :page-size="pageSize" @change="pageChange"></vMoPaging>
         </template>
 
-                                                           
+
                                                        </div>
                                                     </div>
-														
+
                                                         <div class="modal-footer">
 														   <button type="submit" class="btn green" @click="handleForceData">
                                                                刷新数据
@@ -85,14 +85,14 @@ export default {
     },
     //通过props来接受从父组件传递过来的值
     props : {
-        loadData : { 
-            default : false 
+        loadData : {
+            default : false
         },
-        selectedCompanyNames : { 
-            default : [] 
+        selectedCompanyNames : {
+            default : []
         },
-        selectedCompanyIds : { 
-            default : [] 
+        selectedCompanyIds : {
+            default : []
         }
     },
     methods : {
@@ -102,7 +102,7 @@ export default {
 				var url = '/' + this.$store.state.user.operationCenter + '/companies';
 				this.$http.get(url,{
                 params: {
-                    conditionsStr: 'companyName::like::' + this.keyword + '$companyCode::like::' + this.keyword,
+                    conditionsStr: 'companyName,companyCode::like::' + this.keyword,
                     pageSize: this.pageSize,
                     page: this.currentPage,
 					sortColumn: this.sortColumn,
@@ -161,16 +161,16 @@ export default {
             },
             //确定所选公司
             saveSelected(){
-                //使用$parent 直接赋值 
+                //使用$parent 直接赋值
                 //this.$parent.selectedCompanyNames = this.companyNames;
                 //this.$parent.selectedCompanyIds = this.companyIds;
 
-                
+
                 //先清空
                 this.$parent.selectedCompanyNames = [];
                 this.$parent.selectedCompanyIds = [];
- 
-                var _this = this; 
+
+                var _this = this;
                 if(this.companyNames.length > 0){
                     this.companyNames.forEach(function(item){
                       _this.$parent.selectedCompanyNames.push(item);
@@ -183,13 +183,13 @@ export default {
                     });
                 }
 
-                //调用父组件方法 
-                //this.$emit('handleSelected',this.companyNames,this.companyIds);	
+                //调用父组件方法
+                //this.$emit('handleSelected',this.companyNames,this.companyIds);
                 $('#companyListPopup').modal('hide');
             }
     },
     computed : {
-        
+
     },
     data () {
         return {
@@ -213,16 +213,16 @@ export default {
     },
     watch : {
         loadData(val) {
-            this.loadingPopupData = val; 
+            this.loadingPopupData = val;
             if(this.loadingPopupData){
                this.getPopupDataList();
             }
         },
         selectedCompanyNames(val) {
-            this.companyNames = val; 
+            this.companyNames = val;
         },
         selectedCompanyIds(val) {
-            this.companyIds = val; 
+            this.companyIds = val;
         }
     }
 }
